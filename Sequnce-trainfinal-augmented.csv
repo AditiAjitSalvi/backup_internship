@@ -1,0 +1,2241 @@
+seq_id,project_id,wagon_no,step_no,command,station_no,wait_sec,critical_status,total_time_sec,valid
+1,1,Wagon 1,1,Get From,6,,High,6000,True
+1,1,Wagon 1,2,Put On,7,,Low,7000,True
+1,1,Wagon 1,3,Get From,1,,High,0,True
+1,1,Wagon 1,4,Put On,6,,High,6000,True
+1,1,Wagon 1,5,Get From,7,,Low,7000,True
+1,1,Wagon 1,6,Put On,8,,High,8000,True
+1,1,Wagon 1,7,Wait For Sec,10,,Low,10000,True
+1,1,Wagon 1,8,Get From,8,,High,8000,True
+1,1,Wagon 1,9,Put On,9,,High,9000,True
+1,1,Wagon 1,10,Wait For Sec,10,,Low,10000,True
+1,1,Wagon 1,11,Get From,9,,High,9000,True
+1,1,Wagon 1,12,Put On,10,,Low,10000,True
+1,1,Wagon 1,13,Put On,4,,High,4000,True
+7,2,Wagon 1,21,Put On,5,,High,2755,True
+7,2,Wagon 2,2,Put On,14,1767046911.0,,4822,True
+7,2,Wagon 2,2,Put On,14,1767046911.0,,4822,True
+7,2,Wagon 2,3,Get From,11,0.0,Low,0,True
+7,2,Wagon 2,5,Put On,12,1750138623.0,,6287,True
+7,2,Wagon 2,5,Put On,12,1750138623.0,,6287,True
+7,2,Wagon 2,7,Put On,15,1767046911.0,,3966,True
+7,2,Wagon 2,7,Put On,15,1767046911.0,,3966,True
+7,2,Wagon 2,10,Put On,16,0.0,,0,True
+7,2,Wagon 2,10,Put On,16,0.0,,0,True
+7,2,Wagon 2,13,Put On ,17,0.0,,0,True
+7,2,Wagon 2,13,Put On ,17,0.0,,0,True
+7,2,Wagon 2,15,Put On ,20,,Low,350,True
+7,2,Wagon 2,15,Put On ,20,,Low,350,True
+7,2,Wagon 2,16,Put On ,18,0.0,,0,True
+7,2,Wagon 2,16,Put On ,18,0.0,,0,True
+7,2,Wagon 2,19,Put On,21,,Low,0,True
+7,2,Wagon 2,19,Put On,21,,Low,0,True
+7,2,Wagon 2,20,Put On,15,1767046911.0,,3966,True
+7,2,Wagon 2,20,Put On,15,1767046911.0,,3966,True
+8,3,Wagon 1,1,Get From,1,0.0,High,0,True
+8,3,Wagon 1,2,Put On,2,50.0,High,800,True
+8,3,Wagon 1,4,Get From,6,30.0,High,4000,True
+8,3,Wagon 1,5,Put On,1,0.0,High,0,True
+8,3,Wagon 1,7,Get From,5,25.0,High,3200,True
+8,3,Wagon 1,10,Put On,6,30.0,High,4000,True
+8,3,Wagon 1,11,Wait For Sec,30,20.0,,23200,True
+8,3,Wagon 1,14,Put On,7,25.0,Low,4800,True
+8,3,Wagon 1,17,Put On,5,25.0,High,3200,True
+8,3,Wagon 1,18,Set Int,4,70.0,High,2400,True
+8,3,Wagon 1,21,Put On,4,70.0,High,2400,True
+8,3,Wagon 1,24,Put On,3,60.0,High,1600,True
+8,3,Wagon 1,25,Put On,2,50.0,High,800,True
+8,3,Wagon 2,3,Set Int,1,0.0,High,0,True
+8,3,Wagon 2,4,Put On,10,20.0,Low,7200,True
+8,3,Wagon 2,5,Wait For Int,2,50.0,High,800,True
+8,3,Wagon 2,8,Put On,8,12.0,High,5600,True
+8,3,Wagon 2,9,Set Int,3,60.0,High,1600,True
+8,3,Wagon 2,10,Put On,11,25.0,Low,8000,True
+8,3,Wagon 2,11,Wait For Int,9,15.0,High,6400,True
+8,3,Wagon 2,14,Put On,13,35.0,,9600,True
+8,3,Wagon 2,16,Wait For Sec,5,25.0,High,3200,True
+8,3,Wagon 2,17,Put On,11,25.0,Low,8000,True
+8,3,Wagon 2,18,Wait For Sec,30,20.0,,23200,True
+8,3,Wagon 2,21,Put On,12,30.0,,8800,True
+8,3,Wagon 2,22,Get From,13,35.0,,9600,True
+8,3,Wagon 2,25,Put On,14,30.0,,10400,True
+8,3,Wagon 2,29,Put On,6,30.0,High,4000,True
+8,3,Wagon 2,30,Put On,10,20.0,Low,7200,True
+8,3,Wagon 3,1,Put On,17,30.0,,12800,True
+8,3,Wagon 3,2,Wait For Int,7,25.0,Low,4800,True
+8,3,Wagon 3,5,Put On,21,30.0,Low,16000,True
+8,3,Wagon 3,8,Put On,15,45.0,,11200,True
+8,3,Wagon 3,9,Get From,14,30.0,,10400,True
+8,3,Wagon 3,11,Wait For Int,9,15.0,High,6400,True
+8,3,Wagon 3,12,Put On,16,40.0,,12000,True
+8,3,Wagon 3,13,Wait For Sec,60,12.0,Medium,14400,True
+8,3,Wagon 3,14,Get From,16,40.0,,12000,True
+8,3,Wagon 3,16,Wait For Int,6,30.0,High,4000,True
+8,3,Wagon 3,17,Put On,17,30.0,,12800,True
+8,3,Wagon 3,18,Wait For Sec,10,20.0,Low,7200,True
+8,3,Wagon 3,20,Wait For Sec,5,25.0,High,3200,True
+8,3,Wagon 3,21,Put On,18,50.0,,13600,True
+8,3,Wagon 3,22,Wait For Sec,10,20.0,Low,7200,True
+8,3,Wagon 3,24,Wait For Sec,5,25.0,High,3200,True
+8,3,Wagon 3,25,Put On,19,50.0,Low,14400,True
+8,3,Wagon 3,27,Set Int,8,12.0,High,5600,True
+8,3,Wagon 3,28,Put On,15,45.0,,11200,True
+8,3,Wagon 4,3,Put On,35,65.0,,27200,True
+8,3,Wagon 4,4,Set Int,7,25.0,Low,4800,True
+8,3,Wagon 4,5,Wait For Sec,10,20.0,Low,7200,True
+8,3,Wagon 4,8,Put On,36,75.0,,28000,True
+8,3,Wagon 4,9,Get From,39,20.0,,30400,True
+8,3,Wagon 4,10,Put On,35,65.0,,27200,True
+8,3,Wagon 4,13,Put On,39,20.0,,30400,True
+8,3,Wagon 4,14,Get From,35,65.0,,27200,True
+8,3,Wagon 4,15,Set CT Fwd,1,0.0,High,0,True
+8,3,Wagon 4,18,Put On,20,40.0,Low,15200,True
+8,3,Wagon 5,1,Get From,40,20.0,,30400,True
+8,3,Wagon 5,2,Put On,42,50.0,,28800,True
+8,3,Wagon 5,4,Get From,43,50.0,,28000,True
+8,3,Wagon 5,5,Put On,40,20.0,,30400,True
+8,3,Wagon 5,6,Get From,40,20.0,,30400,True
+8,3,Wagon 5,9,Get From,50,20.0,,22400,True
+8,3,Wagon 5,10,Put On,43,50.0,,28000,True
+8,3,Wagon 5,11,Get From,42,50.0,,28800,True
+8,3,Wagon 5,12,Put On,45,12.0,,26400,True
+8,3,Wagon 5,13,Get From,45,12.0,,26400,True
+8,3,Wagon 6,2,Set Int,9,15.0,High,6400,True
+8,3,Wagon 6,3,Put On,46,15.0,,25600,True
+8,3,Wagon 6,5,Get From,46,15.0,,25600,True
+8,3,Wagon 6,6,Put On,48,35.0,,24000,True
+8,3,Wagon 6,8,Get From,48,35.0,,24000,True
+8,3,Wagon 6,9,Put On,49,15.0,,23200,True
+8,3,Wagon 6,11,Get From,49,15.0,,23200,True
+8,3,Wagon 6,12,Put On,51,52.0,,21600,True
+8,3,Wagon 6,14,Get From,51,52.0,,21600,True
+8,3,Wagon 6,15,Put On,52,65.0,,20800,True
+8,3,Wagon 6,17,Get From,52,65.0,,20800,True
+8,3,Wagon 6,18,Put On,53,60.0,,20000,True
+8,3,Wagon 6,20,Get From,53,60.0,,20000,True
+8,3,Wagon 6,21,Put On,54,40.0,,19200,True
+8,3,Wagon 6,22,Wait For Sec,10,20.0,Low,7200,True
+8,3,Wagon 6,25,Put On,61,25.0,Low,13600,True
+8,3,Wagon 6,28,Put On,50,20.0,,22400,True
+8,3,Wagon 7,1,Get From,60,12.0,Medium,14400,True
+8,3,Wagon 7,2,Put On,59,30.0,Low,15200,True
+8,3,Wagon 7,3,Get From,66,10.0,Low,9600,True
+8,3,Wagon 7,4,Put On,60,12.0,Medium,14400,True
+8,3,Wagon 7,5,Get From,64,10.0,Low,11200,True
+8,3,Wagon 7,6,Put On,66,10.0,Low,9600,True
+8,3,Wagon 7,7,Get From,61,25.0,Low,13600,True
+8,3,Wagon 7,8,Put On,62,20.0,High,12800,True
+8,3,Wagon 7,10,Get From,62,20.0,High,12800,True
+8,3,Wagon 7,11,Put On,64,10.0,Low,11200,True
+8,3,Wagon 7,12,Get From,64,10.0,Low,11200,True
+8,3,Wagon 7,13,Get From,63,20.0,High,12000,True
+8,3,Wagon 1,3,Wait For Int,1,0.0,High,0,True
+8,3,Wagon 1,6,Wait For Int,3,60.0,High,1600,True
+8,3,Wagon 1,12,Get From,6,30.0,High,4000,True
+8,3,Wagon 1,13,Wait For Sec,5,25.0,High,3200,True
+8,3,Wagon 1,15,Get From,4,70.0,High,2400,True
+8,3,Wagon 1,16,Wait For Sec,5,25.0,High,3200,True
+8,3,Wagon 1,19,Get From,3,60.0,High,1600,True
+8,3,Wagon 1,20,Wait For Sec,5,25.0,High,3200,True
+8,3,Wagon 1,22,Get From,2,50.0,High,800,True
+8,3,Wagon 1,23,Wait For Sec,5,25.0,High,3200,True
+8,3,Wagon 2,1,Get From,8,12.0,High,5600,True
+8,3,Wagon 2,2,Wait For Sec,5,25.0,High,3200,True
+8,3,Wagon 2,6,Get From,7,25.0,Low,4800,True
+8,3,Wagon 2,7,Wait For Sec,5,25.0,High,3200,True
+8,3,Wagon 2,12,Get From,12,30.0,,8800,True
+8,3,Wagon 2,13,Wait For Sec,5,25.0,High,3200,True
+8,3,Wagon 2,15,Get From,10,20.0,Low,7200,True
+8,3,Wagon 2,19,Get From,11,25.0,Low,8000,True
+8,3,Wagon 2,20,Wait For Sec,5,25.0,High,3200,True
+8,3,Wagon 2,23,Wait For Sec,5,25.0,High,3200,True
+8,3,Wagon 2,24,Wait For Int,6,30.0,High,4000,True
+8,3,Wagon 2,26,Get From,15,45.0,,11200,True
+8,3,Wagon 2,27,Wait For Int,4,70.0,High,2400,True
+8,3,Wagon 2,28,Set Int,5,25.0,High,3200,True
+8,3,Wagon 3,3,Get From,19,50.0,Low,14400,True
+8,3,Wagon 3,4,Wait For Sec,5,25.0,High,3200,True
+8,3,Wagon 3,6,Get From,20,40.0,Low,15200,True
+8,3,Wagon 3,7,Wait For Int,10,20.0,Low,7200,True
+8,3,Wagon 3,10,Wait For Sec,5,25.0,High,3200,True
+8,3,Wagon 3,15,Wait For Sec,5,25.0,High,3200,True
+8,3,Wagon 3,19,Get From,17,30.0,,12800,True
+8,3,Wagon 3,23,Get From,18,50.0,,13600,True
+8,3,Wagon 3,26,Wait For Int,5,25.0,High,3200,True
+8,3,Wagon 4,1,Get From,21,30.0,Low,16000,True
+8,3,Wagon 4,2,Wait For Sec,10,20.0,Low,7200,True
+8,3,Wagon 4,6,Get From,35,65.0,,27200,True
+8,3,Wagon 4,7,Wait For Sec,5,25.0,High,3200,True
+8,3,Wagon 4,11,Get From,36,75.0,,28000,True
+8,3,Wagon 4,12,Wait For Sec,5,25.0,High,3200,True
+8,3,Wagon 4,16,Get From,23,45.0,,17600,True
+8,3,Wagon 4,17,Wait For Int,8,12.0,High,5600,True
+8,3,Wagon 5,3,Wait For Int,9,15.0,High,6400,True
+8,3,Wagon 5,7,Set CT Rev,1,0.0,High,0,True
+8,3,Wagon 5,8,Wait For Int,10,20.0,Low,7200,True
+8,3,Wagon 5,14,Get From,42,50.0,,28800,True
+8,3,Wagon 6,1,Get From,45,12.0,,26400,True
+8,3,Wagon 6,4,Wait For Sec,30,20.0,,23200,True
+8,3,Wagon 6,7,Wait For Sec,10,20.0,Low,7200,True
+8,3,Wagon 6,10,Wait For Sec,10,20.0,Low,7200,True
+8,3,Wagon 6,13,Wait For Sec,30,20.0,,23200,True
+8,3,Wagon 6,16,Wait For Sec,10,20.0,Low,7200,True
+8,3,Wagon 6,19,Wait For Sec,10,20.0,Low,7200,True
+8,3,Wagon 6,23,Get From,54,40.0,,19200,True
+8,3,Wagon 6,24,Wait For Int,11,25.0,Low,8000,True
+8,3,Wagon 6,26,Get From,59,30.0,Low,15200,True
+8,3,Wagon 6,27,Wait For Int,10,20.0,Low,7200,True
+8,3,Wagon 7,9,Wait For Sec,30,20.0,,23200,True
+4,4,Wagon 2,1,Get From,14,50.0,,10400,True
+4,4,Wagon 2,2,Put On,13,50.0,,9600,True
+4,4,Wagon 2,3,Get From,13,50.0,,9600,True
+4,4,Wagon 2,4,Put On,12,50.0,,8800,True
+4,4,Wagon 2,5,Get From,12,50.0,,8800,True
+4,4,Wagon 2,6,Put On,11,50.0,Low,8000,True
+4,4,Wagon 2,7,Wait For Int,11,50.0,Low,8000,True
+4,4,Wagon 2,8,Set Int,5,50.0,High,3200,True
+4,4,Wagon 2,9,Put On,19,50.0,Low,14400,True
+4,4,Wagon 2,10,Wait For Int,4,50.0,High,2400,True
+4,4,Wagon 2,11,Get From,11,50.0,Low,8000,True
+4,4,Wagon 2,12,Put On,10,50.0,Low,7200,True
+4,4,Wagon 2,13,Wait For Sec,10,50.0,Low,7200,True
+4,4,Wagon 2,14,Get From,10,50.0,Low,7200,True
+4,4,Wagon 2,15,Put On,9,50.0,High,6400,True
+4,4,Wagon 2,16,Wait For Int,6,50.0,High,4000,True
+4,4,Wagon 2,17,Get From,8,50.0,High,5600,True
+4,4,Wagon 2,18,Wait For Int,9,50.0,High,6400,True
+4,4,Wagon 2,19,Get From,6,50.0,High,4000,True
+4,4,Wagon 2,20,Put On,6,50.0,High,4000,True
+4,4,Wagon 2,21,Set Int,8,50.0,High,5600,True
+4,4,Wagon 2,22,Put On,12,50.0,,8800,True
+4,4,Wagon 3,1,Get From,18,50.0,,13600,True
+4,4,Wagon 3,2,Put On,19,50.0,Low,14400,True
+4,4,Wagon 3,3,Get From,17,50.0,,12800,True
+4,4,Wagon 3,4,Put On,18,50.0,,13600,True
+4,4,Wagon 3,5,Get From,19,50.0,Low,14400,True
+4,4,Wagon 3,6,Put On,20,50.0,Low,15200,True
+4,4,Wagon 3,7,Set Int,11,50.0,Low,8000,True
+4,4,Wagon 3,8,Get From,21,50.0,Low,16000,True
+4,4,Wagon 3,9,Put On,22,50.0,,16800,True
+4,4,Wagon 3,10,Get From,22,50.0,,16800,True
+4,4,Wagon 3,11,Put On,23,50.0,,17600,True
+4,4,Wagon 3,12,Wait For Int,16,50.0,,12000,True
+4,4,Wagon 3,13,Get From,23,50.0,,17600,True
+4,4,Wagon 3,14,Put On,24,50.0,,18400,True
+4,4,Wagon 3,15,Wait For Int,7,50.0,Low,4800,True
+4,4,Wagon 3,16,Get From,30,50.0,,23200,True
+4,4,Wagon 3,17,Set Int,12,50.0,,8800,True
+4,4,Wagon 3,18,Put On,16,50.0,,12000,True
+4,4,Wagon 3,19,Wait For Sec,36,50.0,,28000,True
+4,4,Wagon 3,20,Get From,16,50.0,,12000,True
+4,4,Wagon 3,21,Put On,14,50.0,,10400,True
+4,4,Wagon 3,22,Put On,20,50.0,Low,15200,True
+4,4,Wagon 4,1,Get From,26,50.0,,20000,True
+4,4,Wagon 4,2,Put On,27,50.0,,20800,True
+4,4,Wagon 4,3,Wait For Sec,35,50.0,,27200,True
+4,4,Wagon 4,4,Get From,27,50.0,,20800,True
+4,4,Wagon 5,9,Set Interlock Timer,150,0.0,UNKNOWN,0,True
+4,4,Wagon 5,10,Wait For Int,13,50.0,,9600,True
+4,4,Wagon 5,11,Get From,38,50.0,,29600,True
+4,4,Wagon 5,14,Wait Interlock Timer,150,0.0,UNKNOWN,0,True
+4,4,Wagon 5,15,Get From,40,50.0,,30400,True
+4,4,Wagon 5,16,Put On,38,50.0,,29600,True
+4,4,Wagon 1,1,Get From,9,50.0,High,6400,True
+4,4,Wagon 1,2,Put On,8,50.0,High,5600,True
+4,4,Wagon 1,3,Get From,4,50.0,High,2400,True
+4,4,Wagon 1,4,Put On,3,50.0,High,1600,True
+4,4,Wagon 1,5,Get From,1,0.0,High,0,True
+4,4,Wagon 1,6,Get From,9,50.0,High,6400,True
+4,4,Wagon 1,7,Wait For Int,5,50.0,High,3200,True
+4,4,Wagon 1,8,Put On,17,50.0,,12800,True
+4,4,Wagon 1,9,Set Int,4,50.0,High,2400,True
+4,4,Wagon 1,10,Get From,3,50.0,High,1600,True
+4,4,Wagon 1,11,Put On,1,0.0,High,0,True
+4,4,Wagon 1,12,Get From,5,50.0,High,3200,True
+4,4,Wagon 1,13,Put On,4,50.0,High,2400,True
+4,4,Wagon 1,14,Get From,2,50.0,High,800,True
+4,4,Wagon 1,15,Put On,5,50.0,High,3200,True
+4,4,Wagon 1,16,Set Int,6,50.0,High,4000,True
+4,4,Wagon 1,17,Get From,6,50.0,High,4000,True
+4,4,Wagon 1,18,Set Int,9,50.0,High,6400,True
+4,4,Wagon 1,19,Put On,2,50.0,High,800,True
+4,4,Wagon 1,20,Wait For Int,8,50.0,High,5600,True
+4,4,Wagon 1,21,Put On,9,50.0,High,6400,True
+4,4,Wagon 4,5,Set Int,1,0.0,High,0,True
+4,4,Wagon 4,6,Get From,28,50.0,,21600,True
+4,4,Wagon 4,7,Put On,29,50.0,,22400,True
+4,4,Wagon 4,8,Set Int,2,50.0,High,800,True
+4,4,Wagon 4,9,Get From,24,50.0,,18400,True
+4,4,Wagon 4,10,Put On,25,50.0,,19200,True
+4,4,Wagon 4,11,Set Int,16,50.0,,12000,True
+4,4,Wagon 4,12,Put On,26,50.0,,20000,True
+4,4,Wagon 4,13,Wait For Int,3,50.0,High,1600,True
+4,4,Wagon 4,14,Get From,32,50.0,,24800,True
+4,4,Wagon 4,15,Put On,31,50.0,,24000,True
+4,4,Wagon 4,16,Get From,31,50.0,,24000,True
+4,4,Wagon 4,17,Put On,30,50.0,,23200,True
+4,4,Wagon 4,18,Set Int,7,50.0,Low,4800,True
+4,4,Wagon 4,19,Put On,33,50.0,,25600,True
+4,4,Wagon 4,20,Set Int,13,50.0,,9600,True
+4,4,Wagon 4,21,Wait For Int,12,50.0,,8800,True
+4,4,Wagon 4,22,Get From,20,50.0,Low,15200,True
+4,4,Wagon 4,23,Put On,21,50.0,Low,16000,True
+4,4,Wagon 4,24,Get From,25,50.0,,19200,True
+4,4,Wagon 4,25,Put On,26,50.0,,20000,True
+4,4,Wagon 5,1,Wait For Int,1,0.0,High,0,True
+4,4,Wagon 5,2,Get From,33,50.0,,25600,True
+4,4,Wagon 5,3,Put On,32,50.0,,24800,True
+4,4,Wagon 5,4,Wait For Int,2,50.0,High,800,True
+4,4,Wagon 5,5,Get From,29,50.0,,22400,True
+4,4,Wagon 5,6,Set Int,3,50.0,High,1600,True
+4,4,Wagon 5,7,Put On,40,50.0,,30400,True
+4,4,Wagon 5,8,Wait For Sec,50,0.0,,0,True
+4,4,Wagon 5,12,Put On,33,50.0,,25600,True
+4,4,Wagon 5,13,Put On,40,50.0,,30400,True
+4,4,Wagon 5,17,Put On,35,50.0,,27200,True
+9,5,Wagon 1,1,Get From,8,,High,19280,True
+9,5,Wagon 1,2,Put On,9,,High,21008,True
+9,5,Wagon 1,3,Get From,6,,High,16125,True
+9,5,Wagon 1,4,Put On,7,,Low,17676,True
+9,5,Wagon 1,5,Wait For Sec,9,,High,21008,True
+9,5,Wagon 1,6,Get From,7,,Low,17676,True
+9,5,Wagon 1,7,Put On,8,,High,19280,True
+9,5,Wagon 1,8,Get From,2,,High,5246,True
+9,5,Wagon 1,9,Put On,6,,High,16125,True
+9,5,Wagon 1,10,Wait For Sec,10,,Low,22517,True
+9,5,Wagon 1,11,Get From,9,,High,21008,True
+9,5,Wagon 1,12,Put On,10,,Low,22517,True
+9,5,Wagon 1,13,Wait For Sec,9,,High,21008,True
+9,5,Wagon 1,14,Get From,10,,Low,22517,True
+9,5,Wagon 1,15,Wait For Int,1,,High,0,True
+9,5,Wagon 1,16,Put On,11,,Low,23409,True
+9,5,Wagon 1,17,Set Int,5,,High,12940,True
+9,5,Wagon 1,18,Get From,1,,High,0,True
+9,5,Wagon 1,19,Put On,2,,High,5246,True
+9,5,Wagon 1,20,Put On,8,,High,19280,True
+9,5,Wagon 2,1,Get From,12,,,24458,True
+9,5,Wagon 2,2,Put On,13,,,25792,True
+9,5,Wagon 2,3,Wait For Int,9,,High,21008,True
+9,5,Wagon 2,4,Get From,16,,,29441,True
+9,5,Wagon 2,5,Put On,17,,,30560,True
+9,5,Wagon 2,6,Wait For Sec,9,,High,21008,True
+9,5,Wagon 2,7,Get From,13,,,25792,True
+9,5,Wagon 2,8,Set Int,1,,High,0,True
+9,5,Wagon 2,9,Put On,14,,,27130,True
+9,5,Wagon 2,10,Wait For Sec,9,,High,21008,True
+9,5,Wagon 2,11,Get From,14,,,27130,True
+9,5,Wagon 2,12,Set Int,2,,High,5246,True
+9,5,Wagon 2,13,Put On,15,,,28087,True
+9,5,Wagon 2,14,Wait For Sec,9,,High,21008,True
+9,5,Wagon 2,15,Get From,15,,,28087,True
+9,5,Wagon 2,16,Put On,16,,,29441,True
+9,5,Wagon 2,17,Set Int,13,,,25792,True
+9,5,Wagon 2,18,Wait For Int,5,,High,12940,True
+9,5,Wagon 2,19,Get From,11,,Low,23409,True
+9,5,Wagon 2,20,Put On,12,,,24458,True
+9,5,Wagon 2,21,Put On,15,,,28087,True
+9,5,Wagon 3,1,Get From,23,,,37579,True
+9,5,Wagon 3,2,Put On,24,,,41811,True
+9,5,Wagon 3,2,Put On,24,,,41811,True
+9,5,Wagon 3,3,Get From,17,,,30560,True
+9,5,Wagon 3,4,Put On,18,,,32087,True
+9,5,Wagon 3,5,Wait For Sec,10,,Low,22517,True
+9,5,Wagon 3,6,Get From,18,,,32087,True
+9,5,Wagon 3,7,Set Int,9,,High,21008,True
+9,5,Wagon 3,8,Put On,19,,Low,33035,True
+9,5,Wagon 3,9,Wait For Sec,20,,Low,33991,True
+9,5,Wagon 3,10,Get From,19,,Low,33035,True
+9,5,Wagon 3,11,Put On,20,,Low,33991,True
+9,5,Wagon 3,12,Wait For Sec,20,,Low,33991,True
+9,5,Wagon 3,13,Get From,20,,Low,33991,True
+9,5,Wagon 3,14,Put On,21,,Low,35333,True
+9,5,Wagon 3,15,Wait For Sec,60,0.0,Medium,0,True
+9,5,Wagon 3,16,Get From,21,,Low,35333,True
+9,5,Wagon 3,17,Put On,22,,,36655,True
+9,5,Wagon 3,18,Wait For Sec,20,,Low,33991,True
+9,5,Wagon 3,19,Get From,22,,,36655,True
+9,5,Wagon 3,20,Put On,23,,,37579,True
+9,5,Wagon 4,1,Get From,37,,,17546,True
+9,5,Wagon 4,2,Put On,38,,,15739,True
+9,5,Wagon 4,3,Get From,25,,,37404,True
+9,5,Wagon 4,4,Put On,30,,,28386,True
+9,5,Wagon 4,5,Get From,24,,,41811,True
+9,5,Wagon 4,5,Get From,24,,,41811,True
+9,5,Wagon 4,6,Put On,25,,,37404,True
+9,5,Wagon 4,7,Get From,31,,,26608,True
+9,5,Wagon 4,8,Put On,34,,,21409,True
+9,5,Wagon 4,9,Get From,34,,,21409,True
+9,5,Wagon 4,10,Put On,35,,,20056,True
+9,5,Wagon 4,11,Wait For Sec,30,,,28386,True
+9,5,Wagon 4,12,Get From,35,,,20056,True
+9,5,Wagon 4,13,Put On,36,,,19067,True
+9,5,Wagon 4,14,Get From,36,,,19067,True
+9,5,Wagon 4,15,Put On,37,,,17546,True
+9,5,Wagon 4,16,Get From,30,,,28386,True
+9,5,Wagon 4,17,Put On,31,,,26608,True
+9,5,Wagon 4,18,Put On,36,,,19067,True
+9,5,Wagon 5,1,Get From,41,,,11813,True
+9,5,Wagon 5,2,Put On,42,,,10601,True
+9,5,Wagon 5,3,Wait For Sec,9,,High,21008,True
+9,5,Wagon 5,4,Get From,42,,,10601,True
+9,5,Wagon 5,5,Put On,43,,,9334,True
+9,5,Wagon 5,6,Wait For Sec,9,,High,21008,True
+9,5,Wagon 5,7,Get From,43,,,9334,True
+9,5,Wagon 5,8,Put On,44,,,8390,True
+9,5,Wagon 5,9,Wait For Sec,9,,High,21008,True
+9,5,Wagon 5,10,Get From,44,,,8390,True
+9,5,Wagon 5,11,Put On,45,,,7142,True
+9,5,Wagon 5,12,Wait For Sec,9,,High,21008,True
+9,5,Wagon 5,13,Get From,45,,,7142,True
+9,5,Wagon 5,14,Put On,46,,,5576,True
+9,5,Wagon 5,15,Wait For Sec,5,,High,12940,True
+9,5,Wagon 5,16,Get From,47,,,2971,True
+9,5,Wagon 5,17,Put On,48,,,0,True
+9,5,Wagon 5,18,Get From,46,,,5576,True
+9,5,Wagon 5,19,Wait For Sec,5,,High,12940,True
+9,5,Wagon 5,20,Put On,47,,,2971,True
+9,5,Wagon 5,21,Get From,38,,,15739,True
+9,5,Wagon 5,22,Put On,39,,,14108,True
+9,5,Wagon 5,23,Get From,39,,,14108,True
+9,5,Wagon 5,24,Put On,40,,,12773,True
+9,5,Wagon 5,25,Wait For Sec,9,,High,21008,True
+9,5,Wagon 5,26,Get From,40,,,12773,True
+9,5,Wagon 5,27,Put On,41,,,11813,True
+6,6,Wagon 1,1,Get From,14,,,16100,True
+6,6,Wagon 1,2,Put On,18,,,20700,True
+6,6,Wagon 1,3,Get From,1,,High,1150,True
+6,6,Wagon 1,4,Put On,2,,High,2300,True
+6,6,Wagon 1,5,Get From,10,,Low,11500,True
+6,6,Wagon 1,6,Put On,11,,Low,12650,True
+6,6,Wagon 1,7,Wait For Sec,10,,Low,11500,True
+6,6,Wagon 1,8,Get From,11,,Low,12650,True
+6,6,Wagon 1,9,Put On,12,,,13800,True
+6,6,Wagon 1,10,Wait For Sec,10,,Low,11500,True
+6,6,Wagon 1,11,Get From,12,,,13800,True
+6,6,Wagon 1,12,Put On,13,,,14950,True
+6,6,Wagon 1,13,Get From,3,,High,3450,True
+6,6,Wagon 1,14,Put On,5,,High,5750,True
+6,6,Wagon 1,15,Get From,2,,High,2300,True
+6,6,Wagon 1,16,Put On,3,,High,3450,True
+6,6,Wagon 1,17,Get From,5,,High,5750,True
+6,6,Wagon 1,18,Put On,6,,High,6900,True
+6,6,Wagon 1,19,Wait For Sec,10,,Low,11500,True
+6,6,Wagon 1,20,Get From,6,,High,6900,True
+6,6,Wagon 1,21,Put On,7,,Low,8050,True
+6,6,Wagon 1,22,Wait For Sec,10,,Low,11500,True
+6,6,Wagon 1,23,Get From,7,,Low,8050,True
+6,6,Wagon 1,24,Put On,8,,High,9200,True
+6,6,Wagon 1,25,Get From,13,,,14950,True
+6,6,Wagon 1,26,Put On,9,,High,10350,True
+6,6,Wagon 1,27,Wait For Sec,10,,Low,11500,True
+6,6,Wagon 1,28,Get From,9,,High,10350,True
+6,6,Wagon 1,29,Put On,10,,Low,11500,True
+6,6,Wagon 2,1,Get From,26,,,29900,True
+6,6,Wagon 2,2,Put On,28,,,32200,True
+6,6,Wagon 2,3,Get From,25,,,28750,True
+6,6,Wagon 2,4,Put On,26,,,29900,True
+6,6,Wagon 2,5,Get From,28,,,32200,True
+6,6,Wagon 2,6,Put On,29,,,33350,True
+6,6,Wagon 2,7,Wait For Sec,10,,Low,11500,True
+6,6,Wagon 2,8,Get From,29,,,33350,True
+6,6,Wagon 2,9,Put On,30,,,34500,True
+6,6,Wagon 2,9,Put On,30,,,34500,True
+6,6,Wagon 2,10,Get From,18,,,20700,True
+6,6,Wagon 2,11,Put On,19,,Low,21850,True
+6,6,Wagon 2,12,Wait For Sec,10,,Low,11500,True
+6,6,Wagon 2,13,Get From,19,,Low,21850,True
+6,6,Wagon 2,14,Put On,20,,Low,23000,True
+6,6,Wagon 2,15,Wait For Sec,10,,Low,11500,True
+6,6,Wagon 2,16,Get From,20,,Low,23000,True
+6,6,Wagon 2,17,Put On,21,,Low,24150,True
+6,6,Wagon 2,18,Wait For Sec,10,,Low,11500,True
+6,6,Wagon 2,19,Get From,21,,Low,24150,True
+6,6,Wagon 2,20,Put On,22,,,25300,True
+6,6,Wagon 2,21,Wait For Sec,10,,Low,11500,True
+6,6,Wagon 2,22,Get From,22,,,25300,True
+6,6,Wagon 2,23,Put On,25,,,28750,True
+6,6,Wagon 3,1,Get From,30,,,34500,True
+6,6,Wagon 3,1,Get From,30,,,34500,True
+6,6,Wagon 3,2,Put On,32,,,32200,True
+6,6,Wagon 3,3,Get From,36,,,27600,True
+6,6,Wagon 3,4,Put On,37,,,26450,True
+6,6,Wagon 3,5,Get From,32,,,32200,True
+6,6,Wagon 3,6,Put On,33,,,31050,True
+6,6,Wagon 3,7,Get From,37,,,26450,True
+6,6,Wagon 3,8,Put On,38,,,25300,True
+6,6,Wagon 3,9,Get From,33,,,31050,True
+6,6,Wagon 3,10,Put On,34,,,29900,True
+6,6,Wagon 3,11,Get From,35,,,28750,True
+6,6,Wagon 3,12,Put On,36,,,27600,True
+6,6,Wagon 3,13,Get From,34,,,29900,True
+6,6,Wagon 3,14,Put On,35,,,28750,True
+6,6,Wagon 3,15,Get From,38,,,25300,True
+6,6,Wagon 3,16,Put On,39,,,24150,True
+6,6,Wagon 3,17,Wait For Sec,10,,Low,11500,True
+6,6,Wagon 3,18,Get From,39,,,24150,True
+6,6,Wagon 3,19,Put On,40,,,23000,True
+6,6,Wagon 3,20,Wait For Sec,10,,Low,11500,True
+6,6,Wagon 3,21,Get From,40,,,23000,True
+6,6,Wagon 3,22,Put On,41,,,21850,True
+6,6,Wagon 3,23,Wait For Sec,10,,Low,11500,True
+6,6,Wagon 3,24,Get From,41,,,21850,True
+6,6,Wagon 3,25,Put On,42,,,20700,True
+6,6,Wagon 3,26,Wait For Sec,10,,Low,11500,True
+6,6,Wagon 3,27,Get From,42,,,20700,True
+6,6,Wagon 3,28,Put On,43,,,19550,True
+6,6,Wagon 3,29,Wait For Sec,10,,Low,11500,True
+6,6,Wagon 3,30,Get From,43,,,19550,True
+6,6,Wagon 3,31,Put On,44,,,18400,True
+6,6,Wagon 3,32,Put On,31,,,33350,True
+6,6,Wagon 4,1,Get From,52,,,9200,True
+6,6,Wagon 4,2,Put On,53,,,8050,True
+6,6,Wagon 4,3,Get From,44,,,18400,True
+6,6,Wagon 4,4,Put On,45,,,17250,True
+6,6,Wagon 4,5,Wait For Sec,10,,Low,11500,True
+6,6,Wagon 4,6,Get From,45,,,17250,True
+6,6,Wagon 4,7,Put On,46,,,16100,True
+6,6,Wagon 4,8,Get From,53,,,8050,True
+6,6,Wagon 4,9,Put On,55,,,5750,True
+6,6,Wagon 4,10,Get From,57,,Medium,3450,True
+6,6,Wagon 4,11,Put On,58,,Medium,2300,True
+6,6,Wagon 4,12,Get From,55,,,5750,True
+6,6,Wagon 4,13,Put On,57,,Medium,3450,True
+6,6,Wagon 4,14,Get From,58,,Medium,2300,True
+6,6,Wagon 4,15,Put On,59,,Low,1150,True
+6,6,Wagon 4,16,Wait For Sec,10,,Low,11500,True
+6,6,Wagon 4,17,Get From,59,,Low,1150,True
+6,6,Wagon 4,18,Put On,60,,Medium,0,True
+6,6,Wagon 4,19,Get From,46,,,16100,True
+6,6,Wagon 4,20,Put On,47,,,14950,True
+6,6,Wagon 4,21,Wait For Sec,10,,Low,11500,True
+6,6,Wagon 4,22,Get From,47,,,14950,True
+6,6,Wagon 4,23,Put On,48,,,13800,True
+6,6,Wagon 4,24,Wait For Sec,10,,Low,11500,True
+6,6,Wagon 4,25,Get From,48,,,13800,True
+6,6,Wagon 4,26,Put On,49,,,12650,True
+6,6,Wagon 4,27,Wait For Sec,10,,Low,11500,True
+6,6,Wagon 4,28,Get From,49,,,12650,True
+6,6,Wagon 4,29,Put On,50,,,11500,True
+6,6,Wagon 4,30,Wait For Sec,10,,Low,11500,True
+6,6,Wagon 4,31,Get From,50,,,11500,True
+6,6,Wagon 4,32,Put On,51,,,10350,True
+6,6,Wagon 4,33,Wait For Sec,10,,Low,11500,True
+6,6,Wagon 4,34,Get From,51,,,10350,True
+6,6,Wagon 4,35,Put On,52,,,9200,True
+3,7,Wagon 1,1,Get From,6,,High,6450,True
+3,7,Wagon 1,2,Put On,7,,Low,7450,True
+3,7,Wagon 1,3,Get From,7,,Low,7450,True
+3,7,Wagon 1,4,Put On,8,,High,8450,True
+3,7,Wagon 1,5,Get From,8,,High,8450,True
+3,7,Wagon 1,6,Put On,9,,High,9450,True
+3,7,Wagon 1,7,Set Int,1,,High,0,True
+3,7,Wagon 1,8,Get From,3,,High,2900,True
+3,7,Wagon 1,9,Put On,5,,High,5200,True
+3,7,Wagon 1,10,Get From,5,,High,5200,True
+3,7,Wagon 1,11,Put On,6,,High,6450,True
+3,7,Wagon 1,12,Get From,1,,High,0,True
+3,7,Wagon 1,13,Put On,3,,High,2900,True
+3,7,Wagon 1,14,Wait For Int,4,,High,3950,True
+3,7,Wagon 1,15,Get From,8,,High,8450,True
+3,7,Wagon 1,16,Set Int,5,,High,5200,True
+3,7,Wagon 1,17,Put On,1,,High,0,True
+3,7,Wagon 2,1,Get From,13,,,13900,True
+3,7,Wagon 2,2,Put On,14,,,14950,True
+3,7,Wagon 2,3,Get From,12,,,12750,True
+3,7,Wagon 2,4,Put On,13,,,13900,True
+3,7,Wagon 2,5,Get From,14,,,14950,True
+3,7,Wagon 2,6,Put On,15,,,16000,True
+3,7,Wagon 2,7,Get From,15,,,16000,True
+3,7,Wagon 2,8,Put On,16,,,17050,True
+3,7,Wagon 2,9,Set Int,2,,High,1850,True
+3,7,Wagon 2,10,Put On,12,,,12750,True
+3,7,Wagon 2,11,Wait For Int,1,,High,0,True
+3,7,Wagon 2,12,Wait For Int,3,,High,2900,True
+3,7,Wagon 2,13,Get From,14,,,14950,True
+3,7,Wagon 2,14,Put On,8,,High,8450,True
+3,7,Wagon 2,15,Set Int,4,,High,3950,True
+3,7,Wagon 2,16,Put On,10,,Low,10450,True
+3,7,Wagon 2,17,Wait For Int,5,,High,5200,True
+3,7,Wagon 2,18,Get From,9,,High,9450,True
+3,7,Wagon 2,19,Put On,11,,Low,11600,True
+3,7,Wagon 2,20,Get From,11,,Low,11600,True
+3,7,Wagon 2,21,Put On,12,,,12750,True
+3,7,Wagon 3,2,Get From,20,,Low,22000,True
+3,7,Wagon 3,3,Put On,18,,,19150,True
+3,7,Wagon 3,5,Get From,19,,Low,20200,True
+3,7,Wagon 3,6,Put On,20,,Low,22000,True
+3,7,Wagon 3,7,Put On,19,,Low,20200,True
+3,7,Wagon 3,8,Wait For Int,2,,High,1850,True
+3,7,Wagon 3,9,Get From,18,,,19150,True
+3,7,Wagon 3,10,Put On,14,,,14950,True
+3,7,Wagon 3,11,Set Int,3,,High,2900,True
+3,7,Wagon 3,12,Put On,16,,,17050,True
+3,7,Wagon 3,13,Get From,16,,,17050,True
+3,7,Wagon 3,14,Put On,17,,,18100,True
+3,7,Wagon 3,15,Get From,17,,,18100,True
+3,7,Wagon 3,16,Put On,18,,,19150,True
+3,7,Wagon 3,17,Get From,18,,,19150,True
+3,7,Wagon 3,18,Put On,19,,Low,20200,True
+3,7,Wagon 3,1,Set CT Rev,1,,High,0,True
+3,7,Wagon 3,4,Set CT Rev,1,,High,0,True
+7,8,Wagon 1,6,Get From,2,0.0,High,0,True
+7,8,Wagon 1,7,Set CT Fwd,1,1867316991.0,High,0,True
+7,8,Wagon 1,15,Wait For Sec,30,0.0,,0,True
+7,8,Wagon 1,18,Wait For Sec,30,0.0,,0,True
+7,8,Wagon 1,19,Get From,10,1767046911.0,Low,6255,True
+7,8,Wagon 1,22,Set CT Rev,2,0.0,High,0,True
+7,8,Wagon 2,1,Get From,12,1750138623.0,,6287,True
+7,8,Wagon 2,1,Get From,12,1750138623.0,,6287,True
+7,8,Wagon 2,3,Get From,11,0.0,Low,0,True
+7,8,Wagon 2,4,Set CT Rev,2,0.0,High,0,True
+7,8,Wagon 2,6,Get From,14,1767046911.0,,4822,True
+7,8,Wagon 2,6,Get From,14,1767046911.0,,4822,True
+7,8,Wagon 2,8,Wait For Sec,30,0.0,,0,True
+7,8,Wagon 2,8,Wait For Sec,30,0.0,,0,True
+7,8,Wagon 2,9,Get From,15,1767046911.0,,3966,True
+7,8,Wagon 2,9,Get From,15,1767046911.0,,3966,True
+7,8,Wagon 1,1,Get From,6,1767046911.0,High,3740,True
+7,8,Wagon 1,3,Get From,2,0.0,High,0,True
+7,8,Wagon 1,2,Put On,7,0.0,Low,0,True
+7,8,Wagon 1,4,Put On,7,0.0,Low,0,True
+7,8,Wagon 1,4,Get From,5,,High,2755,True
+7,8,Wagon 1,5,Put On ,8,1767046911.0,High,5105,True
+7,8,Wagon 1,8,Put On,5,,High,2755,True
+7,8,Wagon 1,9,Get From,7,0.0,Low,0,True
+7,8,Wagon 1,10,Put On,8,1767046911.0,High,5105,True
+7,8,Wagon 1,11,Get From,2,0.0,High,0,True
+7,8,Wagon 1,12,Put On ,8,1767046911.0,High,5105,True
+7,8,Wagon 1,13,Get From,8,1767046911.0,High,5105,True
+7,8,Wagon 1,14,Put On ,9,1767046911.0,High,5705,True
+7,8,Wagon 1,16,Get From,9,1767046911.0,High,5705,True
+7,8,Wagon 1,17,Put On,10,1767046911.0,Low,6255,True
+7,8,Wagon 1,20,Put On,11,0.0,Low,0,True
+7,8,Wagon 2,11,Wait For Sec,45,0.0,,0,True
+7,8,Wagon 2,11,Wait For Sec,45,0.0,,0,True
+7,8,Wagon 2,12,Get From,16,0.0,,0,True
+7,8,Wagon 2,12,Get From,16,0.0,,0,True
+7,8,Wagon 2,14,Get From,21,,Low,0,True
+7,8,Wagon 2,14,Get From,21,,Low,0,True
+7,8,Wagon 2,17,Set CT Rev,1,1867316991.0,High,0,True
+7,8,Wagon 2,18,Get From,18,0.0,,0,True
+7,8,Wagon 2,18,Get From,18,0.0,,0,True
+5,9,Wagon 1,1,Get From,1,0.0,High,0,True
+5,9,Wagon 1,2,Put On,2,0.0,High,0,True
+5,9,Wagon 1,3,Wait For Int,1,0.0,High,0,True
+5,9,Wagon 1,4,Get From,6,0.0,High,0,True
+5,9,Wagon 1,7,Wait For Int,3,0.0,High,0,True
+5,9,Wagon 1,11,Get From,6,0.0,High,0,True
+5,9,Wagon 1,5,Set Int,2,0.0,High,0,True
+5,9,Wagon 1,6,Put On,1,0.0,High,0,True
+5,9,Wagon 1,8,Get From,5,0.0,High,0,True
+5,9,Wagon 1,9,Put On,6,0.0,High,0,True
+5,9,Wagon 1,10,Wait For Sec,30,0.0,,0,True
+5,9,Wagon 1,13,Put On,7,0.0,Low,0,True
+5,9,Wagon 1,16,Put On,5,0.0,High,0,True
+5,9,Wagon 1,17,Set Int,4,0.0,High,0,True
+5,9,Wagon 1,20,Put On,4,0.0,High,0,True
+5,9,Wagon 1,23,Put On,3,0.0,High,0,True
+5,9,Wagon 1,24,Put On,2,0.0,High,0,True
+5,9,Wagon 1,12,Wait For Sec,5,0.0,High,0,True
+5,9,Wagon 1,14,Get From,4,0.0,High,0,True
+5,9,Wagon 1,15,Wait For Sec,5,0.0,High,0,True
+5,9,Wagon 1,18,Get From,3,0.0,High,0,True
+5,9,Wagon 1,19,Wait For Sec,5,0.0,High,0,True
+5,9,Wagon 1,21,Get From,2,0.0,High,0,True
+5,9,Wagon 1,22,Wait For Sec,5,0.0,High,0,True
+2,10,Wagon 1,1,Get From,1,,High,0,True
+2,10,Wagon 1,2,Put On,5,,High,0,True
+2,10,Wagon 1,3,Get From,2,,High,0,True
+2,10,Wagon 1,4,Put On,5,,High,0,True
+2,10,Wagon 1,5,Get From,3,,High,0,True
+2,10,Wagon 1,6,Put On,7,,Low,0,True
+2,10,Wagon 1,7,Get From,4,,High,0,True
+2,10,Wagon 1,8,Put On,11,,Low,0,True
+2,10,Wagon 1,9,Get From,5,,High,0,True
+2,10,Wagon 1,10,Put On,8,,High,0,True
+10,9,Wagon 1,1,Get From,7,,Low,0,True
+10,7,Wagon 1,2,Set Int,20,,High,14400,True
+10,2,Wagon 1,3,Get From,54,,High,6000,True
+10,7,Wagon 1,4,Wait For Int,24,31.0,Medium,2755,True
+10,8,Wagon 1,5,Set Int,21,,Low,10000,True
+10,8,Wagon 1,6,Set Int,23,,Low,6000,True
+10,10,Wagon 1,7,Wait For Int,17,17.0,High,10000,True
+10,10,Wagon 1,8,Wait For Int,23,29.0,Low,2755,True
+10,6,Wagon 1,9,Wait For Sec,40,57.0,High,2755,True
+10,6,Wagon 1,10,Wait For Sec,52,35.0,High,0,True
+10,5,Wagon 1,11,Get From,37,,Medium,14400,True
+10,5,Wagon 1,12,Put On,50,,Medium,6000,True
+10,4,Wagon 1,13,Set Int,15,,Medium,6000,True
+10,4,Wagon 1,14,Get From,13,,Low,10000,True
+10,3,Wagon 1,15,Wait For Int,56,19.0,Low,0,True
+10,7,Wagon 1,16,Wait For Int,46,23.0,Medium,10000,True
+10,4,Wagon 1,17,Put On,4,,High,2755,True
+10,9,Wagon 1,18,Put On,57,,High,10000,True
+10,6,Wagon 1,19,Wait For Int,20,25.0,Medium,0,True
+10,6,Wagon 1,20,Get From,15,,High,8000,True
+10,2,Wagon 1,21,Get From,34,,High,14400,True
+10,7,Wagon 1,22,Wait For Sec,1,16.0,High,8000,True
+10,2,Wagon 1,23,Wait For Int,20,12.0,Low,10000,True
+11,7,Wagon 1,1,Get From,3,,Low,0,True
+11,10,Wagon 1,2,Get From,11,,High,10000,True
+11,3,Wagon 1,3,Wait For Sec,55,6.0,Low,14400,True
+11,10,Wagon 1,4,Set Int,47,,Medium,8000,True
+11,9,Wagon 1,5,Get From,39,,High,14400,True
+11,3,Wagon 1,6,Wait For Sec,10,46.0,High,0,True
+11,1,Wagon 1,7,Put On,36,,Medium,0,True
+11,6,Wagon 1,8,Get From,30,,Medium,10000,True
+11,9,Wagon 1,9,Get From,41,,Low,0,True
+11,4,Wagon 1,10,Get From,44,,Medium,6000,True
+11,7,Wagon 1,11,Wait For Sec,33,41.0,High,0,True
+11,4,Wagon 1,12,Wait For Int,40,56.0,Medium,14400,True
+11,5,Wagon 1,13,Wait For Sec,13,36.0,Low,0,True
+11,7,Wagon 1,14,Set Int,32,,Medium,14400,True
+11,2,Wagon 1,15,Get From,34,,Medium,8000,True
+11,8,Wagon 1,16,Get From,38,,Medium,2755,True
+11,4,Wagon 1,17,Put On,32,,High,8000,True
+11,4,Wagon 1,18,Put On,58,,Low,10000,True
+11,3,Wagon 1,19,Wait For Sec,33,58.0,High,14400,True
+11,8,Wagon 1,20,Set Int,26,,High,10000,True
+11,2,Wagon 1,21,Get From,52,,Low,14400,True
+11,6,Wagon 1,22,Put On,16,,Medium,0,True
+11,9,Wagon 1,23,Put On,32,,Low,2755,True
+11,5,Wagon 1,24,Wait For Int,48,57.0,High,0,True
+11,10,Wagon 1,25,Get From,40,,Low,6000,True
+11,2,Wagon 1,26,Put On,36,,Medium,8000,True
+11,4,Wagon 1,27,Set Int,23,,Medium,10000,True
+11,8,Wagon 1,28,Get From,14,,High,10000,True
+11,2,Wagon 1,29,Get From,38,,Medium,2755,True
+11,9,Wagon 1,30,Set Int,60,,Low,10000,True
+11,7,Wagon 1,31,Wait For Int,40,26.0,High,6000,True
+11,6,Wagon 1,32,Set Int,31,,Medium,8000,True
+11,9,Wagon 1,33,Get From,33,,Medium,2755,True
+12,7,Wagon 1,1,Wait For Sec,52,60.0,Low,6000,True
+12,2,Wagon 1,2,Set Int,6,,Low,10000,True
+12,6,Wagon 1,3,Put On,56,,Low,10000,True
+12,6,Wagon 1,4,Set Int,14,,Low,6000,True
+12,2,Wagon 1,5,Set Int,51,,Low,8000,True
+12,3,Wagon 1,6,Wait For Sec,4,14.0,High,2755,True
+12,5,Wagon 1,7,Wait For Int,3,48.0,Medium,0,True
+12,4,Wagon 1,8,Wait For Sec,43,8.0,Medium,6000,True
+12,4,Wagon 1,9,Wait For Sec,27,15.0,Medium,14400,True
+12,10,Wagon 1,10,Put On,2,,Low,8000,True
+12,8,Wagon 1,11,Wait For Int,8,56.0,Medium,8000,True
+12,9,Wagon 1,12,Set Int,58,,Medium,2755,True
+12,7,Wagon 1,13,Put On,12,,High,2755,True
+12,2,Wagon 1,14,Put On,34,,High,8000,True
+12,3,Wagon 1,15,Get From,30,,Low,0,True
+12,1,Wagon 1,16,Set Int,55,,High,14400,True
+12,2,Wagon 1,17,Wait For Sec,5,38.0,Medium,10000,True
+12,4,Wagon 1,18,Wait For Int,45,14.0,Low,14400,True
+12,7,Wagon 1,19,Put On,28,,Medium,2755,True
+12,2,Wagon 1,20,Set Int,49,,Medium,8000,True
+12,3,Wagon 1,21,Set Int,53,,Medium,8000,True
+12,9,Wagon 1,22,Set Int,37,,Low,6000,True
+12,3,Wagon 1,23,Put On,45,,Medium,14400,True
+12,5,Wagon 1,24,Get From,29,,Low,14400,True
+12,3,Wagon 1,25,Wait For Sec,45,17.0,Medium,6000,True
+12,6,Wagon 1,26,Set Int,17,,Low,0,True
+12,1,Wagon 1,27,Wait For Sec,47,22.0,Medium,0,True
+12,4,Wagon 1,28,Wait For Sec,56,45.0,Low,8000,True
+12,6,Wagon 1,29,Get From,45,,Low,8000,True
+12,9,Wagon 1,30,Set Int,21,,High,8000,True
+12,9,Wagon 1,31,Get From,3,,Medium,0,True
+13,4,Wagon 1,1,Wait For Int,10,11.0,High,14400,True
+13,6,Wagon 1,2,Wait For Int,7,13.0,Medium,8000,True
+13,4,Wagon 1,3,Put On,4,,High,14400,True
+13,6,Wagon 1,4,Get From,51,,High,0,True
+13,4,Wagon 1,5,Wait For Sec,56,36.0,Low,8000,True
+13,5,Wagon 1,6,Wait For Int,37,39.0,Medium,2755,True
+13,8,Wagon 1,7,Get From,20,,Medium,10000,True
+13,3,Wagon 1,8,Get From,8,,High,8000,True
+13,4,Wagon 1,9,Put On,56,,Low,0,True
+13,7,Wagon 1,10,Get From,7,,Low,6000,True
+13,6,Wagon 1,11,Get From,37,,Medium,14400,True
+13,7,Wagon 1,12,Set Int,49,,Low,6000,True
+13,10,Wagon 1,13,Wait For Sec,26,58.0,Low,14400,True
+13,7,Wagon 1,14,Set Int,13,,Low,8000,True
+13,5,Wagon 1,15,Put On,4,,High,0,True
+13,5,Wagon 1,16,Wait For Int,11,26.0,Low,14400,True
+13,9,Wagon 1,17,Set Int,44,,Low,0,True
+13,3,Wagon 1,18,Put On,51,,Low,2755,True
+13,5,Wagon 1,19,Put On,29,,High,8000,True
+13,2,Wagon 1,20,Get From,22,,High,6000,True
+13,5,Wagon 1,21,Put On,45,,Medium,14400,True
+13,3,Wagon 1,22,Get From,29,,High,6000,True
+13,7,Wagon 1,23,Set Int,6,,Low,8000,True
+13,6,Wagon 1,24,Put On,22,,High,2755,True
+13,10,Wagon 1,25,Put On,28,,Low,10000,True
+13,6,Wagon 1,26,Get From,49,,Low,6000,True
+13,5,Wagon 1,27,Put On,46,,Medium,2755,True
+13,1,Wagon 1,28,Get From,2,,High,6000,True
+13,5,Wagon 1,29,Get From,10,,Low,0,True
+13,8,Wagon 1,30,Set Int,19,,Low,10000,True
+13,1,Wagon 1,31,Get From,28,,High,10000,True
+13,6,Wagon 1,32,Wait For Sec,54,21.0,Low,8000,True
+14,1,Wagon 1,1,Wait For Sec,54,23.0,Low,6000,True
+14,4,Wagon 1,2,Put On,30,,Medium,14400,True
+14,2,Wagon 1,3,Get From,57,,High,2755,True
+14,3,Wagon 1,4,Wait For Sec,11,43.0,High,14400,True
+14,3,Wagon 1,5,Put On,54,,High,0,True
+14,7,Wagon 1,6,Wait For Sec,1,57.0,Low,6000,True
+14,2,Wagon 1,7,Get From,60,,Medium,0,True
+14,2,Wagon 1,8,Wait For Int,5,43.0,Low,8000,True
+14,7,Wagon 1,9,Get From,22,,High,0,True
+14,6,Wagon 1,10,Wait For Int,20,30.0,High,14400,True
+14,3,Wagon 1,11,Wait For Sec,19,37.0,Low,10000,True
+14,10,Wagon 1,12,Wait For Int,26,58.0,High,14400,True
+14,3,Wagon 1,13,Wait For Int,44,46.0,Medium,14400,True
+14,2,Wagon 1,14,Wait For Sec,26,26.0,High,10000,True
+14,8,Wagon 1,15,Set Int,2,,Medium,14400,True
+14,5,Wagon 1,16,Get From,40,,Low,2755,True
+14,9,Wagon 1,17,Put On,35,,High,10000,True
+14,5,Wagon 1,18,Set Int,6,,Low,2755,True
+14,5,Wagon 1,19,Put On,44,,Low,10000,True
+14,10,Wagon 1,20,Wait For Int,31,24.0,High,10000,True
+14,2,Wagon 1,21,Put On,4,,Medium,0,True
+14,8,Wagon 1,22,Wait For Sec,20,17.0,High,6000,True
+14,6,Wagon 1,23,Wait For Int,23,53.0,High,2755,True
+15,1,Wagon 1,1,Set Int,5,,Medium,2755,True
+15,10,Wagon 1,2,Set Int,28,,High,6000,True
+15,6,Wagon 1,3,Wait For Int,49,10.0,High,2755,True
+15,4,Wagon 1,4,Get From,46,,High,8000,True
+15,7,Wagon 1,5,Put On,10,,High,2755,True
+15,8,Wagon 1,6,Put On,59,,High,14400,True
+15,5,Wagon 1,7,Get From,27,,Medium,0,True
+15,8,Wagon 1,8,Wait For Int,27,9.0,Medium,14400,True
+15,4,Wagon 1,9,Set Int,49,,Low,0,True
+15,1,Wagon 1,10,Set Int,1,,High,10000,True
+15,1,Wagon 1,11,Wait For Int,60,52.0,Medium,0,True
+15,1,Wagon 1,12,Set Int,33,,High,6000,True
+15,10,Wagon 1,13,Set Int,2,,High,0,True
+15,5,Wagon 1,14,Put On,37,,Medium,8000,True
+15,6,Wagon 1,15,Wait For Sec,4,55.0,Medium,10000,True
+15,7,Wagon 1,16,Wait For Sec,27,16.0,Low,14400,True
+15,6,Wagon 1,17,Get From,49,,Low,10000,True
+15,8,Wagon 1,18,Wait For Int,6,12.0,High,6000,True
+15,3,Wagon 1,19,Wait For Sec,50,53.0,Low,2755,True
+15,3,Wagon 1,20,Put On,48,,High,10000,True
+15,8,Wagon 1,21,Wait For Int,39,11.0,High,14400,True
+15,4,Wagon 1,22,Wait For Int,48,15.0,Low,10000,True
+15,10,Wagon 1,23,Put On,53,,High,6000,True
+15,2,Wagon 1,24,Wait For Int,38,14.0,High,6000,True
+15,3,Wagon 1,25,Get From,44,,Medium,0,True
+15,5,Wagon 1,26,Put On,26,,Low,8000,True
+15,8,Wagon 1,27,Wait For Int,43,55.0,Medium,0,True
+15,8,Wagon 1,28,Set Int,55,,High,14400,True
+15,8,Wagon 1,29,Set Int,28,,High,8000,True
+15,8,Wagon 1,30,Set Int,13,,Low,6000,True
+15,7,Wagon 1,31,Put On,24,,High,2755,True
+15,10,Wagon 1,32,Put On,48,,Low,14400,True
+15,3,Wagon 1,33,Set Int,2,,High,8000,True
+15,7,Wagon 1,34,Put On,53,,Medium,8000,True
+15,5,Wagon 1,35,Set Int,29,,Medium,6000,True
+15,10,Wagon 1,36,Set Int,60,,High,14400,True
+15,1,Wagon 1,37,Wait For Sec,21,33.0,Low,0,True
+15,5,Wagon 1,38,Wait For Sec,6,25.0,Low,6000,True
+15,3,Wagon 1,39,Wait For Int,22,11.0,High,0,True
+16,1,Wagon 1,1,Put On,24,,Medium,14400,True
+16,3,Wagon 1,2,Wait For Sec,51,15.0,High,6000,True
+16,6,Wagon 1,3,Get From,16,,High,6000,True
+16,3,Wagon 1,4,Wait For Sec,34,7.0,Low,14400,True
+16,9,Wagon 1,5,Wait For Int,28,53.0,Medium,0,True
+16,5,Wagon 1,6,Put On,44,,Low,2755,True
+16,9,Wagon 1,7,Wait For Sec,27,42.0,High,10000,True
+16,3,Wagon 1,8,Get From,50,,High,0,True
+16,5,Wagon 1,9,Wait For Int,59,18.0,High,14400,True
+16,7,Wagon 1,10,Set Int,2,,Medium,8000,True
+16,7,Wagon 1,11,Wait For Int,42,54.0,Low,0,True
+16,6,Wagon 1,12,Get From,10,,High,8000,True
+16,9,Wagon 1,13,Put On,25,,High,0,True
+16,10,Wagon 1,14,Wait For Sec,4,25.0,High,6000,True
+16,3,Wagon 1,15,Wait For Int,53,22.0,Medium,8000,True
+16,2,Wagon 1,16,Get From,25,,Low,10000,True
+16,5,Wagon 1,17,Wait For Int,59,24.0,Low,6000,True
+16,2,Wagon 1,18,Wait For Int,20,55.0,Medium,14400,True
+16,8,Wagon 1,19,Wait For Int,24,25.0,Low,0,True
+16,2,Wagon 1,20,Put On,3,,Medium,8000,True
+16,8,Wagon 1,21,Get From,60,,Medium,14400,True
+16,8,Wagon 1,22,Put On,30,,High,10000,True
+16,8,Wagon 1,23,Get From,3,,Low,6000,True
+16,9,Wagon 1,24,Set Int,60,,Low,2755,True
+16,7,Wagon 1,25,Wait For Sec,35,28.0,Low,0,True
+16,6,Wagon 1,26,Put On,34,,High,10000,True
+16,2,Wagon 1,27,Put On,10,,Low,2755,True
+16,9,Wagon 1,28,Set Int,34,,High,6000,True
+16,6,Wagon 1,29,Wait For Sec,22,13.0,High,8000,True
+16,3,Wagon 1,30,Set Int,45,,Low,2755,True
+16,10,Wagon 1,31,Get From,4,,Low,8000,True
+16,2,Wagon 1,32,Put On,7,,Medium,6000,True
+16,4,Wagon 1,33,Get From,24,,Medium,14400,True
+16,2,Wagon 1,34,Put On,59,,High,6000,True
+16,1,Wagon 1,35,Get From,23,,Medium,14400,True
+16,6,Wagon 1,36,Get From,40,,Medium,14400,True
+17,5,Wagon 1,1,Get From,60,,Medium,0,True
+17,3,Wagon 1,2,Get From,13,,Low,2755,True
+17,4,Wagon 1,3,Put On,48,,Medium,2755,True
+17,2,Wagon 1,4,Set Int,36,,Medium,6000,True
+17,6,Wagon 1,5,Put On,41,,High,14400,True
+17,6,Wagon 1,6,Wait For Int,55,12.0,Medium,10000,True
+17,3,Wagon 1,7,Get From,5,,Medium,8000,True
+17,6,Wagon 1,8,Set Int,40,,Medium,8000,True
+17,7,Wagon 1,9,Wait For Sec,8,36.0,Medium,0,True
+17,4,Wagon 1,10,Set Int,56,,Low,0,True
+17,2,Wagon 1,11,Get From,50,,Low,0,True
+17,8,Wagon 1,12,Wait For Int,2,45.0,High,8000,True
+17,3,Wagon 1,13,Put On,22,,Low,2755,True
+17,3,Wagon 1,14,Wait For Int,45,60.0,Medium,6000,True
+17,8,Wagon 1,15,Wait For Int,2,44.0,Medium,0,True
+17,7,Wagon 1,16,Set Int,21,,Low,6000,True
+17,5,Wagon 1,17,Wait For Int,57,15.0,High,0,True
+17,7,Wagon 1,18,Put On,18,,Medium,6000,True
+18,8,Wagon 1,1,Get From,52,,High,0,True
+18,1,Wagon 1,2,Wait For Int,60,39.0,High,8000,True
+18,10,Wagon 1,3,Get From,25,,Low,2755,True
+18,4,Wagon 1,4,Wait For Sec,58,42.0,High,14400,True
+18,8,Wagon 1,5,Wait For Sec,39,29.0,Low,8000,True
+18,5,Wagon 1,6,Put On,45,,Low,6000,True
+18,8,Wagon 1,7,Wait For Sec,54,43.0,Medium,8000,True
+18,1,Wagon 1,8,Put On,14,,High,2755,True
+18,9,Wagon 1,9,Wait For Int,33,27.0,High,14400,True
+18,5,Wagon 1,10,Set Int,33,,High,6000,True
+18,4,Wagon 1,11,Wait For Int,35,16.0,Medium,14400,True
+18,9,Wagon 1,12,Get From,43,,High,14400,True
+18,7,Wagon 1,13,Wait For Int,52,34.0,Medium,6000,True
+18,2,Wagon 1,14,Wait For Int,22,6.0,Low,2755,True
+18,8,Wagon 1,15,Put On,16,,High,14400,True
+18,2,Wagon 1,16,Get From,3,,High,10000,True
+18,8,Wagon 1,17,Set Int,55,,Low,0,True
+19,2,Wagon 1,1,Wait For Int,35,42.0,High,2755,True
+19,6,Wagon 1,2,Put On,37,,High,0,True
+19,5,Wagon 1,3,Wait For Int,30,33.0,Medium,10000,True
+19,1,Wagon 1,4,Set Int,39,,Medium,6000,True
+19,8,Wagon 1,5,Get From,38,,Low,10000,True
+19,1,Wagon 1,6,Wait For Int,39,7.0,Low,2755,True
+19,1,Wagon 1,7,Wait For Int,45,7.0,Medium,6000,True
+19,8,Wagon 1,8,Wait For Int,29,25.0,High,6000,True
+19,7,Wagon 1,9,Put On,24,,Low,0,True
+19,1,Wagon 1,10,Wait For Int,25,20.0,Medium,14400,True
+19,5,Wagon 1,11,Wait For Int,32,13.0,Medium,14400,True
+19,7,Wagon 1,12,Set Int,9,,High,10000,True
+19,10,Wagon 1,13,Put On,55,,High,10000,True
+19,5,Wagon 1,14,Set Int,32,,High,0,True
+19,8,Wagon 1,15,Wait For Int,45,40.0,Low,14400,True
+19,7,Wagon 1,16,Get From,29,,High,8000,True
+19,7,Wagon 1,17,Wait For Sec,6,30.0,Medium,0,True
+19,4,Wagon 1,18,Put On,1,,High,2755,True
+19,3,Wagon 1,19,Wait For Sec,28,57.0,High,2755,True
+19,5,Wagon 1,20,Put On,18,,Low,10000,True
+19,1,Wagon 1,21,Put On,21,,Low,14400,True
+19,7,Wagon 1,22,Get From,14,,High,14400,True
+19,9,Wagon 1,23,Get From,42,,Medium,0,True
+19,1,Wagon 1,24,Wait For Sec,16,58.0,High,10000,True
+19,1,Wagon 1,25,Set Int,8,,High,14400,True
+19,3,Wagon 1,26,Wait For Int,8,38.0,High,8000,True
+19,7,Wagon 1,27,Set Int,49,,Low,6000,True
+19,2,Wagon 1,28,Put On,16,,Medium,10000,True
+19,5,Wagon 1,29,Wait For Int,56,26.0,Medium,0,True
+19,5,Wagon 1,30,Get From,16,,Low,6000,True
+20,5,Wagon 1,1,Wait For Int,36,21.0,Medium,2755,True
+20,5,Wagon 1,2,Wait For Sec,53,58.0,High,2755,True
+20,4,Wagon 1,3,Set Int,33,,High,2755,True
+20,1,Wagon 1,4,Wait For Int,59,60.0,High,6000,True
+20,7,Wagon 1,5,Wait For Sec,31,17.0,Medium,6000,True
+20,1,Wagon 1,6,Put On,46,,Low,0,True
+20,6,Wagon 1,7,Wait For Sec,27,44.0,High,6000,True
+20,8,Wagon 1,8,Wait For Sec,9,20.0,High,8000,True
+20,10,Wagon 1,9,Get From,18,,Low,8000,True
+20,8,Wagon 1,10,Wait For Int,7,28.0,Low,10000,True
+20,9,Wagon 1,11,Put On,20,,Low,0,True
+20,1,Wagon 1,12,Get From,42,,Medium,14400,True
+20,5,Wagon 1,13,Put On,10,,Medium,14400,True
+20,10,Wagon 1,14,Put On,28,,Low,6000,True
+20,1,Wagon 1,15,Wait For Sec,16,58.0,Low,0,True
+20,4,Wagon 1,16,Put On,12,,Low,8000,True
+20,3,Wagon 1,17,Put On,4,,Low,0,True
+20,5,Wagon 1,18,Wait For Sec,1,18.0,Medium,10000,True
+20,10,Wagon 1,19,Wait For Sec,58,49.0,Low,2755,True
+20,3,Wagon 1,20,Put On,11,,Medium,10000,True
+20,9,Wagon 1,21,Wait For Sec,8,5.0,Low,6000,True
+20,8,Wagon 1,22,Get From,24,,High,8000,True
+20,3,Wagon 2,1,Put On,26,,Medium,2755,True
+20,2,Wagon 2,2,Get From,20,,Medium,2755,True
+20,1,Wagon 2,3,Set Int,45,,High,8000,True
+20,1,Wagon 2,4,Wait For Int,11,51.0,High,8000,True
+20,3,Wagon 2,5,Wait For Int,35,53.0,High,8000,True
+20,3,Wagon 2,6,Get From,13,,High,2755,True
+20,1,Wagon 2,7,Get From,4,,Low,6000,True
+20,7,Wagon 2,8,Get From,35,,High,2755,True
+20,3,Wagon 2,9,Get From,27,,Medium,2755,True
+20,2,Wagon 2,10,Get From,14,,Medium,8000,True
+20,3,Wagon 2,11,Wait For Sec,11,31.0,Low,10000,True
+20,5,Wagon 2,12,Get From,44,,Medium,8000,True
+20,3,Wagon 2,13,Wait For Sec,50,25.0,High,6000,True
+20,2,Wagon 2,14,Get From,26,,High,0,True
+20,6,Wagon 2,15,Put On,33,,Medium,0,True
+20,3,Wagon 2,16,Put On,2,,High,6000,True
+20,10,Wagon 2,17,Wait For Sec,39,29.0,Medium,10000,True
+20,4,Wagon 2,18,Get From,15,,Medium,6000,True
+20,2,Wagon 2,19,Set Int,21,,High,0,True
+20,2,Wagon 2,20,Get From,49,,Low,0,True
+20,10,Wagon 2,21,Set Int,51,,Medium,6000,True
+20,8,Wagon 2,22,Get From,57,,Low,10000,True
+20,1,Wagon 2,23,Wait For Int,30,43.0,High,8000,True
+20,4,Wagon 2,24,Wait For Sec,50,10.0,High,10000,True
+20,10,Wagon 2,25,Wait For Int,29,13.0,High,6000,True
+20,10,Wagon 2,26,Wait For Int,24,50.0,Medium,14400,True
+20,2,Wagon 2,27,Set Int,37,,Medium,10000,True
+20,2,Wagon 2,28,Wait For Sec,20,33.0,Medium,10000,True
+20,10,Wagon 2,29,Put On,50,,High,10000,True
+20,1,Wagon 2,30,Set Int,43,,Low,14400,True
+20,7,Wagon 2,31,Put On,36,,Medium,0,True
+20,8,Wagon 2,32,Get From,55,,High,10000,True
+20,4,Wagon 2,33,Set Int,57,,Low,14400,True
+20,6,Wagon 2,34,Put On,24,,Low,10000,True
+20,6,Wagon 2,35,Wait For Sec,44,51.0,Low,14400,True
+20,10,Wagon 2,36,Wait For Sec,18,20.0,Medium,10000,True
+20,8,Wagon 2,37,Wait For Int,13,45.0,Low,10000,True
+20,3,Wagon 2,38,Set Int,42,,High,10000,True
+20,1,Wagon 2,39,Wait For Int,58,34.0,High,8000,True
+20,8,Wagon 2,40,Put On,44,,Low,6000,True
+21,7,Wagon 1,1,Get From,23,,Low,10000,True
+21,5,Wagon 1,2,Put On,36,,Medium,0,True
+21,4,Wagon 1,3,Get From,33,,High,6000,True
+21,1,Wagon 1,4,Get From,22,,High,8000,True
+21,9,Wagon 1,5,Get From,7,,High,2755,True
+21,9,Wagon 1,6,Wait For Int,24,46.0,High,14400,True
+21,2,Wagon 1,7,Wait For Int,39,24.0,Low,8000,True
+21,9,Wagon 1,8,Wait For Sec,23,19.0,High,2755,True
+21,1,Wagon 1,9,Set Int,36,,Low,10000,True
+21,4,Wagon 1,10,Put On,21,,Medium,6000,True
+21,6,Wagon 1,11,Get From,31,,Medium,0,True
+21,5,Wagon 1,12,Wait For Int,21,13.0,Low,2755,True
+21,5,Wagon 1,13,Wait For Int,20,50.0,High,2755,True
+21,4,Wagon 1,14,Put On,9,,Medium,0,True
+21,10,Wagon 1,15,Get From,24,,High,6000,True
+21,10,Wagon 1,16,Put On,53,,Low,0,True
+21,9,Wagon 1,17,Wait For Int,49,8.0,Low,0,True
+21,9,Wagon 1,18,Set Int,9,,Low,10000,True
+21,1,Wagon 1,19,Put On,60,,Medium,2755,True
+21,2,Wagon 1,20,Set Int,38,,Low,6000,True
+21,10,Wagon 1,21,Wait For Sec,2,8.0,High,10000,True
+21,10,Wagon 1,22,Set Int,53,,Low,0,True
+21,6,Wagon 1,23,Get From,43,,Low,10000,True
+21,10,Wagon 1,24,Wait For Int,55,13.0,Low,2755,True
+21,1,Wagon 1,25,Get From,51,,Medium,14400,True
+21,4,Wagon 1,26,Get From,44,,High,6000,True
+21,4,Wagon 1,27,Set Int,57,,Low,6000,True
+21,8,Wagon 1,28,Get From,31,,Low,8000,True
+21,8,Wagon 1,29,Wait For Sec,30,21.0,High,8000,True
+21,1,Wagon 1,30,Wait For Sec,3,56.0,Low,2755,True
+21,5,Wagon 2,1,Wait For Sec,59,5.0,Medium,14400,True
+21,9,Wagon 2,2,Wait For Sec,45,44.0,Low,0,True
+21,1,Wagon 2,3,Set Int,5,,Medium,10000,True
+21,4,Wagon 2,4,Put On,20,,High,2755,True
+21,5,Wagon 2,5,Wait For Int,7,13.0,Low,8000,True
+21,1,Wagon 2,6,Wait For Sec,19,56.0,High,2755,True
+21,4,Wagon 2,7,Set Int,27,,Medium,6000,True
+21,10,Wagon 2,8,Wait For Int,51,37.0,High,14400,True
+21,1,Wagon 2,9,Wait For Sec,33,45.0,Medium,10000,True
+21,3,Wagon 2,10,Wait For Int,9,32.0,High,8000,True
+21,7,Wagon 2,11,Wait For Int,19,30.0,Low,6000,True
+21,7,Wagon 2,12,Wait For Int,11,46.0,Low,0,True
+21,6,Wagon 2,13,Get From,3,,Low,6000,True
+21,4,Wagon 2,14,Wait For Sec,33,38.0,High,8000,True
+21,8,Wagon 2,15,Wait For Int,19,57.0,High,8000,True
+21,10,Wagon 2,16,Wait For Sec,16,34.0,High,10000,True
+21,6,Wagon 2,17,Get From,30,,High,14400,True
+21,9,Wagon 2,18,Put On,22,,Low,14400,True
+21,8,Wagon 2,19,Get From,17,,Medium,6000,True
+21,1,Wagon 2,20,Wait For Sec,10,40.0,Medium,10000,True
+21,10,Wagon 2,21,Put On,20,,Medium,2755,True
+21,3,Wagon 2,22,Wait For Sec,59,52.0,Medium,8000,True
+21,5,Wagon 2,23,Get From,21,,Medium,6000,True
+21,8,Wagon 2,24,Wait For Sec,60,5.0,Low,6000,True
+21,4,Wagon 2,25,Get From,26,,High,0,True
+21,4,Wagon 2,26,Put On,53,,Low,0,True
+21,5,Wagon 2,27,Get From,13,,High,0,True
+21,9,Wagon 2,28,Set Int,47,,High,10000,True
+22,1,Wagon 1,1,Put On,25,,Medium,6000,True
+22,7,Wagon 1,2,Wait For Int,53,53.0,Medium,2755,True
+22,4,Wagon 1,3,Wait For Sec,3,18.0,High,6000,True
+22,9,Wagon 1,4,Get From,11,,Medium,6000,True
+22,8,Wagon 1,5,Put On,3,,High,6000,True
+22,8,Wagon 1,6,Set Int,26,,High,10000,True
+22,5,Wagon 1,7,Get From,52,,High,6000,True
+22,3,Wagon 1,8,Wait For Int,48,44.0,Low,0,True
+22,9,Wagon 1,9,Get From,20,,High,6000,True
+22,10,Wagon 1,10,Wait For Sec,17,12.0,Medium,2755,True
+22,2,Wagon 1,11,Wait For Int,54,47.0,Medium,10000,True
+22,6,Wagon 1,12,Wait For Sec,18,17.0,Low,2755,True
+22,8,Wagon 1,13,Put On,7,,High,2755,True
+22,3,Wagon 1,14,Wait For Int,8,52.0,Medium,8000,True
+22,5,Wagon 1,15,Put On,36,,High,14400,True
+22,9,Wagon 1,16,Wait For Sec,59,50.0,Medium,6000,True
+22,1,Wagon 1,17,Wait For Int,12,17.0,Low,2755,True
+22,6,Wagon 1,18,Set Int,6,,Low,8000,True
+22,4,Wagon 1,19,Put On,2,,High,0,True
+22,5,Wagon 1,20,Put On,15,,Low,0,True
+22,4,Wagon 1,21,Put On,19,,Low,2755,True
+22,4,Wagon 1,22,Get From,49,,Medium,6000,True
+22,5,Wagon 1,23,Wait For Int,19,21.0,Low,0,True
+22,6,Wagon 1,24,Set Int,16,,Low,0,True
+22,9,Wagon 1,25,Set Int,26,,High,6000,True
+22,9,Wagon 1,26,Get From,23,,Low,8000,True
+22,3,Wagon 1,27,Get From,28,,Medium,8000,True
+22,2,Wagon 1,28,Put On,5,,Medium,0,True
+22,2,Wagon 1,29,Get From,18,,High,8000,True
+22,3,Wagon 1,30,Wait For Sec,48,14.0,Medium,14400,True
+22,1,Wagon 1,31,Set Int,40,,Low,2755,True
+22,9,Wagon 1,32,Wait For Int,3,57.0,Medium,8000,True
+22,10,Wagon 1,33,Set Int,51,,High,8000,True
+22,4,Wagon 1,34,Wait For Int,54,21.0,Medium,8000,True
+22,5,Wagon 1,35,Put On,22,,Medium,10000,True
+22,3,Wagon 2,1,Get From,42,,Low,14400,True
+22,3,Wagon 2,2,Set Int,20,,Low,8000,True
+22,1,Wagon 2,3,Wait For Sec,51,51.0,Medium,14400,True
+22,8,Wagon 2,4,Put On,17,,Low,6000,True
+22,5,Wagon 2,5,Get From,54,,High,10000,True
+22,5,Wagon 2,6,Wait For Sec,2,41.0,Medium,10000,True
+22,1,Wagon 2,7,Wait For Int,4,41.0,Medium,2755,True
+22,1,Wagon 2,8,Put On,38,,Low,14400,True
+22,1,Wagon 2,9,Set Int,53,,High,2755,True
+22,4,Wagon 2,10,Get From,2,,Low,10000,True
+22,10,Wagon 2,11,Wait For Sec,48,30.0,Medium,14400,True
+22,10,Wagon 2,12,Wait For Sec,53,29.0,Medium,10000,True
+22,8,Wagon 2,13,Set Int,51,,Low,6000,True
+22,9,Wagon 2,14,Put On,26,,Low,0,True
+22,10,Wagon 2,15,Wait For Sec,33,42.0,Medium,8000,True
+22,8,Wagon 2,16,Wait For Int,29,50.0,High,2755,True
+22,7,Wagon 2,17,Wait For Sec,51,19.0,Medium,10000,True
+22,4,Wagon 2,18,Put On,27,,High,14400,True
+22,7,Wagon 2,19,Get From,59,,Medium,6000,True
+22,5,Wagon 2,20,Put On,6,,Low,6000,True
+22,10,Wagon 2,21,Wait For Sec,38,27.0,Medium,0,True
+22,3,Wagon 2,22,Wait For Int,54,20.0,High,0,True
+22,3,Wagon 2,23,Wait For Sec,26,17.0,Low,6000,True
+22,1,Wagon 2,24,Set Int,50,,High,6000,True
+22,9,Wagon 2,25,Set Int,45,,High,8000,True
+22,9,Wagon 2,26,Get From,25,,High,0,True
+22,5,Wagon 2,27,Wait For Sec,50,46.0,Medium,0,True
+23,10,Wagon 1,1,Put On,43,,Medium,0,True
+23,5,Wagon 1,2,Get From,40,,Medium,6000,True
+23,9,Wagon 1,3,Set Int,15,,Low,0,True
+23,4,Wagon 1,4,Set Int,12,,Low,10000,True
+23,1,Wagon 1,5,Wait For Sec,13,29.0,Medium,0,True
+23,8,Wagon 1,6,Wait For Int,28,49.0,Medium,14400,True
+23,4,Wagon 1,7,Put On,19,,Medium,8000,True
+23,1,Wagon 1,8,Wait For Sec,34,32.0,High,8000,True
+23,5,Wagon 1,9,Get From,20,,High,14400,True
+23,7,Wagon 1,10,Set Int,12,,Low,6000,True
+23,7,Wagon 1,11,Get From,53,,High,0,True
+23,6,Wagon 1,12,Wait For Sec,33,28.0,Medium,8000,True
+23,8,Wagon 1,13,Wait For Int,50,15.0,Low,10000,True
+23,1,Wagon 1,14,Put On,22,,Medium,8000,True
+23,10,Wagon 1,15,Set Int,3,,Medium,0,True
+23,2,Wagon 1,16,Wait For Int,41,31.0,Low,0,True
+23,6,Wagon 2,1,Set Int,37,,High,6000,True
+23,10,Wagon 2,2,Get From,37,,High,10000,True
+23,2,Wagon 2,3,Set Int,52,,Medium,2755,True
+23,3,Wagon 2,4,Wait For Sec,31,56.0,High,10000,True
+23,7,Wagon 2,5,Get From,20,,Low,10000,True
+23,2,Wagon 2,6,Get From,10,,High,14400,True
+23,5,Wagon 2,7,Get From,50,,Medium,8000,True
+23,9,Wagon 2,8,Set Int,57,,Medium,0,True
+23,9,Wagon 2,9,Get From,20,,Low,14400,True
+23,3,Wagon 2,10,Get From,16,,Low,10000,True
+23,9,Wagon 2,11,Set Int,25,,Low,10000,True
+23,5,Wagon 2,12,Wait For Int,54,13.0,High,0,True
+23,7,Wagon 2,13,Put On,34,,High,0,True
+23,6,Wagon 2,14,Set Int,12,,Low,14400,True
+23,6,Wagon 2,15,Get From,46,,Medium,6000,True
+23,9,Wagon 2,16,Get From,43,,High,8000,True
+23,9,Wagon 2,17,Get From,42,,High,2755,True
+23,5,Wagon 2,18,Set Int,6,,Low,14400,True
+23,7,Wagon 2,19,Wait For Sec,21,11.0,Medium,10000,True
+23,8,Wagon 2,20,Set Int,52,,High,0,True
+23,2,Wagon 2,21,Set Int,34,,Low,14400,True
+23,2,Wagon 2,22,Get From,18,,Medium,10000,True
+23,1,Wagon 2,23,Wait For Sec,59,27.0,Medium,8000,True
+23,9,Wagon 2,24,Wait For Int,49,29.0,High,6000,True
+23,9,Wagon 2,25,Get From,53,,Low,2755,True
+23,9,Wagon 2,26,Put On,22,,Low,2755,True
+23,4,Wagon 2,27,Wait For Int,27,12.0,Low,14400,True
+24,6,Wagon 1,1,Wait For Int,15,13.0,Low,6000,True
+24,8,Wagon 1,2,Wait For Sec,26,19.0,Medium,10000,True
+24,5,Wagon 1,3,Wait For Int,33,20.0,Low,10000,True
+24,4,Wagon 1,4,Get From,40,,Medium,6000,True
+24,6,Wagon 1,5,Wait For Sec,9,46.0,High,2755,True
+24,7,Wagon 1,6,Set Int,33,,Low,2755,True
+24,5,Wagon 1,7,Put On,58,,Medium,0,True
+24,10,Wagon 1,8,Set Int,8,,High,2755,True
+24,9,Wagon 1,9,Get From,12,,Low,6000,True
+24,6,Wagon 1,10,Put On,14,,High,14400,True
+24,2,Wagon 1,11,Wait For Int,25,55.0,Low,10000,True
+24,9,Wagon 1,12,Get From,46,,Low,6000,True
+24,8,Wagon 1,13,Put On,55,,High,14400,True
+24,6,Wagon 1,14,Put On,41,,Medium,6000,True
+24,8,Wagon 1,15,Get From,5,,High,0,True
+24,1,Wagon 1,16,Get From,60,,Medium,0,True
+24,2,Wagon 1,17,Wait For Sec,6,12.0,Medium,2755,True
+24,1,Wagon 1,18,Put On,40,,High,6000,True
+24,6,Wagon 1,19,Put On,60,,High,0,True
+24,4,Wagon 1,20,Get From,54,,Low,2755,True
+24,1,Wagon 2,1,Put On,46,,Medium,6000,True
+24,8,Wagon 2,2,Wait For Int,56,29.0,Medium,6000,True
+24,3,Wagon 2,3,Set Int,15,,High,0,True
+24,6,Wagon 2,4,Wait For Int,4,40.0,Low,14400,True
+24,7,Wagon 2,5,Wait For Sec,58,53.0,Medium,0,True
+24,5,Wagon 2,6,Wait For Sec,59,40.0,High,6000,True
+24,1,Wagon 2,7,Wait For Sec,27,46.0,Low,10000,True
+24,8,Wagon 2,8,Wait For Sec,5,34.0,High,10000,True
+24,2,Wagon 2,9,Wait For Int,40,11.0,Low,14400,True
+24,9,Wagon 2,10,Set Int,33,,Low,2755,True
+24,1,Wagon 2,11,Set Int,4,,High,10000,True
+24,8,Wagon 2,12,Wait For Int,17,5.0,Low,6000,True
+24,10,Wagon 2,13,Wait For Sec,12,20.0,Low,2755,True
+24,4,Wagon 2,14,Wait For Sec,22,56.0,Medium,14400,True
+24,8,Wagon 2,15,Wait For Sec,7,50.0,Low,2755,True
+24,10,Wagon 2,16,Wait For Int,24,23.0,Medium,8000,True
+24,1,Wagon 2,17,Set Int,37,,Medium,6000,True
+24,3,Wagon 2,18,Wait For Int,50,16.0,Medium,0,True
+24,7,Wagon 2,19,Wait For Sec,20,42.0,Medium,8000,True
+24,5,Wagon 2,20,Get From,20,,Medium,0,True
+24,10,Wagon 2,21,Set Int,54,,Low,6000,True
+24,2,Wagon 2,22,Get From,58,,Low,6000,True
+24,7,Wagon 2,23,Put On,50,,Medium,0,True
+24,5,Wagon 2,24,Wait For Int,22,47.0,Low,0,True
+24,3,Wagon 2,25,Put On,30,,Medium,10000,True
+24,10,Wagon 2,26,Set Int,4,,High,6000,True
+24,3,Wagon 2,27,Put On,49,,Medium,6000,True
+24,9,Wagon 2,28,Set Int,23,,Low,2755,True
+24,5,Wagon 2,29,Wait For Sec,53,32.0,Medium,8000,True
+24,6,Wagon 2,30,Set Int,4,,Medium,6000,True
+25,2,Wagon 1,1,Wait For Int,28,6.0,High,2755,True
+25,4,Wagon 1,2,Set Int,34,,Medium,0,True
+25,4,Wagon 1,3,Wait For Int,51,17.0,Low,8000,True
+25,3,Wagon 1,4,Get From,43,,Medium,8000,True
+25,4,Wagon 1,5,Set Int,54,,Low,6000,True
+25,9,Wagon 1,6,Wait For Sec,20,53.0,Low,10000,True
+25,3,Wagon 1,7,Get From,60,,High,10000,True
+25,2,Wagon 1,8,Get From,22,,High,14400,True
+25,6,Wagon 1,9,Wait For Int,29,19.0,High,14400,True
+25,3,Wagon 1,10,Wait For Int,27,19.0,High,10000,True
+25,7,Wagon 1,11,Set Int,59,,Medium,8000,True
+25,6,Wagon 1,12,Get From,41,,Medium,0,True
+25,10,Wagon 1,13,Put On,49,,Low,8000,True
+25,9,Wagon 1,14,Set Int,37,,Medium,10000,True
+25,7,Wagon 1,15,Put On,55,,Medium,0,True
+25,1,Wagon 1,16,Put On,14,,Low,14400,True
+25,8,Wagon 1,17,Wait For Int,58,44.0,Low,6000,True
+25,10,Wagon 1,18,Put On,46,,Low,8000,True
+25,3,Wagon 1,19,Set Int,42,,High,8000,True
+25,7,Wagon 1,20,Get From,17,,Medium,0,True
+25,6,Wagon 1,21,Put On,10,,Medium,10000,True
+25,4,Wagon 1,22,Wait For Sec,7,28.0,Medium,14400,True
+25,7,Wagon 1,23,Wait For Int,26,14.0,Medium,8000,True
+25,9,Wagon 1,24,Wait For Int,42,46.0,High,8000,True
+25,2,Wagon 1,25,Wait For Sec,4,24.0,Low,8000,True
+25,10,Wagon 1,26,Get From,59,,High,8000,True
+25,7,Wagon 1,27,Put On,36,,Low,2755,True
+25,10,Wagon 1,28,Put On,22,,Medium,14400,True
+25,7,Wagon 1,29,Set Int,10,,Low,8000,True
+25,5,Wagon 1,30,Wait For Int,14,12.0,High,0,True
+25,7,Wagon 1,31,Get From,17,,Low,14400,True
+25,9,Wagon 1,32,Wait For Int,57,16.0,Medium,8000,True
+25,10,Wagon 1,33,Get From,56,,High,14400,True
+25,8,Wagon 1,34,Put On,51,,High,2755,True
+25,7,Wagon 1,35,Wait For Int,52,19.0,Low,8000,True
+25,10,Wagon 1,36,Wait For Sec,28,13.0,High,6000,True
+25,5,Wagon 1,37,Wait For Sec,30,56.0,Low,6000,True
+25,3,Wagon 2,1,Get From,47,,Medium,6000,True
+25,8,Wagon 2,2,Get From,44,,Medium,0,True
+25,7,Wagon 2,3,Wait For Sec,50,23.0,Low,2755,True
+25,6,Wagon 2,4,Wait For Int,29,22.0,Medium,0,True
+25,5,Wagon 2,5,Put On,14,,High,2755,True
+25,2,Wagon 2,6,Wait For Sec,42,53.0,High,8000,True
+25,2,Wagon 2,7,Set Int,1,,High,14400,True
+25,2,Wagon 2,8,Get From,60,,Medium,14400,True
+25,6,Wagon 2,9,Wait For Int,51,21.0,High,10000,True
+25,3,Wagon 2,10,Wait For Sec,4,57.0,Medium,0,True
+25,9,Wagon 2,11,Wait For Sec,18,46.0,High,8000,True
+25,8,Wagon 2,12,Get From,23,,High,14400,True
+25,4,Wagon 2,13,Set Int,46,,Medium,8000,True
+25,5,Wagon 2,14,Wait For Int,16,6.0,Medium,0,True
+25,3,Wagon 2,15,Put On,5,,Low,2755,True
+25,6,Wagon 2,16,Get From,21,,Medium,8000,True
+25,9,Wagon 2,17,Put On,58,,Medium,0,True
+25,3,Wagon 2,18,Put On,26,,Low,6000,True
+25,1,Wagon 2,19,Wait For Sec,5,7.0,Medium,8000,True
+25,10,Wagon 2,20,Set Int,52,,High,6000,True
+25,7,Wagon 2,21,Set Int,27,,Medium,6000,True
+25,4,Wagon 2,22,Set Int,16,,Medium,10000,True
+25,3,Wagon 2,23,Wait For Sec,34,12.0,Medium,8000,True
+25,4,Wagon 2,24,Wait For Int,5,39.0,High,8000,True
+25,5,Wagon 2,25,Wait For Int,50,41.0,High,2755,True
+25,2,Wagon 2,26,Set Int,32,,Medium,2755,True
+25,9,Wagon 2,27,Get From,3,,Medium,14400,True
+25,3,Wagon 2,28,Set Int,5,,Low,2755,True
+25,9,Wagon 2,29,Put On,60,,Medium,8000,True
+25,7,Wagon 2,30,Wait For Sec,51,42.0,Low,10000,True
+25,4,Wagon 2,31,Get From,57,,Medium,6000,True
+26,2,Wagon 1,1,Wait For Sec,50,18.0,High,14400,True
+26,4,Wagon 1,2,Wait For Int,1,54.0,Medium,6000,True
+26,4,Wagon 1,3,Wait For Int,59,54.0,High,10000,True
+26,2,Wagon 1,4,Wait For Int,41,58.0,High,0,True
+26,8,Wagon 1,5,Set Int,11,,Medium,8000,True
+26,7,Wagon 1,6,Set Int,41,,High,10000,True
+26,10,Wagon 1,7,Get From,46,,High,0,True
+26,1,Wagon 1,8,Get From,49,,Low,10000,True
+26,7,Wagon 1,9,Wait For Sec,31,24.0,High,10000,True
+26,3,Wagon 1,10,Put On,25,,High,0,True
+26,1,Wagon 1,11,Get From,4,,Low,6000,True
+26,4,Wagon 1,12,Put On,6,,Low,2755,True
+26,10,Wagon 1,13,Get From,27,,Low,0,True
+26,6,Wagon 1,14,Wait For Sec,2,19.0,Medium,14400,True
+26,4,Wagon 1,15,Get From,6,,High,2755,True
+26,9,Wagon 1,16,Wait For Sec,39,57.0,Medium,2755,True
+26,7,Wagon 1,17,Put On,49,,High,2755,True
+26,1,Wagon 1,18,Get From,54,,Low,8000,True
+26,9,Wagon 1,19,Wait For Int,11,8.0,Medium,2755,True
+26,7,Wagon 1,20,Put On,38,,Medium,2755,True
+26,4,Wagon 1,21,Set Int,23,,Medium,14400,True
+26,1,Wagon 1,22,Get From,46,,High,14400,True
+26,4,Wagon 1,23,Get From,7,,Medium,0,True
+26,2,Wagon 1,24,Set Int,5,,Low,6000,True
+26,9,Wagon 2,1,Wait For Sec,15,54.0,Low,2755,True
+26,9,Wagon 2,2,Wait For Sec,20,35.0,Low,2755,True
+26,7,Wagon 2,3,Put On,52,,High,0,True
+26,9,Wagon 2,4,Set Int,3,,High,2755,True
+26,10,Wagon 2,5,Put On,53,,Medium,2755,True
+26,4,Wagon 2,6,Wait For Sec,57,42.0,Low,0,True
+26,8,Wagon 2,7,Put On,42,,High,2755,True
+26,2,Wagon 2,8,Put On,53,,Medium,2755,True
+26,5,Wagon 2,9,Get From,5,,High,10000,True
+26,5,Wagon 2,10,Set Int,44,,Medium,6000,True
+26,2,Wagon 2,11,Set Int,37,,Medium,6000,True
+26,6,Wagon 2,12,Wait For Int,23,17.0,Low,10000,True
+26,1,Wagon 2,13,Wait For Sec,31,59.0,Low,14400,True
+26,1,Wagon 2,14,Wait For Sec,60,38.0,Low,2755,True
+26,1,Wagon 2,15,Set Int,23,,Medium,8000,True
+26,5,Wagon 2,16,Put On,43,,Medium,2755,True
+26,8,Wagon 2,17,Wait For Sec,25,16.0,Medium,0,True
+26,6,Wagon 2,18,Get From,47,,Low,6000,True
+26,10,Wagon 2,19,Put On,38,,Medium,6000,True
+26,4,Wagon 2,20,Get From,58,,Low,2755,True
+26,8,Wagon 2,21,Put On,20,,High,14400,True
+26,9,Wagon 2,22,Set Int,1,,Low,8000,True
+26,3,Wagon 2,23,Wait For Int,54,43.0,High,2755,True
+26,8,Wagon 2,24,Wait For Sec,36,48.0,Low,14400,True
+26,10,Wagon 2,25,Put On,60,,Medium,14400,True
+26,9,Wagon 2,26,Wait For Int,26,17.0,Medium,10000,True
+26,6,Wagon 2,27,Put On,6,,Low,10000,True
+26,9,Wagon 2,28,Get From,10,,Low,0,True
+26,4,Wagon 2,29,Wait For Int,7,12.0,High,6000,True
+26,5,Wagon 2,30,Get From,56,,Low,14400,True
+27,5,Wagon 1,1,Wait For Sec,41,11.0,Medium,8000,True
+27,9,Wagon 1,2,Put On,35,,High,10000,True
+27,5,Wagon 1,3,Put On,27,,Low,8000,True
+27,6,Wagon 1,4,Set Int,32,,Low,8000,True
+27,3,Wagon 1,5,Wait For Sec,21,46.0,Low,10000,True
+27,6,Wagon 1,6,Get From,16,,High,0,True
+27,4,Wagon 1,7,Get From,41,,Low,2755,True
+27,1,Wagon 1,8,Get From,7,,Medium,2755,True
+27,7,Wagon 1,9,Set Int,45,,Low,2755,True
+27,3,Wagon 1,10,Set Int,17,,Medium,6000,True
+27,4,Wagon 1,11,Set Int,42,,High,14400,True
+27,6,Wagon 1,12,Wait For Sec,8,46.0,Low,14400,True
+27,10,Wagon 1,13,Get From,14,,Low,2755,True
+27,1,Wagon 1,14,Wait For Sec,31,41.0,Medium,8000,True
+27,7,Wagon 1,15,Wait For Int,18,55.0,Medium,14400,True
+27,8,Wagon 1,16,Wait For Int,54,54.0,Medium,8000,True
+27,8,Wagon 1,17,Wait For Sec,46,50.0,High,8000,True
+27,4,Wagon 1,18,Set Int,41,,Medium,2755,True
+27,5,Wagon 1,19,Put On,30,,Medium,2755,True
+27,6,Wagon 1,20,Set Int,6,,High,6000,True
+27,9,Wagon 1,21,Wait For Int,27,25.0,High,2755,True
+27,3,Wagon 1,22,Get From,10,,High,2755,True
+27,4,Wagon 1,23,Wait For Int,60,25.0,Low,0,True
+27,9,Wagon 1,24,Wait For Sec,33,60.0,High,6000,True
+27,10,Wagon 1,25,Wait For Sec,6,10.0,Medium,0,True
+27,10,Wagon 1,26,Put On,40,,High,2755,True
+27,1,Wagon 1,27,Wait For Sec,34,8.0,Medium,6000,True
+27,7,Wagon 1,28,Wait For Sec,59,41.0,Low,0,True
+27,1,Wagon 1,29,Wait For Sec,14,16.0,High,8000,True
+27,2,Wagon 1,30,Wait For Sec,38,9.0,Low,8000,True
+27,3,Wagon 1,31,Put On,35,,Low,10000,True
+27,10,Wagon 1,32,Get From,30,,Low,0,True
+27,7,Wagon 1,33,Set Int,59,,Medium,0,True
+27,8,Wagon 1,34,Set Int,33,,Low,10000,True
+27,2,Wagon 1,35,Put On,36,,Medium,2755,True
+27,1,Wagon 2,1,Wait For Sec,18,22.0,High,10000,True
+27,3,Wagon 2,2,Set Int,46,,High,8000,True
+27,6,Wagon 2,3,Put On,28,,High,8000,True
+27,8,Wagon 2,4,Set Int,47,,Low,0,True
+27,6,Wagon 2,5,Wait For Int,10,5.0,Medium,8000,True
+27,9,Wagon 2,6,Get From,50,,Low,0,True
+27,9,Wagon 2,7,Set Int,20,,Low,10000,True
+27,8,Wagon 2,8,Wait For Sec,58,24.0,High,14400,True
+27,6,Wagon 2,9,Put On,33,,High,10000,True
+27,10,Wagon 2,10,Wait For Sec,2,50.0,Medium,0,True
+27,6,Wagon 2,11,Wait For Sec,29,39.0,Medium,6000,True
+27,6,Wagon 2,12,Wait For Int,8,26.0,Low,10000,True
+27,10,Wagon 2,13,Wait For Int,56,53.0,Medium,10000,True
+27,8,Wagon 2,14,Set Int,32,,Low,8000,True
+27,6,Wagon 2,15,Wait For Sec,13,38.0,High,10000,True
+27,9,Wagon 2,16,Put On,11,,Medium,14400,True
+27,10,Wagon 2,17,Get From,41,,Medium,10000,True
+27,1,Wagon 2,18,Wait For Int,47,50.0,Medium,2755,True
+27,10,Wagon 2,19,Put On,12,,High,6000,True
+27,1,Wagon 2,20,Put On,49,,Medium,14400,True
+27,7,Wagon 2,21,Wait For Sec,23,47.0,High,0,True
+27,3,Wagon 2,22,Put On,10,,High,8000,True
+27,4,Wagon 2,23,Get From,28,,Low,6000,True
+27,6,Wagon 2,24,Wait For Int,27,30.0,Low,10000,True
+27,2,Wagon 2,25,Wait For Int,48,19.0,Low,0,True
+27,9,Wagon 2,26,Get From,40,,Medium,2755,True
+27,8,Wagon 2,27,Wait For Sec,4,24.0,Medium,8000,True
+27,6,Wagon 2,28,Wait For Sec,2,32.0,High,0,True
+27,3,Wagon 2,29,Wait For Sec,1,49.0,Low,8000,True
+27,8,Wagon 2,30,Get From,58,,Low,14400,True
+28,1,Wagon 1,1,Wait For Sec,16,40.0,Low,10000,True
+28,4,Wagon 1,2,Set Int,34,,High,14400,True
+28,6,Wagon 1,3,Get From,12,,High,8000,True
+28,4,Wagon 1,4,Wait For Int,18,15.0,High,0,True
+28,9,Wagon 1,5,Wait For Int,55,13.0,Low,0,True
+28,8,Wagon 1,6,Get From,38,,Medium,10000,True
+28,1,Wagon 1,7,Wait For Int,1,56.0,Medium,2755,True
+28,2,Wagon 1,8,Get From,13,,Low,14400,True
+28,7,Wagon 1,9,Get From,40,,Low,8000,True
+28,7,Wagon 1,10,Put On,12,,Medium,2755,True
+28,7,Wagon 1,11,Put On,43,,Medium,2755,True
+28,1,Wagon 1,12,Wait For Sec,27,16.0,Low,6000,True
+28,6,Wagon 1,13,Set Int,42,,Medium,8000,True
+28,3,Wagon 1,14,Wait For Sec,37,52.0,High,14400,True
+28,6,Wagon 1,15,Wait For Int,32,58.0,Medium,8000,True
+28,9,Wagon 1,16,Get From,23,,High,10000,True
+28,6,Wagon 1,17,Put On,26,,High,0,True
+28,9,Wagon 1,18,Wait For Sec,8,9.0,High,6000,True
+28,9,Wagon 1,19,Set Int,11,,Low,10000,True
+28,9,Wagon 1,20,Wait For Int,58,11.0,High,10000,True
+28,3,Wagon 1,21,Get From,59,,High,6000,True
+28,3,Wagon 1,22,Get From,56,,Medium,0,True
+28,8,Wagon 1,23,Wait For Int,19,6.0,High,8000,True
+28,6,Wagon 1,24,Wait For Sec,31,34.0,Medium,6000,True
+28,3,Wagon 1,25,Get From,2,,Medium,2755,True
+28,8,Wagon 1,26,Get From,57,,Low,2755,True
+28,7,Wagon 1,27,Put On,56,,Low,2755,True
+28,7,Wagon 1,28,Put On,50,,High,8000,True
+28,2,Wagon 1,29,Wait For Int,29,52.0,High,0,True
+28,9,Wagon 1,30,Wait For Sec,20,42.0,High,6000,True
+28,4,Wagon 1,31,Put On,33,,Medium,10000,True
+28,7,Wagon 1,32,Wait For Sec,27,11.0,Low,0,True
+28,4,Wagon 1,33,Wait For Sec,32,55.0,Low,14400,True
+28,7,Wagon 1,34,Get From,23,,Low,6000,True
+28,10,Wagon 1,35,Put On,45,,Low,2755,True
+28,1,Wagon 1,36,Set Int,24,,Medium,14400,True
+28,2,Wagon 1,37,Set Int,35,,Medium,2755,True
+28,2,Wagon 2,1,Wait For Sec,4,55.0,Medium,10000,True
+28,1,Wagon 2,2,Get From,18,,High,2755,True
+28,5,Wagon 2,3,Wait For Int,60,14.0,Medium,6000,True
+28,9,Wagon 2,4,Wait For Int,58,23.0,Low,14400,True
+28,2,Wagon 2,5,Wait For Int,29,21.0,Medium,6000,True
+28,5,Wagon 2,6,Wait For Int,17,58.0,Medium,2755,True
+28,9,Wagon 2,7,Wait For Sec,26,9.0,Medium,10000,True
+28,8,Wagon 2,8,Wait For Int,8,59.0,High,6000,True
+28,5,Wagon 2,9,Put On,29,,Medium,0,True
+28,9,Wagon 2,10,Get From,21,,High,6000,True
+28,4,Wagon 2,11,Put On,31,,Medium,0,True
+28,1,Wagon 2,12,Set Int,26,,Low,0,True
+28,5,Wagon 2,13,Wait For Sec,37,47.0,High,0,True
+28,7,Wagon 2,14,Wait For Sec,42,20.0,Low,14400,True
+28,5,Wagon 2,15,Wait For Sec,46,16.0,Low,10000,True
+28,1,Wagon 2,16,Set Int,14,,High,8000,True
+28,9,Wagon 2,17,Wait For Sec,8,8.0,Medium,2755,True
+28,8,Wagon 2,18,Wait For Int,5,7.0,Low,0,True
+28,10,Wagon 2,19,Set Int,2,,Low,14400,True
+29,4,Wagon 1,1,Wait For Int,37,45.0,High,0,True
+29,1,Wagon 1,2,Get From,14,,High,0,True
+29,2,Wagon 1,3,Set Int,37,,Medium,6000,True
+29,4,Wagon 1,4,Wait For Int,41,21.0,High,6000,True
+29,2,Wagon 1,5,Set Int,37,,High,8000,True
+29,1,Wagon 1,6,Get From,16,,Low,6000,True
+29,8,Wagon 1,7,Wait For Int,52,49.0,High,10000,True
+29,6,Wagon 1,8,Get From,47,,High,0,True
+29,6,Wagon 1,9,Wait For Sec,15,31.0,Medium,8000,True
+29,4,Wagon 1,10,Wait For Sec,31,21.0,Medium,2755,True
+29,4,Wagon 1,11,Wait For Sec,10,42.0,Medium,0,True
+29,5,Wagon 1,12,Set Int,5,,Low,8000,True
+29,2,Wagon 1,13,Set Int,39,,Low,10000,True
+29,7,Wagon 1,14,Put On,6,,Low,2755,True
+29,9,Wagon 1,15,Get From,53,,Medium,6000,True
+29,3,Wagon 1,16,Set Int,46,,Low,2755,True
+29,1,Wagon 1,17,Get From,4,,Medium,6000,True
+29,1,Wagon 1,18,Set Int,2,,Low,0,True
+29,10,Wagon 1,19,Set Int,28,,Medium,14400,True
+29,1,Wagon 1,20,Get From,12,,Low,2755,True
+29,7,Wagon 1,21,Get From,18,,Medium,2755,True
+29,7,Wagon 1,22,Set Int,25,,High,0,True
+29,7,Wagon 1,23,Get From,3,,Low,10000,True
+29,9,Wagon 2,1,Set Int,47,,Medium,8000,True
+29,8,Wagon 2,2,Get From,49,,Medium,8000,True
+29,6,Wagon 2,3,Wait For Int,39,17.0,Low,6000,True
+29,7,Wagon 2,4,Set Int,8,,High,14400,True
+29,7,Wagon 2,5,Set Int,23,,Medium,8000,True
+29,4,Wagon 2,6,Put On,54,,High,6000,True
+29,4,Wagon 2,7,Wait For Sec,30,30.0,Low,2755,True
+29,2,Wagon 2,8,Get From,54,,Medium,10000,True
+29,1,Wagon 2,9,Set Int,20,,Low,10000,True
+29,8,Wagon 2,10,Set Int,60,,High,10000,True
+29,3,Wagon 2,11,Wait For Sec,55,18.0,Medium,0,True
+29,5,Wagon 2,12,Wait For Int,16,47.0,High,2755,True
+29,1,Wagon 2,13,Put On,35,,Low,14400,True
+29,7,Wagon 2,14,Set Int,55,,Medium,14400,True
+29,2,Wagon 2,15,Set Int,38,,Medium,0,True
+29,8,Wagon 2,16,Wait For Sec,19,59.0,High,0,True
+29,3,Wagon 2,17,Set Int,18,,Low,0,True
+29,2,Wagon 2,18,Get From,51,,High,14400,True
+29,6,Wagon 2,19,Wait For Sec,45,24.0,Low,6000,True
+29,4,Wagon 2,20,Set Int,22,,High,6000,True
+29,8,Wagon 2,21,Put On,2,,High,14400,True
+29,10,Wagon 2,22,Wait For Sec,16,32.0,High,6000,True
+30,9,Wagon 1,1,Wait For Int,35,5.0,High,14400,True
+30,2,Wagon 1,2,Wait For Sec,9,34.0,Low,14400,True
+30,3,Wagon 1,3,Wait For Sec,11,32.0,High,2755,True
+30,8,Wagon 1,4,Put On,39,,Low,14400,True
+30,2,Wagon 1,5,Get From,16,,High,14400,True
+30,10,Wagon 1,6,Put On,3,,Medium,10000,True
+30,1,Wagon 1,7,Wait For Sec,41,44.0,Medium,2755,True
+30,2,Wagon 1,8,Wait For Int,58,29.0,Medium,0,True
+30,6,Wagon 1,9,Put On,25,,High,6000,True
+30,5,Wagon 1,10,Get From,54,,Low,6000,True
+30,8,Wagon 1,11,Get From,40,,Medium,10000,True
+30,5,Wagon 1,12,Set Int,36,,Low,8000,True
+30,2,Wagon 1,13,Wait For Int,8,7.0,Low,6000,True
+30,6,Wagon 1,14,Wait For Sec,27,41.0,High,14400,True
+30,2,Wagon 1,15,Set Int,46,,Medium,0,True
+30,9,Wagon 1,16,Wait For Sec,28,37.0,Medium,14400,True
+30,6,Wagon 1,17,Set Int,17,,Low,0,True
+30,3,Wagon 1,18,Get From,24,,Low,10000,True
+30,10,Wagon 1,19,Put On,25,,High,10000,True
+30,6,Wagon 1,20,Get From,20,,High,10000,True
+30,2,Wagon 1,21,Set Int,31,,High,0,True
+30,2,Wagon 2,1,Wait For Sec,48,16.0,High,6000,True
+30,9,Wagon 2,2,Set Int,43,,High,8000,True
+30,6,Wagon 2,3,Wait For Sec,40,6.0,Medium,10000,True
+30,9,Wagon 2,4,Put On,35,,High,0,True
+30,8,Wagon 2,5,Get From,13,,Low,2755,True
+30,4,Wagon 2,6,Wait For Sec,11,46.0,Medium,14400,True
+30,9,Wagon 2,7,Wait For Int,31,34.0,Medium,0,True
+30,2,Wagon 2,8,Get From,8,,High,0,True
+30,1,Wagon 2,9,Put On,44,,High,2755,True
+30,9,Wagon 2,10,Wait For Sec,7,56.0,High,0,True
+30,9,Wagon 2,11,Set Int,59,,Low,14400,True
+30,4,Wagon 2,12,Get From,59,,Low,10000,True
+30,9,Wagon 2,13,Set Int,33,,Low,0,True
+30,8,Wagon 2,14,Get From,48,,Medium,14400,True
+30,3,Wagon 2,15,Wait For Int,17,26.0,Low,14400,True
+30,10,Wagon 2,16,Put On,53,,High,14400,True
+30,10,Wagon 2,17,Get From,53,,Low,10000,True
+30,5,Wagon 2,18,Put On,33,,High,10000,True
+30,5,Wagon 2,19,Wait For Int,33,60.0,Medium,6000,True
+30,5,Wagon 2,20,Set Int,23,,Medium,2755,True
+30,10,Wagon 2,21,Wait For Int,42,55.0,Medium,10000,True
+30,4,Wagon 2,22,Wait For Int,24,41.0,High,14400,True
+30,5,Wagon 2,23,Set Int,41,,Medium,2755,True
+30,7,Wagon 2,24,Wait For Sec,1,25.0,High,2755,True
+30,3,Wagon 2,25,Put On,11,,High,2755,True
+30,7,Wagon 2,26,Wait For Sec,41,34.0,Low,14400,True
+30,3,Wagon 2,27,Get From,50,,High,6000,True
+30,6,Wagon 2,28,Wait For Int,23,8.0,High,14400,True
+30,3,Wagon 2,29,Set Int,13,,Low,0,True
+30,3,Wagon 2,30,Get From,19,,High,0,True
+30,7,Wagon 3,1,Wait For Sec,16,48.0,Medium,0,True
+30,3,Wagon 3,2,Get From,25,,Medium,6000,True
+30,2,Wagon 3,3,Put On,18,,Low,2755,True
+30,7,Wagon 3,4,Wait For Int,38,24.0,Medium,0,True
+30,1,Wagon 3,5,Wait For Int,26,56.0,Low,2755,True
+30,5,Wagon 3,6,Get From,44,,High,6000,True
+30,1,Wagon 3,7,Set Int,4,,Medium,14400,True
+30,6,Wagon 3,8,Wait For Sec,7,25.0,High,8000,True
+30,3,Wagon 3,9,Get From,2,,Medium,2755,True
+30,7,Wagon 3,10,Wait For Int,44,11.0,High,14400,True
+30,4,Wagon 3,11,Wait For Int,56,7.0,High,2755,True
+30,6,Wagon 3,12,Wait For Int,44,39.0,Low,10000,True
+30,9,Wagon 3,13,Get From,17,,High,14400,True
+30,2,Wagon 3,14,Put On,59,,Low,2755,True
+30,5,Wagon 3,15,Wait For Int,56,22.0,Low,0,True
+30,7,Wagon 3,16,Put On,43,,Low,10000,True
+30,6,Wagon 3,17,Wait For Sec,59,50.0,High,6000,True
+30,6,Wagon 3,18,Wait For Sec,9,9.0,Low,10000,True
+30,2,Wagon 3,19,Wait For Sec,28,21.0,Low,10000,True
+30,5,Wagon 3,20,Wait For Int,44,34.0,Low,0,True
+30,10,Wagon 3,21,Put On,43,,Medium,2755,True
+30,10,Wagon 3,22,Wait For Int,15,46.0,Low,0,True
+30,1,Wagon 3,23,Set Int,44,,High,10000,True
+30,4,Wagon 3,24,Set Int,51,,Low,0,True
+30,9,Wagon 3,25,Get From,51,,High,2755,True
+30,8,Wagon 3,26,Wait For Sec,21,17.0,High,14400,True
+30,5,Wagon 3,27,Set Int,29,,High,14400,True
+30,4,Wagon 3,28,Wait For Sec,25,16.0,Low,10000,True
+30,4,Wagon 3,29,Set Int,2,,Low,6000,True
+30,7,Wagon 3,30,Get From,13,,High,0,True
+30,3,Wagon 3,31,Wait For Sec,23,31.0,Low,10000,True
+30,6,Wagon 3,32,Wait For Int,42,13.0,Medium,0,True
+30,1,Wagon 3,33,Put On,24,,Medium,2755,True
+30,8,Wagon 3,34,Wait For Int,7,15.0,Low,6000,True
+30,6,Wagon 3,35,Get From,25,,Low,6000,True
+30,5,Wagon 3,36,Wait For Sec,33,56.0,High,6000,True
+31,7,Wagon 1,1,Set Int,4,,Low,14400,True
+31,6,Wagon 1,2,Set Int,42,,Low,14400,True
+31,1,Wagon 1,3,Get From,47,,Medium,10000,True
+31,7,Wagon 1,4,Get From,51,,Medium,2755,True
+31,2,Wagon 1,5,Wait For Int,27,41.0,Low,6000,True
+31,10,Wagon 1,6,Get From,20,,High,8000,True
+31,8,Wagon 1,7,Set Int,35,,High,6000,True
+31,4,Wagon 1,8,Wait For Int,8,20.0,Medium,0,True
+31,10,Wagon 1,9,Wait For Int,17,21.0,Low,0,True
+31,2,Wagon 1,10,Wait For Sec,17,31.0,Low,6000,True
+31,10,Wagon 1,11,Get From,30,,Low,6000,True
+31,1,Wagon 1,12,Wait For Int,29,9.0,Medium,2755,True
+31,9,Wagon 1,13,Wait For Sec,28,38.0,Low,10000,True
+31,1,Wagon 1,14,Set Int,51,,Low,0,True
+31,8,Wagon 1,15,Set Int,22,,Medium,8000,True
+31,5,Wagon 1,16,Get From,31,,Low,0,True
+31,4,Wagon 2,1,Set Int,26,,Low,6000,True
+31,6,Wagon 2,2,Wait For Int,14,40.0,Medium,6000,True
+31,3,Wagon 2,3,Put On,38,,Low,0,True
+31,3,Wagon 2,4,Get From,38,,High,2755,True
+31,2,Wagon 2,5,Wait For Sec,51,15.0,High,2755,True
+31,8,Wagon 2,6,Wait For Int,29,27.0,Low,10000,True
+31,3,Wagon 2,7,Wait For Sec,49,23.0,Medium,10000,True
+31,5,Wagon 2,8,Wait For Sec,22,34.0,High,6000,True
+31,8,Wagon 2,9,Wait For Int,28,51.0,Medium,6000,True
+31,4,Wagon 2,10,Set Int,46,,Low,10000,True
+31,10,Wagon 2,11,Wait For Int,39,10.0,Medium,2755,True
+31,4,Wagon 2,12,Get From,10,,High,14400,True
+31,4,Wagon 2,13,Put On,58,,Low,14400,True
+31,2,Wagon 2,14,Wait For Int,17,37.0,Low,6000,True
+31,4,Wagon 2,15,Wait For Int,41,22.0,Low,8000,True
+31,5,Wagon 2,16,Wait For Sec,24,33.0,Medium,10000,True
+31,5,Wagon 2,17,Wait For Int,14,42.0,Medium,8000,True
+31,9,Wagon 2,18,Wait For Int,56,8.0,High,8000,True
+31,9,Wagon 2,19,Put On,55,,Medium,10000,True
+31,6,Wagon 2,20,Wait For Int,39,40.0,High,2755,True
+31,9,Wagon 2,21,Wait For Sec,15,42.0,Medium,0,True
+31,6,Wagon 3,1,Set Int,27,,High,6000,True
+31,2,Wagon 3,2,Wait For Sec,44,42.0,Medium,6000,True
+31,4,Wagon 3,3,Wait For Sec,38,32.0,Low,10000,True
+31,4,Wagon 3,4,Get From,52,,Medium,2755,True
+31,8,Wagon 3,5,Get From,13,,High,8000,True
+31,10,Wagon 3,6,Wait For Sec,10,24.0,High,8000,True
+31,10,Wagon 3,7,Get From,48,,Medium,14400,True
+31,6,Wagon 3,8,Wait For Int,29,26.0,Low,14400,True
+31,7,Wagon 3,9,Wait For Int,6,55.0,High,6000,True
+31,3,Wagon 3,10,Get From,41,,High,6000,True
+31,10,Wagon 3,11,Put On,28,,Low,6000,True
+31,6,Wagon 3,12,Wait For Int,17,45.0,High,8000,True
+31,8,Wagon 3,13,Put On,49,,High,14400,True
+31,8,Wagon 3,14,Wait For Sec,29,58.0,High,0,True
+31,6,Wagon 3,15,Get From,29,,Low,2755,True
+31,2,Wagon 3,16,Wait For Sec,25,44.0,Low,10000,True
+31,7,Wagon 3,17,Put On,29,,Low,14400,True
+31,10,Wagon 3,18,Set Int,3,,High,10000,True
+31,1,Wagon 3,19,Set Int,31,,High,8000,True
+31,4,Wagon 3,20,Get From,3,,High,2755,True
+31,4,Wagon 3,21,Set Int,2,,Low,2755,True
+31,7,Wagon 3,22,Put On,20,,High,2755,True
+31,5,Wagon 3,23,Wait For Sec,23,53.0,High,6000,True
+31,10,Wagon 3,24,Wait For Int,6,36.0,Low,8000,True
+31,4,Wagon 3,25,Put On,52,,Medium,2755,True
+32,2,Wagon 1,1,Set Int,38,,High,8000,True
+32,8,Wagon 1,2,Put On,40,,Low,10000,True
+32,5,Wagon 1,3,Get From,42,,High,10000,True
+32,2,Wagon 1,4,Set Int,30,,Medium,6000,True
+32,4,Wagon 1,5,Set Int,22,,Low,10000,True
+32,5,Wagon 1,6,Put On,40,,High,6000,True
+32,5,Wagon 1,7,Get From,21,,Medium,8000,True
+32,2,Wagon 1,8,Wait For Int,24,12.0,High,6000,True
+32,8,Wagon 1,9,Wait For Sec,42,49.0,Medium,0,True
+32,7,Wagon 1,10,Get From,59,,Low,6000,True
+32,7,Wagon 1,11,Wait For Sec,52,34.0,Low,10000,True
+32,4,Wagon 1,12,Put On,6,,Medium,0,True
+32,1,Wagon 1,13,Set Int,40,,High,0,True
+32,9,Wagon 1,14,Wait For Sec,49,11.0,Low,6000,True
+32,10,Wagon 1,15,Set Int,33,,High,0,True
+32,1,Wagon 1,16,Wait For Sec,11,21.0,Low,6000,True
+32,1,Wagon 1,17,Wait For Int,46,55.0,High,10000,True
+32,4,Wagon 1,18,Put On,22,,Low,8000,True
+32,2,Wagon 1,19,Set Int,46,,High,14400,True
+32,5,Wagon 1,20,Wait For Int,60,21.0,Medium,0,True
+32,10,Wagon 1,21,Get From,39,,Medium,8000,True
+32,7,Wagon 2,1,Get From,5,,High,10000,True
+32,8,Wagon 2,2,Put On,58,,Low,2755,True
+32,9,Wagon 2,3,Set Int,25,,High,6000,True
+32,3,Wagon 2,4,Get From,57,,Medium,8000,True
+32,5,Wagon 2,5,Wait For Int,55,18.0,Medium,14400,True
+32,1,Wagon 2,6,Wait For Sec,15,20.0,Medium,10000,True
+32,6,Wagon 2,7,Get From,59,,High,6000,True
+32,4,Wagon 2,8,Wait For Int,29,58.0,Low,6000,True
+32,6,Wagon 2,9,Get From,60,,Medium,2755,True
+32,6,Wagon 2,10,Get From,43,,High,10000,True
+32,4,Wagon 2,11,Wait For Sec,60,11.0,High,0,True
+32,2,Wagon 2,12,Set Int,14,,Low,10000,True
+32,10,Wagon 2,13,Wait For Int,9,44.0,Low,14400,True
+32,2,Wagon 2,14,Set Int,58,,High,14400,True
+32,2,Wagon 2,15,Wait For Sec,9,43.0,Low,14400,True
+32,7,Wagon 2,16,Wait For Int,36,56.0,Medium,8000,True
+32,9,Wagon 2,17,Set Int,59,,High,8000,True
+32,3,Wagon 2,18,Set Int,45,,Medium,6000,True
+32,4,Wagon 2,19,Wait For Int,1,12.0,High,10000,True
+32,8,Wagon 2,20,Wait For Sec,10,59.0,Medium,10000,True
+32,7,Wagon 2,21,Wait For Int,15,21.0,Low,6000,True
+32,5,Wagon 2,22,Put On,55,,High,2755,True
+32,5,Wagon 2,23,Get From,46,,Low,8000,True
+32,8,Wagon 2,24,Wait For Int,58,58.0,High,8000,True
+32,1,Wagon 2,25,Wait For Sec,52,16.0,Low,2755,True
+32,6,Wagon 2,26,Wait For Sec,27,5.0,Medium,0,True
+32,4,Wagon 2,27,Wait For Int,32,47.0,Low,14400,True
+32,6,Wagon 2,28,Wait For Sec,59,23.0,Medium,2755,True
+32,1,Wagon 3,1,Set Int,43,,Low,2755,True
+32,10,Wagon 3,2,Set Int,38,,Medium,14400,True
+32,9,Wagon 3,3,Set Int,17,,Low,6000,True
+32,7,Wagon 3,4,Wait For Sec,52,48.0,High,14400,True
+32,4,Wagon 3,5,Set Int,29,,Medium,8000,True
+32,8,Wagon 3,6,Put On,42,,Low,0,True
+32,3,Wagon 3,7,Get From,17,,High,8000,True
+32,8,Wagon 3,8,Wait For Int,55,39.0,Medium,14400,True
+32,2,Wagon 3,9,Set Int,24,,High,14400,True
+32,3,Wagon 3,10,Put On,4,,High,10000,True
+32,9,Wagon 3,11,Wait For Sec,57,57.0,High,0,True
+32,1,Wagon 3,12,Wait For Sec,38,54.0,Medium,0,True
+32,3,Wagon 3,13,Get From,51,,Medium,8000,True
+32,10,Wagon 3,14,Wait For Sec,6,43.0,Medium,14400,True
+32,5,Wagon 3,15,Wait For Sec,22,26.0,Low,8000,True
+32,10,Wagon 3,16,Wait For Sec,54,19.0,High,8000,True
+32,10,Wagon 3,17,Wait For Int,18,35.0,Medium,14400,True
+32,6,Wagon 3,18,Wait For Int,11,28.0,Medium,10000,True
+32,4,Wagon 3,19,Put On,41,,High,0,True
+32,5,Wagon 3,20,Put On,13,,High,10000,True
+32,5,Wagon 3,21,Wait For Int,8,31.0,Medium,0,True
+32,3,Wagon 3,22,Put On,56,,Low,6000,True
+32,2,Wagon 3,23,Wait For Int,35,18.0,Low,0,True
+32,8,Wagon 3,24,Wait For Int,13,22.0,High,6000,True
+33,4,Wagon 1,1,Put On,2,,High,14400,True
+33,8,Wagon 1,2,Get From,42,,Medium,2755,True
+33,1,Wagon 1,3,Wait For Sec,37,55.0,High,2755,True
+33,5,Wagon 1,4,Put On,54,,Medium,0,True
+33,9,Wagon 1,5,Set Int,26,,Medium,2755,True
+33,6,Wagon 1,6,Wait For Int,9,6.0,High,10000,True
+33,3,Wagon 1,7,Get From,15,,Medium,10000,True
+33,1,Wagon 1,8,Wait For Sec,29,33.0,Low,0,True
+33,9,Wagon 1,9,Set Int,6,,Low,14400,True
+33,5,Wagon 1,10,Wait For Int,36,55.0,Medium,14400,True
+33,9,Wagon 1,11,Get From,18,,Low,14400,True
+33,4,Wagon 1,12,Get From,24,,High,14400,True
+33,1,Wagon 1,13,Get From,31,,High,6000,True
+33,5,Wagon 1,14,Set Int,52,,Medium,0,True
+33,6,Wagon 1,15,Put On,58,,Low,2755,True
+33,10,Wagon 1,16,Put On,45,,Medium,10000,True
+33,7,Wagon 1,17,Wait For Int,60,17.0,Medium,2755,True
+33,6,Wagon 1,18,Wait For Int,23,20.0,High,8000,True
+33,6,Wagon 1,19,Wait For Int,1,51.0,High,0,True
+33,8,Wagon 1,20,Put On,2,,High,6000,True
+33,3,Wagon 1,21,Put On,57,,Medium,8000,True
+33,5,Wagon 1,22,Get From,16,,Low,14400,True
+33,2,Wagon 1,23,Get From,38,,High,2755,True
+33,3,Wagon 1,24,Get From,60,,Medium,2755,True
+33,6,Wagon 2,1,Put On,14,,High,10000,True
+33,5,Wagon 2,2,Wait For Sec,13,12.0,High,6000,True
+33,9,Wagon 2,3,Get From,30,,High,8000,True
+33,6,Wagon 2,4,Put On,45,,High,2755,True
+33,5,Wagon 2,5,Get From,30,,High,0,True
+33,7,Wagon 2,6,Put On,25,,High,0,True
+33,4,Wagon 2,7,Wait For Int,19,57.0,Medium,6000,True
+33,8,Wagon 2,8,Put On,7,,High,2755,True
+33,10,Wagon 2,9,Set Int,17,,Low,0,True
+33,3,Wagon 2,10,Put On,36,,High,14400,True
+33,2,Wagon 2,11,Set Int,10,,Medium,14400,True
+33,1,Wagon 2,12,Set Int,37,,High,6000,True
+33,10,Wagon 2,13,Wait For Int,8,15.0,Medium,14400,True
+33,2,Wagon 2,14,Get From,40,,High,0,True
+33,8,Wagon 2,15,Wait For Sec,50,8.0,Low,10000,True
+33,1,Wagon 2,16,Wait For Int,54,34.0,Low,10000,True
+33,3,Wagon 2,17,Put On,53,,High,2755,True
+33,6,Wagon 2,18,Set Int,43,,High,10000,True
+33,8,Wagon 2,19,Get From,24,,Medium,0,True
+33,9,Wagon 2,20,Wait For Int,17,32.0,Medium,0,True
+33,7,Wagon 2,21,Wait For Int,14,26.0,Medium,10000,True
+33,8,Wagon 2,22,Get From,48,,Medium,10000,True
+33,10,Wagon 2,23,Set Int,58,,Low,14400,True
+33,10,Wagon 2,24,Get From,39,,Low,8000,True
+33,5,Wagon 2,25,Get From,40,,High,8000,True
+33,9,Wagon 2,26,Wait For Int,54,29.0,High,6000,True
+33,7,Wagon 2,27,Get From,43,,Low,2755,True
+33,1,Wagon 2,28,Put On,7,,High,6000,True
+33,3,Wagon 2,29,Put On,18,,Low,14400,True
+33,7,Wagon 2,30,Wait For Int,23,22.0,Medium,10000,True
+33,8,Wagon 2,31,Get From,32,,Medium,2755,True
+33,2,Wagon 2,32,Get From,23,,High,2755,True
+33,8,Wagon 2,33,Wait For Sec,36,15.0,Medium,8000,True
+33,6,Wagon 2,34,Wait For Int,11,46.0,Medium,6000,True
+33,8,Wagon 2,35,Get From,26,,High,0,True
+33,5,Wagon 2,36,Get From,55,,High,10000,True
+33,3,Wagon 2,37,Put On,37,,Low,6000,True
+33,2,Wagon 2,38,Wait For Int,3,60.0,Low,10000,True
+33,3,Wagon 2,39,Set Int,16,,Medium,8000,True
+33,3,Wagon 2,40,Get From,46,,Medium,6000,True
+33,10,Wagon 3,1,Wait For Int,50,19.0,High,8000,True
+33,4,Wagon 3,2,Set Int,46,,High,8000,True
+33,10,Wagon 3,3,Wait For Sec,39,22.0,High,0,True
+33,3,Wagon 3,4,Wait For Sec,56,53.0,High,8000,True
+33,10,Wagon 3,5,Wait For Int,37,52.0,Low,6000,True
+33,7,Wagon 3,6,Put On,15,,High,0,True
+33,4,Wagon 3,7,Get From,37,,High,6000,True
+33,5,Wagon 3,8,Wait For Int,26,49.0,Medium,14400,True
+33,3,Wagon 3,9,Wait For Int,13,6.0,Medium,6000,True
+33,8,Wagon 3,10,Wait For Int,8,42.0,Medium,10000,True
+33,3,Wagon 3,11,Wait For Int,40,31.0,Medium,8000,True
+33,8,Wagon 3,12,Set Int,34,,Low,8000,True
+33,5,Wagon 3,13,Wait For Sec,22,17.0,Medium,10000,True
+33,4,Wagon 3,14,Wait For Int,14,59.0,High,6000,True
+33,7,Wagon 3,15,Wait For Int,49,31.0,High,6000,True
+33,2,Wagon 3,16,Put On,47,,Low,2755,True
+33,2,Wagon 3,17,Wait For Int,19,55.0,High,14400,True
+33,7,Wagon 3,18,Set Int,1,,High,6000,True
+33,6,Wagon 3,19,Set Int,8,,Low,2755,True
+33,4,Wagon 3,20,Wait For Int,11,28.0,Low,8000,True
+33,1,Wagon 3,21,Get From,28,,Medium,8000,True
+33,9,Wagon 3,22,Wait For Int,31,41.0,High,14400,True
+33,9,Wagon 3,23,Get From,12,,Low,14400,True
+33,4,Wagon 3,24,Put On,37,,Low,8000,True
+33,9,Wagon 3,25,Get From,17,,Medium,0,True
+33,1,Wagon 3,26,Set Int,14,,Low,2755,True
+33,3,Wagon 3,27,Wait For Int,55,54.0,Low,10000,True
+33,3,Wagon 3,28,Wait For Int,50,31.0,High,14400,True
+33,10,Wagon 3,29,Set Int,40,,High,2755,True
+33,1,Wagon 3,30,Wait For Sec,18,43.0,High,2755,True
+34,1,Wagon 1,1,Wait For Int,17,46.0,Medium,14400,True
+34,8,Wagon 1,2,Wait For Int,7,39.0,Medium,2755,True
+34,7,Wagon 1,3,Put On,27,,High,0,True
+34,10,Wagon 1,4,Set Int,49,,High,14400,True
+34,10,Wagon 1,5,Wait For Sec,31,57.0,Medium,10000,True
+34,8,Wagon 1,6,Put On,42,,High,2755,True
+34,9,Wagon 1,7,Wait For Sec,58,40.0,Low,8000,True
+34,1,Wagon 1,8,Set Int,2,,High,0,True
+34,1,Wagon 1,9,Get From,50,,High,10000,True
+34,7,Wagon 1,10,Get From,1,,Medium,10000,True
+34,8,Wagon 1,11,Wait For Int,31,59.0,High,10000,True
+34,9,Wagon 1,12,Set Int,50,,Low,14400,True
+34,3,Wagon 1,13,Set Int,41,,Medium,10000,True
+34,1,Wagon 1,14,Wait For Int,20,56.0,Medium,14400,True
+34,5,Wagon 1,15,Put On,41,,High,14400,True
+34,10,Wagon 1,16,Set Int,10,,Low,10000,True
+34,2,Wagon 1,17,Get From,49,,Low,10000,True
+34,5,Wagon 1,18,Get From,55,,Medium,2755,True
+34,1,Wagon 1,19,Wait For Sec,14,52.0,Medium,8000,True
+34,7,Wagon 1,20,Wait For Int,50,39.0,Medium,0,True
+34,9,Wagon 1,21,Set Int,56,,Medium,14400,True
+34,9,Wagon 1,22,Wait For Int,54,58.0,Low,2755,True
+34,3,Wagon 1,23,Get From,12,,Low,8000,True
+34,6,Wagon 1,24,Wait For Sec,28,16.0,High,10000,True
+34,5,Wagon 1,25,Set Int,20,,Medium,8000,True
+34,10,Wagon 1,26,Wait For Sec,49,59.0,High,8000,True
+34,9,Wagon 2,1,Set Int,55,,Medium,0,True
+34,7,Wagon 2,2,Wait For Int,49,22.0,Low,2755,True
+34,10,Wagon 2,3,Get From,18,,High,8000,True
+34,8,Wagon 2,4,Wait For Sec,20,49.0,High,8000,True
+34,4,Wagon 2,5,Put On,39,,High,0,True
+34,4,Wagon 2,6,Wait For Int,19,25.0,Low,0,True
+34,7,Wagon 2,7,Set Int,11,,High,10000,True
+34,1,Wagon 2,8,Put On,51,,Medium,14400,True
+34,7,Wagon 2,9,Get From,26,,Medium,0,True
+34,10,Wagon 2,10,Put On,22,,Low,14400,True
+34,7,Wagon 2,11,Get From,27,,Medium,0,True
+34,1,Wagon 2,12,Wait For Sec,53,55.0,High,14400,True
+34,9,Wagon 2,13,Put On,33,,Medium,14400,True
+34,7,Wagon 2,14,Wait For Int,59,23.0,High,10000,True
+34,9,Wagon 2,15,Put On,37,,High,10000,True
+34,5,Wagon 2,16,Get From,31,,High,14400,True
+34,8,Wagon 2,17,Set Int,44,,High,8000,True
+34,4,Wagon 2,18,Get From,27,,Low,6000,True
+34,8,Wagon 2,19,Set Int,32,,Medium,2755,True
+34,7,Wagon 2,20,Wait For Sec,59,20.0,High,0,True
+34,10,Wagon 2,21,Wait For Sec,19,24.0,Medium,10000,True
+34,8,Wagon 2,22,Wait For Sec,20,6.0,High,8000,True
+34,8,Wagon 2,23,Set Int,1,,High,0,True
+34,2,Wagon 2,24,Wait For Sec,37,47.0,Low,2755,True
+34,2,Wagon 2,25,Wait For Int,5,51.0,High,8000,True
+34,8,Wagon 2,26,Get From,3,,Medium,10000,True
+34,5,Wagon 2,27,Get From,33,,Low,6000,True
+34,1,Wagon 3,1,Put On,36,,High,6000,True
+34,9,Wagon 3,2,Set Int,3,,Low,10000,True
+34,4,Wagon 3,3,Wait For Sec,19,34.0,Medium,0,True
+34,3,Wagon 3,4,Get From,10,,High,6000,True
+34,7,Wagon 3,5,Get From,44,,High,6000,True
+34,5,Wagon 3,6,Set Int,44,,High,14400,True
+34,10,Wagon 3,7,Wait For Sec,25,45.0,High,14400,True
+34,6,Wagon 3,8,Put On,34,,Medium,0,True
+34,1,Wagon 3,9,Get From,40,,High,8000,True
+34,4,Wagon 3,10,Wait For Sec,51,58.0,High,8000,True
+34,8,Wagon 3,11,Wait For Sec,29,29.0,High,2755,True
+34,3,Wagon 3,12,Wait For Sec,40,50.0,High,6000,True
+34,10,Wagon 3,13,Wait For Sec,34,54.0,High,2755,True
+34,5,Wagon 3,14,Wait For Int,49,11.0,High,6000,True
+34,2,Wagon 3,15,Put On,38,,Medium,2755,True
+34,10,Wagon 3,16,Wait For Sec,54,48.0,High,2755,True
+34,9,Wagon 3,17,Set Int,57,,High,2755,True
+34,5,Wagon 3,18,Wait For Int,43,54.0,High,6000,True
+34,8,Wagon 3,19,Put On,7,,Medium,0,True
+34,1,Wagon 3,20,Wait For Int,42,14.0,Medium,10000,True
+34,4,Wagon 3,21,Put On,6,,Low,10000,True
+34,1,Wagon 3,22,Put On,17,,Medium,6000,True
+34,9,Wagon 3,23,Set Int,42,,Low,6000,True
+34,1,Wagon 3,24,Put On,11,,Medium,8000,True
+34,10,Wagon 3,25,Set Int,34,,Low,14400,True
+34,1,Wagon 3,26,Set Int,58,,Medium,6000,True
+34,9,Wagon 3,27,Get From,5,,Low,10000,True
+34,10,Wagon 3,28,Wait For Int,33,33.0,Medium,14400,True
+34,1,Wagon 3,29,Put On,10,,Medium,6000,True
+34,6,Wagon 3,30,Set Int,38,,High,0,True
+34,9,Wagon 3,31,Set Int,44,,Medium,14400,True
+34,8,Wagon 3,32,Put On,33,,Medium,8000,True
+34,8,Wagon 3,33,Get From,8,,Low,8000,True
+34,9,Wagon 3,34,Get From,20,,Medium,0,True
+34,4,Wagon 3,35,Put On,53,,Medium,8000,True
+34,1,Wagon 3,36,Wait For Sec,4,54.0,High,6000,True
+34,10,Wagon 3,37,Get From,44,,Low,2755,True
+34,9,Wagon 3,38,Put On,50,,High,6000,True
+35,4,Wagon 1,1,Set Int,18,,High,6000,True
+35,10,Wagon 1,2,Wait For Sec,44,45.0,Low,8000,True
+35,1,Wagon 1,3,Set Int,18,,Medium,2755,True
+35,6,Wagon 1,4,Wait For Sec,8,60.0,Low,8000,True
+35,10,Wagon 1,5,Get From,1,,Medium,0,True
+35,1,Wagon 1,6,Get From,2,,Medium,8000,True
+35,10,Wagon 1,7,Set Int,39,,High,6000,True
+35,5,Wagon 1,8,Wait For Int,52,37.0,High,2755,True
+35,7,Wagon 1,9,Put On,10,,Medium,2755,True
+35,2,Wagon 1,10,Set Int,43,,Low,2755,True
+35,4,Wagon 1,11,Wait For Int,38,23.0,Low,0,True
+35,7,Wagon 1,12,Wait For Int,15,43.0,Medium,10000,True
+35,3,Wagon 1,13,Wait For Int,36,40.0,High,2755,True
+35,6,Wagon 1,14,Put On,54,,Medium,2755,True
+35,5,Wagon 1,15,Put On,37,,High,0,True
+35,2,Wagon 1,16,Set Int,39,,High,14400,True
+35,10,Wagon 1,17,Get From,45,,Low,6000,True
+35,3,Wagon 1,18,Get From,40,,High,10000,True
+35,7,Wagon 1,19,Put On,59,,Medium,0,True
+35,10,Wagon 1,20,Wait For Sec,45,47.0,High,6000,True
+35,2,Wagon 1,21,Set Int,60,,High,0,True
+35,4,Wagon 2,1,Wait For Sec,32,60.0,High,0,True
+35,2,Wagon 2,2,Set Int,42,,Low,14400,True
+35,8,Wagon 2,3,Wait For Sec,52,9.0,High,14400,True
+35,6,Wagon 2,4,Wait For Sec,26,23.0,Low,14400,True
+35,3,Wagon 2,5,Get From,44,,High,14400,True
+35,9,Wagon 2,6,Set Int,49,,Medium,6000,True
+35,9,Wagon 2,7,Wait For Sec,10,17.0,Medium,8000,True
+35,5,Wagon 2,8,Get From,42,,High,14400,True
+35,10,Wagon 2,9,Wait For Sec,2,29.0,High,2755,True
+35,8,Wagon 2,10,Wait For Int,56,34.0,Medium,14400,True
+35,9,Wagon 2,11,Wait For Sec,3,25.0,High,14400,True
+35,2,Wagon 2,12,Wait For Int,29,59.0,Low,0,True
+35,8,Wagon 2,13,Wait For Int,50,54.0,Medium,2755,True
+35,7,Wagon 2,14,Get From,47,,Medium,6000,True
+35,6,Wagon 2,15,Wait For Int,38,56.0,Low,0,True
+35,5,Wagon 2,16,Wait For Int,22,26.0,Medium,10000,True
+35,10,Wagon 3,1,Get From,19,,Low,10000,True
+35,3,Wagon 3,2,Wait For Int,13,48.0,High,14400,True
+35,5,Wagon 3,3,Get From,13,,Low,8000,True
+35,1,Wagon 3,4,Wait For Int,50,24.0,Medium,8000,True
+35,1,Wagon 3,5,Wait For Sec,41,10.0,High,8000,True
+35,8,Wagon 3,6,Wait For Sec,29,9.0,Low,14400,True
+35,10,Wagon 3,7,Get From,54,,High,8000,True
+35,2,Wagon 3,8,Put On,8,,Medium,14400,True
+35,2,Wagon 3,9,Put On,43,,Low,8000,True
+35,10,Wagon 3,10,Wait For Sec,14,25.0,High,10000,True
+35,4,Wagon 3,11,Wait For Sec,26,12.0,High,8000,True
+35,4,Wagon 3,12,Set Int,38,,High,8000,True
+35,10,Wagon 3,13,Get From,57,,Medium,0,True
+35,8,Wagon 3,14,Set Int,24,,High,8000,True
+35,2,Wagon 3,15,Put On,20,,High,8000,True
+35,3,Wagon 3,16,Wait For Sec,14,5.0,Low,2755,True
+35,1,Wagon 3,17,Wait For Int,22,33.0,Medium,10000,True
+35,3,Wagon 3,18,Wait For Int,29,42.0,Low,8000,True
+35,2,Wagon 3,19,Wait For Int,4,10.0,High,6000,True
+36,8,Wagon 1,1,Get From,34,,Low,6000,True
+36,5,Wagon 1,2,Wait For Int,37,6.0,Low,10000,True
+36,8,Wagon 1,3,Get From,4,,Low,14400,True
+36,9,Wagon 1,4,Wait For Sec,51,10.0,High,0,True
+36,9,Wagon 1,5,Put On,3,,High,10000,True
+36,9,Wagon 1,6,Wait For Sec,12,47.0,Medium,6000,True
+36,2,Wagon 1,7,Put On,3,,High,8000,True
+36,3,Wagon 1,8,Wait For Sec,11,30.0,Medium,8000,True
+36,7,Wagon 1,9,Put On,43,,Low,14400,True
+36,5,Wagon 1,10,Wait For Int,31,31.0,Low,2755,True
+36,5,Wagon 1,11,Wait For Int,1,34.0,Medium,8000,True
+36,5,Wagon 1,12,Get From,30,,High,10000,True
+36,1,Wagon 1,13,Wait For Int,17,52.0,Low,0,True
+36,8,Wagon 1,14,Set Int,60,,High,2755,True
+36,4,Wagon 1,15,Get From,46,,Low,2755,True
+36,7,Wagon 1,16,Get From,21,,High,8000,True
+36,10,Wagon 1,17,Get From,28,,Low,14400,True
+36,6,Wagon 1,18,Wait For Int,28,20.0,Medium,14400,True
+36,6,Wagon 1,19,Wait For Sec,57,11.0,Medium,8000,True
+36,9,Wagon 1,20,Set Int,49,,High,10000,True
+36,5,Wagon 1,21,Set Int,52,,Low,2755,True
+36,9,Wagon 1,22,Set Int,51,,Medium,10000,True
+36,2,Wagon 1,23,Wait For Sec,11,8.0,Medium,0,True
+36,8,Wagon 1,24,Set Int,31,,Low,14400,True
+36,6,Wagon 1,25,Put On,60,,High,2755,True
+36,5,Wagon 1,26,Put On,10,,Medium,10000,True
+36,3,Wagon 1,27,Put On,33,,High,10000,True
+36,5,Wagon 1,28,Set Int,8,,Low,14400,True
+36,8,Wagon 1,29,Set Int,39,,Low,6000,True
+36,1,Wagon 1,30,Set Int,60,,High,14400,True
+36,5,Wagon 1,31,Wait For Int,57,25.0,Medium,6000,True
+36,2,Wagon 1,32,Set Int,10,,High,10000,True
+36,10,Wagon 1,33,Wait For Sec,26,18.0,Low,10000,True
+36,10,Wagon 1,34,Wait For Int,13,59.0,Medium,2755,True
+36,6,Wagon 1,35,Get From,3,,Medium,14400,True
+36,3,Wagon 1,36,Put On,2,,Low,2755,True
+36,2,Wagon 1,37,Wait For Sec,25,43.0,Low,2755,True
+36,9,Wagon 1,38,Wait For Int,60,8.0,Low,14400,True
+36,4,Wagon 2,1,Wait For Sec,40,29.0,Medium,8000,True
+36,9,Wagon 2,2,Wait For Int,26,11.0,High,10000,True
+36,9,Wagon 2,3,Put On,15,,Low,0,True
+36,8,Wagon 2,4,Wait For Int,23,11.0,Medium,8000,True
+36,8,Wagon 2,5,Wait For Sec,48,40.0,High,0,True
+36,4,Wagon 2,6,Wait For Int,6,32.0,Low,2755,True
+36,4,Wagon 2,7,Put On,54,,Medium,2755,True
+36,10,Wagon 2,8,Wait For Int,16,50.0,Low,10000,True
+36,6,Wagon 2,9,Get From,13,,High,10000,True
+36,7,Wagon 2,10,Set Int,3,,High,2755,True
+36,9,Wagon 2,11,Wait For Sec,31,56.0,High,8000,True
+36,10,Wagon 2,12,Put On,56,,High,10000,True
+36,10,Wagon 2,13,Put On,41,,High,0,True
+36,4,Wagon 2,14,Get From,26,,Low,14400,True
+36,3,Wagon 2,15,Get From,17,,High,14400,True
+36,10,Wagon 2,16,Wait For Sec,48,57.0,Low,8000,True
+36,1,Wagon 2,17,Put On,17,,Low,14400,True
+36,2,Wagon 2,18,Wait For Sec,51,29.0,Low,6000,True
+36,10,Wagon 2,19,Wait For Int,52,25.0,Medium,0,True
+36,5,Wagon 2,20,Set Int,27,,Low,10000,True
+36,4,Wagon 2,21,Wait For Sec,31,23.0,Medium,8000,True
+36,4,Wagon 2,22,Set Int,1,,High,14400,True
+36,2,Wagon 2,23,Wait For Int,5,31.0,High,2755,True
+36,10,Wagon 2,24,Set Int,21,,Medium,10000,True
+36,2,Wagon 2,25,Set Int,52,,Low,6000,True
+36,3,Wagon 2,26,Put On,56,,Medium,10000,True
+36,9,Wagon 2,27,Wait For Int,59,5.0,Medium,8000,True
+36,5,Wagon 2,28,Put On,34,,Medium,6000,True
+36,10,Wagon 2,29,Put On,56,,High,10000,True
+36,8,Wagon 2,30,Wait For Sec,53,23.0,High,10000,True
+36,4,Wagon 2,31,Wait For Int,15,15.0,Low,10000,True
+36,6,Wagon 3,1,Wait For Sec,55,7.0,Low,2755,True
+36,3,Wagon 3,2,Put On,14,,Low,2755,True
+36,8,Wagon 3,3,Wait For Int,45,8.0,Low,8000,True
+36,6,Wagon 3,4,Wait For Int,37,39.0,Medium,10000,True
+36,1,Wagon 3,5,Set Int,25,,Low,10000,True
+36,2,Wagon 3,6,Get From,14,,Medium,0,True
+36,2,Wagon 3,7,Get From,27,,Low,6000,True
+36,8,Wagon 3,8,Wait For Int,14,20.0,Low,10000,True
+36,1,Wagon 3,9,Wait For Int,21,20.0,High,14400,True
+36,10,Wagon 3,10,Put On,6,,Medium,8000,True
+36,8,Wagon 3,11,Set Int,52,,High,10000,True
+36,5,Wagon 3,12,Wait For Sec,53,57.0,Low,2755,True
+36,3,Wagon 3,13,Wait For Sec,15,50.0,Medium,6000,True
+36,8,Wagon 3,14,Wait For Int,11,18.0,High,0,True
+36,7,Wagon 3,15,Put On,31,,Medium,14400,True
+36,9,Wagon 3,16,Get From,28,,Low,6000,True
+36,8,Wagon 3,17,Set Int,17,,Low,6000,True
+36,5,Wagon 3,18,Put On,52,,High,10000,True
+36,3,Wagon 3,19,Get From,10,,Medium,6000,True
+36,7,Wagon 3,20,Wait For Int,39,19.0,Low,2755,True
+36,8,Wagon 3,21,Put On,32,,Low,0,True
+36,5,Wagon 3,22,Wait For Int,23,17.0,Medium,6000,True
+37,2,Wagon 1,1,Wait For Sec,8,14.0,High,8000,True
+37,1,Wagon 1,2,Set Int,2,,High,0,True
+37,3,Wagon 1,3,Wait For Sec,24,38.0,High,6000,True
+37,9,Wagon 1,4,Set Int,41,,High,10000,True
+37,1,Wagon 1,5,Wait For Sec,52,8.0,Low,0,True
+37,8,Wagon 1,6,Wait For Sec,29,14.0,Medium,14400,True
+37,5,Wagon 1,7,Set Int,44,,Low,14400,True
+37,4,Wagon 1,8,Put On,2,,Low,14400,True
+37,6,Wagon 1,9,Get From,31,,Low,14400,True
+37,1,Wagon 1,10,Get From,31,,Low,14400,True
+37,6,Wagon 1,11,Set Int,47,,Medium,2755,True
+37,2,Wagon 1,12,Put On,5,,Medium,0,True
+37,8,Wagon 1,13,Put On,15,,Medium,8000,True
+37,7,Wagon 1,14,Wait For Int,55,16.0,High,10000,True
+37,8,Wagon 1,15,Wait For Int,46,21.0,High,10000,True
+37,1,Wagon 1,16,Wait For Int,50,49.0,Low,2755,True
+37,4,Wagon 1,17,Wait For Int,38,24.0,Medium,10000,True
+37,3,Wagon 1,18,Wait For Sec,50,41.0,Low,10000,True
+37,1,Wagon 1,19,Set Int,25,,High,0,True
+37,7,Wagon 1,20,Put On,20,,Medium,0,True
+37,6,Wagon 1,21,Set Int,58,,Medium,6000,True
+37,4,Wagon 1,22,Wait For Int,29,25.0,Medium,14400,True
+37,4,Wagon 1,23,Put On,18,,High,6000,True
+37,6,Wagon 1,24,Set Int,13,,Medium,10000,True
+37,6,Wagon 1,25,Get From,43,,Medium,2755,True
+37,4,Wagon 1,26,Wait For Int,51,10.0,High,14400,True
+37,9,Wagon 1,27,Wait For Int,40,50.0,High,8000,True
+37,10,Wagon 1,28,Set Int,59,,High,2755,True
+37,10,Wagon 1,29,Put On,1,,Medium,8000,True
+37,7,Wagon 1,30,Set Int,10,,Low,8000,True
+37,1,Wagon 1,31,Wait For Int,23,45.0,Low,14400,True
+37,9,Wagon 1,32,Set Int,24,,Low,14400,True
+37,5,Wagon 1,33,Set Int,36,,Medium,8000,True
+37,6,Wagon 1,34,Set Int,21,,Low,6000,True
+37,7,Wagon 1,35,Get From,38,,Medium,10000,True
+37,1,Wagon 2,1,Wait For Int,36,48.0,Medium,14400,True
+37,9,Wagon 2,2,Put On,41,,Medium,8000,True
+37,6,Wagon 2,3,Get From,23,,Low,0,True
+37,2,Wagon 2,4,Wait For Int,11,19.0,Medium,6000,True
+37,9,Wagon 2,5,Wait For Sec,25,52.0,Low,0,True
+37,5,Wagon 2,6,Put On,10,,High,2755,True
+37,1,Wagon 2,7,Wait For Int,43,44.0,High,8000,True
+37,10,Wagon 2,8,Get From,15,,Medium,8000,True
+37,7,Wagon 2,9,Wait For Sec,35,46.0,Medium,14400,True
+37,2,Wagon 2,10,Set Int,3,,High,2755,True
+37,4,Wagon 2,11,Put On,26,,High,2755,True
+37,5,Wagon 2,12,Wait For Int,45,52.0,Low,10000,True
+37,9,Wagon 2,13,Wait For Sec,2,52.0,Low,0,True
+37,2,Wagon 2,14,Wait For Sec,34,43.0,Medium,0,True
+37,8,Wagon 2,15,Wait For Int,46,12.0,Low,8000,True
+37,8,Wagon 2,16,Set Int,20,,Low,0,True
+37,3,Wagon 2,17,Put On,24,,Low,8000,True
+37,3,Wagon 2,18,Get From,6,,Low,10000,True
+37,9,Wagon 2,19,Wait For Sec,41,16.0,High,14400,True
+37,3,Wagon 2,20,Get From,48,,Low,10000,True
+37,7,Wagon 2,21,Get From,59,,Low,6000,True
+37,9,Wagon 2,22,Put On,27,,High,14400,True
+37,9,Wagon 2,23,Wait For Int,15,53.0,Medium,14400,True
+37,3,Wagon 2,24,Get From,17,,Medium,8000,True
+37,9,Wagon 2,25,Wait For Int,19,39.0,Medium,0,True
+37,3,Wagon 2,26,Wait For Sec,22,44.0,Low,14400,True
+37,9,Wagon 3,1,Wait For Sec,16,45.0,High,6000,True
+37,10,Wagon 3,2,Wait For Sec,4,42.0,Medium,8000,True
+37,9,Wagon 3,3,Wait For Int,34,57.0,Medium,6000,True
+37,8,Wagon 3,4,Wait For Sec,1,54.0,Medium,6000,True
+37,10,Wagon 3,5,Get From,21,,Medium,2755,True
+37,8,Wagon 3,6,Set Int,23,,Medium,2755,True
+37,6,Wagon 3,7,Set Int,29,,High,8000,True
+37,3,Wagon 3,8,Get From,11,,High,0,True
+37,1,Wagon 3,9,Set Int,40,,High,6000,True
+37,2,Wagon 3,10,Put On,13,,Low,10000,True
+37,9,Wagon 3,11,Wait For Int,27,19.0,Medium,14400,True
+37,7,Wagon 3,12,Get From,23,,High,14400,True
+37,5,Wagon 3,13,Set Int,18,,Medium,6000,True
+37,10,Wagon 3,14,Put On,15,,Low,8000,True
+37,6,Wagon 3,15,Wait For Sec,9,44.0,High,0,True
+37,5,Wagon 3,16,Wait For Int,40,53.0,Medium,2755,True
+37,9,Wagon 3,17,Get From,8,,High,14400,True
+37,3,Wagon 3,18,Get From,26,,Low,14400,True
+37,5,Wagon 3,19,Wait For Int,19,37.0,Medium,6000,True
+37,6,Wagon 3,20,Wait For Sec,29,9.0,High,2755,True
+37,8,Wagon 3,21,Put On,56,,High,8000,True
+37,10,Wagon 3,22,Set Int,23,,Low,10000,True
+37,7,Wagon 3,23,Wait For Int,23,21.0,Medium,14400,True
+37,8,Wagon 3,24,Wait For Sec,17,30.0,Medium,14400,True
+37,4,Wagon 3,25,Wait For Sec,1,39.0,Medium,10000,True
+37,5,Wagon 3,26,Wait For Sec,55,17.0,High,0,True
+37,5,Wagon 3,27,Get From,46,,Low,6000,True
+37,10,Wagon 3,28,Put On,40,,Low,2755,True
+37,2,Wagon 3,29,Put On,29,,High,10000,True
+37,3,Wagon 3,30,Put On,24,,High,8000,True
+37,5,Wagon 3,31,Put On,34,,Medium,14400,True
+37,8,Wagon 3,32,Wait For Sec,56,26.0,Medium,8000,True
+37,3,Wagon 3,33,Set Int,18,,Medium,2755,True
+37,5,Wagon 3,34,Get From,5,,Medium,8000,True
+37,10,Wagon 3,35,Put On,56,,High,0,True
+37,10,Wagon 3,36,Set Int,52,,High,2755,True
+37,2,Wagon 3,37,Wait For Int,1,37.0,Medium,14400,True
+37,9,Wagon 3,38,Get From,15,,High,2755,True
+37,4,Wagon 3,39,Put On,20,,High,8000,True
+37,10,Wagon 3,40,Wait For Sec,43,26.0,High,2755,True
+38,5,Wagon 1,1,Set Int,17,,Low,2755,True
+38,5,Wagon 1,2,Wait For Int,2,14.0,High,8000,True
+38,9,Wagon 1,3,Put On,45,,High,6000,True
+38,1,Wagon 1,4,Put On,44,,High,6000,True
+38,5,Wagon 1,5,Set Int,27,,High,0,True
+38,3,Wagon 1,6,Wait For Int,19,21.0,Low,0,True
+38,2,Wagon 1,7,Put On,3,,Low,0,True
+38,5,Wagon 1,8,Put On,53,,Medium,10000,True
+38,8,Wagon 1,9,Wait For Sec,16,14.0,Medium,2755,True
+38,9,Wagon 1,10,Get From,42,,Medium,8000,True
+38,8,Wagon 1,11,Set Int,10,,Low,0,True
+38,10,Wagon 1,12,Set Int,4,,Medium,8000,True
+38,3,Wagon 1,13,Wait For Sec,10,38.0,Medium,10000,True
+38,8,Wagon 1,14,Set Int,24,,Medium,0,True
+38,8,Wagon 1,15,Wait For Sec,2,44.0,Low,8000,True
+38,6,Wagon 1,16,Get From,16,,High,0,True
+38,9,Wagon 1,17,Get From,59,,Low,14400,True
+38,2,Wagon 1,18,Get From,2,,Low,10000,True
+38,2,Wagon 1,19,Get From,20,,Low,2755,True
+38,6,Wagon 1,20,Wait For Sec,31,10.0,Low,14400,True
+38,8,Wagon 1,21,Wait For Int,31,54.0,High,6000,True
+38,7,Wagon 1,22,Set Int,46,,Medium,14400,True
+38,7,Wagon 1,23,Wait For Int,46,40.0,Low,2755,True
+38,4,Wagon 1,24,Put On,10,,Low,2755,True
+38,1,Wagon 1,25,Set Int,30,,High,2755,True
+38,2,Wagon 1,26,Wait For Sec,25,37.0,Medium,6000,True
+38,2,Wagon 1,27,Wait For Sec,31,6.0,Low,6000,True
+38,10,Wagon 1,28,Wait For Sec,3,29.0,High,10000,True
+38,3,Wagon 1,29,Put On,10,,Medium,10000,True
+38,6,Wagon 1,30,Put On,38,,Medium,14400,True
+38,10,Wagon 1,31,Wait For Int,20,40.0,Medium,8000,True
+38,10,Wagon 1,32,Set Int,30,,Medium,6000,True
+38,1,Wagon 1,33,Wait For Int,43,49.0,Medium,14400,True
+38,2,Wagon 1,34,Put On,40,,Low,0,True
+38,10,Wagon 1,35,Put On,32,,Low,14400,True
+38,5,Wagon 1,36,Get From,1,,Low,2755,True
+38,3,Wagon 1,37,Wait For Sec,44,60.0,High,8000,True
+38,7,Wagon 1,38,Wait For Sec,24,31.0,Medium,8000,True
+38,7,Wagon 1,39,Wait For Int,44,20.0,High,8000,True
+38,6,Wagon 1,40,Put On,39,,High,8000,True
+38,1,Wagon 2,1,Wait For Int,58,58.0,High,10000,True
+38,3,Wagon 2,2,Wait For Sec,47,60.0,Low,8000,True
+38,8,Wagon 2,3,Get From,48,,Medium,2755,True
+38,10,Wagon 2,4,Get From,56,,Medium,2755,True
+38,2,Wagon 2,5,Set Int,42,,High,0,True
+38,4,Wagon 2,6,Wait For Int,55,59.0,High,8000,True
+38,5,Wagon 2,7,Set Int,12,,Medium,8000,True
+38,5,Wagon 2,8,Wait For Sec,54,29.0,Low,6000,True
+38,8,Wagon 2,9,Wait For Sec,24,6.0,Medium,8000,True
+38,3,Wagon 2,10,Get From,33,,Medium,10000,True
+38,4,Wagon 2,11,Wait For Sec,46,57.0,Medium,0,True
+38,5,Wagon 2,12,Set Int,36,,Medium,2755,True
+38,9,Wagon 2,13,Get From,19,,Medium,8000,True
+38,4,Wagon 2,14,Wait For Sec,10,44.0,Low,10000,True
+38,8,Wagon 2,15,Get From,39,,Medium,0,True
+38,1,Wagon 2,16,Get From,8,,High,6000,True
+38,1,Wagon 2,17,Put On,44,,Medium,2755,True
+38,8,Wagon 2,18,Wait For Sec,51,14.0,High,6000,True
+38,3,Wagon 2,19,Set Int,2,,Medium,8000,True
+38,6,Wagon 2,20,Set Int,46,,Medium,0,True
+38,10,Wagon 2,21,Put On,22,,High,2755,True
+38,10,Wagon 2,22,Wait For Int,43,6.0,High,10000,True
+38,9,Wagon 2,23,Wait For Sec,27,12.0,High,2755,True
+38,8,Wagon 2,24,Put On,23,,Medium,2755,True
+38,2,Wagon 2,25,Put On,7,,Medium,10000,True
+38,1,Wagon 3,1,Wait For Sec,12,52.0,High,6000,True
+38,7,Wagon 3,2,Put On,7,,High,2755,True
+38,4,Wagon 3,3,Set Int,36,,High,14400,True
+38,5,Wagon 3,4,Set Int,42,,High,0,True
+38,5,Wagon 3,5,Wait For Sec,26,31.0,High,0,True
+38,9,Wagon 3,6,Put On,45,,Medium,10000,True
+38,8,Wagon 3,7,Wait For Int,6,27.0,High,6000,True
+38,7,Wagon 3,8,Set Int,17,,High,8000,True
+38,10,Wagon 3,9,Set Int,15,,Medium,14400,True
+38,9,Wagon 3,10,Put On,3,,Medium,2755,True
+38,9,Wagon 3,11,Set Int,8,,Low,10000,True
+38,7,Wagon 3,12,Put On,57,,Low,2755,True
+38,6,Wagon 3,13,Set Int,55,,Low,8000,True
+38,1,Wagon 3,14,Wait For Int,35,31.0,High,0,True
+38,3,Wagon 3,15,Put On,2,,Medium,2755,True
+38,8,Wagon 3,16,Wait For Sec,8,28.0,Low,14400,True
+38,8,Wagon 3,17,Wait For Int,23,20.0,High,10000,True
+38,5,Wagon 3,18,Get From,26,,High,6000,True
+38,6,Wagon 3,19,Wait For Sec,19,42.0,Medium,8000,True
+38,7,Wagon 3,20,Set Int,21,,Medium,10000,True
+38,5,Wagon 3,21,Wait For Int,8,19.0,High,6000,True

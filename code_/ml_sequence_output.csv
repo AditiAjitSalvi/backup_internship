@@ -1,0 +1,11 @@
+seq_id,project_id,wagon_no,step_no,command,station_no,total_time_sec,valid
+999,1,Wagon 1,1,Set Interlock Timer,150,60,True
+999,1,Wagon 1,2,Put On,22,120,True
+999,1,Wagon 1,3,Put On,66,180,True
+999,1,Wagon 1,4,Get From,29,240,True
+999,1,Wagon 1,5,Get From,59,300,True
+999,1,Wagon 1,6,Put On,52,360,True
+999,1,Wagon 1,7,Get From,15,420,True
+999,1,Wagon 1,8,Wait For Int,1,480,True
+999,1,Wagon 1,9,Wait For Sec,50,540,True
+999,1,Wagon 1,10,Set Int,1,600,True
