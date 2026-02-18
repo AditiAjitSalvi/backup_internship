@@ -1,0 +1,282 @@
+[
+    {
+        "timestamp": 1771394787.2155912,
+        "type": "MOVE_START",
+        "details": {
+            "load_id": "6cb3f36b",
+            "transporter_id": "T1",
+            "from_pos": 0.0,
+            "to_stn": "2",
+            "to_pos": 2000.0,
+            "est_duration": 4.4
+        }
+    },
+    {
+        "timestamp": 1771394787.6560261,
+        "type": "MOVE_COMPLETE",
+        "details": {
+            "load_id": "6cb3f36b",
+            "station": "2"
+        }
+    },
+    {
+        "timestamp": 1771394787.6563122,
+        "type": "PROCESS_START",
+        "details": {
+            "load_id": "6cb3f36b",
+            "process": "Pretreatment",
+            "duration": 180.0
+        }
+    },
+    {
+        "timestamp": 1771394787.6564085,
+        "type": "MOVE_START",
+        "details": {
+            "load_id": "6fc84b7d",
+            "transporter_id": "T1",
+            "from_pos": 2000.0,
+            "to_stn": "7",
+            "to_pos": 1220.0,
+            "est_duration": 1.7160000000000002
+        }
+    },
+    {
+        "timestamp": 1771394787.8295543,
+        "type": "MOVE_COMPLETE",
+        "details": {
+            "load_id": "6fc84b7d",
+            "station": "7"
+        }
+    },
+    {
+        "timestamp": 1771394787.829947,
+        "type": "PROCESS_START",
+        "details": {
+            "load_id": "6fc84b7d",
+            "process": "Loading",
+            "duration": 0
+        }
+    },
+    {
+        "timestamp": 1771394787.8303776,
+        "type": "PROCESS_COMPLETE",
+        "details": {
+            "load_id": "6fc84b7d",
+            "process": "Loading"
+        }
+    },
+    {
+        "timestamp": 1771394787.8326335,
+        "type": "MOVE_START",
+        "details": {
+            "load_id": "6fc84b7d",
+            "transporter_id": "T1",
+            "from_pos": 1220.0,
+            "to_stn": "8",
+            "to_pos": 1500.0,
+            "est_duration": 0.6160000000000001
+        }
+    },
+    {
+        "timestamp": 1771394787.8947606,
+        "type": "MOVE_COMPLETE",
+        "details": {
+            "load_id": "6fc84b7d",
+            "station": "8"
+        }
+    },
+    {
+        "timestamp": 1771394787.8950868,
+        "type": "PROCESS_START",
+        "details": {
+            "load_id": "6fc84b7d",
+            "process": "Clean 1",
+            "duration": 120.0
+        }
+    },
+    {
+        "timestamp": 1771394799.8960636,
+        "type": "PROCESS_COMPLETE",
+        "details": {
+            "load_id": "6fc84b7d",
+            "process": "Clean 1"
+        }
+    },
+    {
+        "timestamp": 1771394799.8978488,
+        "type": "MOVE_START",
+        "details": {
+            "load_id": "6fc84b7d",
+            "transporter_id": "T1",
+            "from_pos": 1500.0,
+            "to_stn": "9",
+            "to_pos": 2300.0,
+            "est_duration": 1.7600000000000002
+        }
+    },
+    {
+        "timestamp": 1771394800.075041,
+        "type": "MOVE_COMPLETE",
+        "details": {
+            "load_id": "6fc84b7d",
+            "station": "9"
+        }
+    },
+    {
+        "timestamp": 1771394800.0754259,
+        "type": "PROCESS_START",
+        "details": {
+            "load_id": "6fc84b7d",
+            "process": "Rinse 1",
+            "duration": 45.0
+        }
+    },
+    {
+        "timestamp": 1771394804.575956,
+        "type": "PROCESS_COMPLETE",
+        "details": {
+            "load_id": "6fc84b7d",
+            "process": "Rinse 1"
+        }
+    },
+    {
+        "timestamp": 1771394804.5783975,
+        "type": "MOVE_START",
+        "details": {
+            "load_id": "6fc84b7d",
+            "transporter_id": "T1",
+            "from_pos": 2300.0,
+            "to_stn": "10",
+            "to_pos": 3100.0,
+            "est_duration": 1.7600000000000002
+        }
+    },
+    {
+        "timestamp": 1771394804.7548509,
+        "type": "MOVE_COMPLETE",
+        "details": {
+            "load_id": "6fc84b7d",
+            "station": "10"
+        }
+    },
+    {
+        "timestamp": 1771394804.755167,
+        "type": "PROCESS_START",
+        "details": {
+            "load_id": "6fc84b7d",
+            "process": "Clean 2",
+            "duration": 90.0
+        }
+    },
+    {
+        "timestamp": 1771394805.6581488,
+        "type": "PROCESS_COMPLETE",
+        "details": {
+            "load_id": "6cb3f36b",
+            "process": "Pretreatment"
+        }
+    },
+    {
+        "timestamp": 1771394805.6601162,
+        "type": "MOVE_START",
+        "details": {
+            "load_id": "6cb3f36b",
+            "transporter_id": "T1",
+            "from_pos": 3100.0,
+            "to_stn": "3",
+            "to_pos": 3000.0,
+            "est_duration": 0.22000000000000003
+        }
+    },
+    {
+        "timestamp": 1771394805.6827083,
+        "type": "MOVE_COMPLETE",
+        "details": {
+            "load_id": "6cb3f36b",
+            "station": "3"
+        }
+    },
+    {
+        "timestamp": 1771394805.683034,
+        "type": "PROCESS_START",
+        "details": {
+            "load_id": "6cb3f36b",
+            "process": "CED Dip",
+            "duration": 0
+        }
+    },
+    {
+        "timestamp": 1771394805.6833165,
+        "type": "PROCESS_COMPLETE",
+        "details": {
+            "load_id": "6cb3f36b",
+            "process": "CED Dip"
+        }
+    },
+    {
+        "timestamp": 1771394805.6848383,
+        "type": "MOVE_START",
+        "details": {
+            "load_id": "6cb3f36b",
+            "transporter_id": "T1",
+            "from_pos": 3000.0,
+            "to_stn": "4",
+            "to_pos": 4000.0,
+            "est_duration": 2.2
+        }
+    },
+    {
+        "timestamp": 1771394805.9056437,
+        "type": "MOVE_COMPLETE",
+        "details": {
+            "load_id": "6cb3f36b",
+            "station": "4"
+        }
+    },
+    {
+        "timestamp": 1771394805.9060411,
+        "type": "PROCESS_START",
+        "details": {
+            "load_id": "6cb3f36b",
+            "process": "UF Rinse",
+            "duration": 120.0
+        }
+    },
+    {
+        "timestamp": 1771394813.756469,
+        "type": "PROCESS_COMPLETE",
+        "details": {
+            "load_id": "6fc84b7d",
+            "process": "Clean 2"
+        }
+    },
+    {
+        "timestamp": 1771394813.7584925,
+        "type": "MOVE_START",
+        "details": {
+            "load_id": "6fc84b7d",
+            "transporter_id": "T1",
+            "from_pos": 4000.0,
+            "to_stn": "11",
+            "to_pos": 3900.0,
+            "est_duration": 0.22000000000000003
+        }
+    },
+    {
+        "timestamp": 1771394813.781196,
+        "type": "MOVE_COMPLETE",
+        "details": {
+            "load_id": "6fc84b7d",
+            "station": "11"
+        }
+    },
+    {
+        "timestamp": 1771394813.7814903,
+        "type": "PROCESS_START",
+        "details": {
+            "load_id": "6fc84b7d",
+            "process": "Rinse 2",
+            "duration": 45.0
+        }
+    }
+]
