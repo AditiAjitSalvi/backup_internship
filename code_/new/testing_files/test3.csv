@@ -1,0 +1,7 @@
+Row No,Station No,Process Name,Criticality,Distance(mm),Flight Bar
+1,15,Neutralize,Low,4500,
+1,13,Etch,High,2500,
+1,11,Loading,High,0,
+1,6,Drying Hold,High,5500,
+1,4,rise,Low,3500,
+1,2,cleaner,Low,1500,

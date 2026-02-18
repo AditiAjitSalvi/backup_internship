@@ -172,8 +172,8 @@ def display_results(data):
     print(tabulate(rows, headers=headers, tablefmt="grid"))
 
 if __name__ == "__main__":
-    stations_path = "test.csv"
-    sequence_path = "sequnce.csv"
+    stations_path = "testing_files/test2.csv"
+    sequence_path = "testing_files/sequnce2.csv"
     
     # We'll use 600 as the cycle time for overflow logic, 
     # as the sequence goes up to ~520 seconds.
