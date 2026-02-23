@@ -18,22 +18,16 @@ base_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(base_dir)
 
 # Specifically look for the nested path mentioned by the user
-# Specifically look for the nested path mentioned by the user
-wagon_config_csv = os.path.join(parent_dir, "wagon_config.csv")
-if not os.path.exists(wagon_config_csv):
-    # Try one level up
-    wagon_config_csv = os.path.join(os.path.dirname(parent_dir), "wagon_config.csv")
-
-tanks_csv_default = os.path.join(parent_dir, "tanks_csv.csv")
-if not os.path.exists(tanks_csv_default):
-    tanks_csv_default = os.path.join(os.path.dirname(parent_dir), "tanks_csv.csv")
+wagon_config_csv = os.path.join(base_dir, "wagon_config.csv")
+tanks_csv_default = os.path.join(base_dir, "tanks_csv.csv")
+row_config_csv = os.path.join(base_dir, "row_config.csv")
 
 station_master_csv = r"e:\Internship\WayTime-dB.mdb\StationMaster.csv"
-csv_programs = r"E:\Internship\code\sequnce for traing.csv"
+csv_programs = os.path.join(base_dir, "sequnce for traing.csv")
 csv_zones = r"e:\Internship\WayTime-dB.mdb\CrossTrolleyMaster.csv"
 
 # RL Hyperparameters
-LR = 1e-4
+LR = 3e-4
 GAMMA = 0.99
 EPS_CLIP = 0.2
 K_EPOCHS = 4
@@ -73,11 +67,31 @@ def load_wagon_config(config_path=wagon_config_csv):
                     'lower_time': float(row.get('Lower Time', 0)),
                     'min_stn': int(row.get('Minimum Station No', 1)),
                     'max_stn': int(row.get('Maximum Station No', 200)),
-                    'basic_pos': int(row.get('Basic Position', 0))
+                    'basic_pos': int(row.get('Basic Position', 0)),
+                    'row': int(row.get('Row') or row.get('Row Number') or 1)
                 }
     except Exception as e:
         print(f"Error loading wagon config: {e}")
     return config
+
+def load_row_config(config_path=row_config_csv):
+    """ Loads row configuration from CSV. """
+    rows = {}
+    if not os.path.exists(config_path):
+        return rows
+    try:
+        with open(config_path, 'r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                r_num = int(row.get('Row Number', 1))
+                rows[r_num] = {
+                    'min_stn': int(row.get('First Station No', 1)),
+                    'max_stn': int(row.get('Last Station No', 200))
+                }
+    except Exception as e:
+        print(f"Error loading row config: {e}")
+    return rows
+
 
 def verify_stations(tanks, min_stn, max_stn):
     """
@@ -182,6 +196,26 @@ class SafetyGNN(nn.Module):
             out.append(h_next)
         return torch.stack(out)
 
+class PPOBuffer:
+    def __init__(self):
+        self.cmd_seqs = []
+        self.stn_seqs = []
+        self.station_states = []
+        self.actions_cmd = []
+        self.actions_stn = []
+        self.logprobs = []
+        self.rewards = []
+        self.is_terminals = []
+    def clear(self):
+        del self.cmd_seqs[:]
+        del self.stn_seqs[:]
+        del self.station_states[:]
+        del self.actions_cmd[:]
+        del self.actions_stn[:]
+        del self.logprobs[:]
+        del self.rewards[:]
+        del self.is_terminals[:]
+
 class ActorCritic(nn.Module):
     def __init__(self, n_cmds, n_stations, d_model=D_MODEL):
         super(ActorCritic, self).__init__()
@@ -213,6 +247,10 @@ class PPOAgent:
         self.adj_matrix = self._build_adj_matrix(adj_list, n_stations)
         self.policy = ActorCritic(len(vocab_cmd), n_stations).to(device)
         self.optimizer = optim.Adam(self.policy.parameters(), lr=LR)
+        self.policy_old = ActorCritic(len(vocab_cmd), n_stations).to(device)
+        self.policy_old.load_state_dict(self.policy.state_dict())
+        self.buffer = PPOBuffer()
+        self.MseLoss = nn.MSELoss()
         
     def _build_adj_matrix(self, adj_list, n):
         mat = torch.zeros((n, n), device=device)
@@ -224,16 +262,92 @@ class PPOAgent:
         return mat
 
     def select_action(self, cmd_seq, stn_seq, station_states):
-        cmd_seq = torch.tensor([cmd_seq], dtype=torch.long).to(device)
-        stn_seq = torch.tensor([stn_seq], dtype=torch.long).to(device)
-        station_states = torch.tensor([station_states], dtype=torch.long).to(device)
+        # Use pre-padding so that the last element of the sequence is always the current state
+        pad_len = MAX_STEPS - len(cmd_seq)
+        padded_cmd = [self.vocab_cmd["<PAD>"]] * pad_len + cmd_seq
+        padded_stn = [0] * pad_len + stn_seq
+        
+        # Prepare tensors for the old policy
+        cmd_tensor = torch.tensor([padded_cmd], dtype=torch.long).to(device)
+        stn_tensor = torch.tensor([padded_stn], dtype=torch.long).to(device)
+        state_tensor = torch.tensor([station_states], dtype=torch.long).to(device)
+        
         with torch.no_grad():
-            probs_cmd, probs_stn, val = self.policy(cmd_seq, stn_seq, station_states, self.adj_matrix)
+            probs_cmd, probs_stn, val = self.policy_old(cmd_tensor, stn_tensor, state_tensor, self.adj_matrix)
+        
         dist_cmd = Categorical(probs_cmd)
         dist_stn = Categorical(probs_stn)
+        
         action_cmd = dist_cmd.sample()
         action_stn = dist_stn.sample()
-        return action_cmd.item(), action_stn.item(), dist_cmd.log_prob(action_cmd) + dist_stn.log_prob(action_stn), val
+        
+        # Store in buffer (use the actual index of the current step for context)
+        # We need to take the probability corresponding to the last ACTUAL step
+        last_idx = len(cmd_seq) - 1
+        
+        self.buffer.cmd_seqs.append(torch.tensor(padded_cmd, dtype=torch.long))
+        self.buffer.stn_seqs.append(torch.tensor(padded_stn, dtype=torch.long))
+        self.buffer.station_states.append(torch.tensor(station_states, dtype=torch.long))
+        self.buffer.actions_cmd.append(action_cmd)
+        self.buffer.actions_stn.append(action_stn)
+        self.buffer.logprobs.append(dist_cmd.log_prob(action_cmd) + dist_stn.log_prob(action_stn))
+        
+        return action_cmd.item(), action_stn.item()
+
+    def update(self):
+        # Monte Carlo estimate of state rewards
+        rewards = []
+        discounted_reward = 0
+        for reward, is_terminal in zip(reversed(self.buffer.rewards), reversed(self.buffer.is_terminals)):
+            if is_terminal:
+                discounted_reward = 0
+            discounted_reward = reward + (GAMMA * discounted_reward)
+            rewards.insert(0, discounted_reward)
+            
+        # Normalizing the rewards
+        rewards = torch.tensor(rewards, dtype=torch.float32).to(device)
+        rewards = (rewards - rewards.mean()) / (rewards.std() + 1e-7)
+
+        # Convert list to tensor
+        old_cmd_seqs = torch.stack(self.buffer.cmd_seqs).to(device)
+        old_stn_seqs = torch.stack(self.buffer.stn_seqs).to(device)
+        old_station_states = torch.stack(self.buffer.station_states).to(device)
+        old_actions_cmd = torch.stack(self.buffer.actions_cmd).to(device)
+        old_actions_stn = torch.stack(self.buffer.actions_stn).to(device)
+        old_logprobs = torch.stack(self.buffer.logprobs).to(device)
+
+        # Optimize policy for K epochs:
+        for _ in range(K_EPOCHS):
+            # Evaluating old actions and values
+            probs_cmd, probs_stn, state_values = self.policy(old_cmd_seqs, old_stn_seqs, old_station_states, self.adj_matrix)
+            
+            dist_cmd = Categorical(probs_cmd)
+            dist_stn = Categorical(probs_stn)
+            
+            logprobs = dist_cmd.log_prob(old_actions_cmd) + dist_stn.log_prob(old_actions_stn)
+            dist_entropy = dist_cmd.entropy() + dist_stn.entropy()
+            state_values = torch.squeeze(state_values)
+            
+            # Finding the ratio (pi_theta / pi_theta__old)
+            ratios = torch.exp(logprobs - old_logprobs.detach())
+
+            # Finding Surrogate Loss
+            advantages = rewards - state_values.detach()
+            surr1 = ratios * advantages
+            surr2 = torch.clamp(ratios, 1-EPS_CLIP, 1+EPS_CLIP) * advantages
+            
+            loss = -torch.min(surr1, surr2) + 0.5 * self.MseLoss(state_values, rewards) - 0.01 * dist_entropy
+            
+            # Take gradient step
+            self.optimizer.zero_grad()
+            loss.mean().backward()
+            self.optimizer.step()
+            
+        # Copy new weights into old policy
+        self.policy_old.load_state_dict(self.policy.state_dict())
+        
+        # Clear buffer
+        self.buffer.clear()
 
 class WagonEnv:
     def __init__(self, adj_list, max_stations):
@@ -248,9 +362,9 @@ class WagonEnv:
         reward = 0
         done = False
         self.step_count += 1
-        if stn >= self.max_stations: return self.station_occupancy, -10, True
-        if self.station_occupancy[stn] == 1: reward -= 10
-        elif any(self.station_occupancy[n] == 1 for n in self.adj_list.get(stn, [])): reward -= 5
+        if stn >= self.max_stations: return self.station_occupancy, -50, True
+        if self.station_occupancy[stn] == 1: reward -= 50
+        elif any(self.station_occupancy[n] == 1 for n in self.adj_list.get(stn, [])): reward -= 20
         self.station_occupancy[stn] = 1 
         reward += 1
         if self.step_count >= MAX_STEPS: done = True
@@ -271,11 +385,11 @@ def gap_analysis_sequence(tanks, config):
     """
     Generates a unified sequence for all wagons in a single table.
     """
-    sequence_data = [["Wagon", "Step No", "Command", "Value", "TravelTime", "AccumulatedTime"]]
+    sequence_data = [["Row", "Wagon", "Step No", "Command", "Value", "TravelTime", "AccumulatedTime"]]
     accumulated_times = {w_id: 0.0 for w_id in config}
     step_counters = {w_id: 0 for w_id in config}
 
-    print(f"\n[INFO] Generating unified sequence for {len(config)} wagons...")
+    print(f"\n[INFO] Generating unified row-aware sequence for {len(config)} wagons...")
 
     for i in range(len(tanks) - 1):
         curr_tank = tanks[i]
@@ -284,13 +398,15 @@ def gap_analysis_sequence(tanks, config):
         try:
             s_curr = int(curr_tank.get('station_no', 0))
             s_next = int(next_tank.get('station_no', 0))
+            t_row = int(curr_tank.get('Row') or curr_tank.get('row') or 1)
         except ValueError:
             continue
 
-        # Identify wagon based on current station
+        # Identify wagon based on current station AND row
         wagon_id = None
         for w_name, w_cfg in config.items():
-            if w_cfg['min_stn'] <= s_curr <= w_cfg['max_stn']:
+            w_row = int(w_cfg.get('row', 1))
+            if w_row == t_row and w_cfg['min_stn'] <= s_curr <= w_cfg['max_stn']:
                 wagon_id = w_name
                 break
         
@@ -313,7 +429,7 @@ def gap_analysis_sequence(tanks, config):
         # GET FROM
         step_counters[wagon_id] += 1
         sequence_data.append([
-            wagon_id, step_counters[wagon_id], "GET FROM", s_curr, 
+            t_row, wagon_id, step_counters[wagon_id], "GET FROM", s_curr, 
             f"{w['lift_time']:.2f}", f"{acc_time:.2f}"
         ])
         acc_time += w['lift_time']
@@ -321,20 +437,10 @@ def gap_analysis_sequence(tanks, config):
         # PUT ON
         step_counters[wagon_id] += 1
         sequence_data.append([
-            wagon_id, step_counters[wagon_id], "PUT ON", s_next, 
+            t_row, wagon_id, step_counters[wagon_id], "PUT ON", s_next, 
             f"{(travel_time + w['lower_time']):.2f}", f"{acc_time:.2f}"
         ])
         acc_time += travel_time + w['lower_time']
-        
-        # WAIT (DIP TIME)
-        dip_time = float(next_tank.get('dip_time_sec', 0))
-        if dip_time > 0:
-            step_counters[wagon_id] += 1
-            sequence_data.append([
-                wagon_id, step_counters[wagon_id], "WAIT", int(dip_time), 
-                "0.00", f"{acc_time:.2f}"
-            ])
-            acc_time += dip_time
         
         accumulated_times[wagon_id] = acc_time
             
@@ -454,22 +560,111 @@ def generate_sequence_from_tanks(csv_path=None, tanks_data=None, speeds_input=No
         traceback.print_exc()
         return None
 
+def generate_sequence_ai(csv_path, model_path, config=None):
+    """
+    Generates sequence using the trained RL model.
+    """
+    if not os.path.exists(model_path):
+        print(f"Error: Model file {model_path} not found.")
+        return None
+    
+    if csv_path is None:
+        csv_path = tanks_csv_default
+        
+    print(f"Generating AI sequence using model: {model_path}")
+    print(f"Input data: {csv_path}")
+    
+    # Load Environment Data
+    train_data, adj_list, vocab_cmd = load_data()
+    inv_vocab = {v: k for k, v in vocab_cmd.items()}
+    
+    # Load Wagon Config
+    if config is None:
+        config = load_wagon_config()
+    if not config:
+        print("Error: No wagon configuration.")
+        return None
+
+    # Load Model
+    n_stations = MAX_STATIONS
+    agent = PPOAgent(vocab_cmd, n_stations, adj_list)
+    try:
+        agent.policy.load_state_dict(torch.load(model_path, map_location=device))
+        agent.policy.eval()
+        print("Model loaded successfully.")
+    except Exception as e:
+        print(f"Error loading model: {e}")
+        return None
+
+    # Load Tanks
+    try:
+        with open(csv_path, 'r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            tanks = list(reader)
+    except Exception as e:
+        print(f"Error loading tanks: {e}")
+        return None
+
+    # Simulator / Inference Loop
+    env = WagonEnv(adj_list, n_stations)
+    state = env.reset()
+    curr_cmd_seq = [vocab_cmd["<SOS>"]]
+    curr_stn_seq = [0]
+    
+    # Output table structure
+    # AI doesn't directly map to the physics-based log easily without simulation
+    # but we can output what the AI picks.
+    sequence_data = [["Row", "Wagon", "Step No", "Command", "Value", "TravelTime", "AccumulatedTime"]]
+    
+    # Simplified AI Step logic
+    for t in range(len(tanks) * 2): # Heuristic: 2 steps per tank (GET/PUT)
+        a_cmd, a_stn = agent.select_action(curr_cmd_seq, curr_stn_seq, state)
+        next_state, reward, done = env.step(a_cmd, a_stn)
+        
+        cmd_name = inv_vocab.get(a_cmd, "UNKNOWN")
+        
+        # Identify wagon for display
+        wagon_id = "AI_Wagon"
+        for w_name, w_cfg in config.items():
+            if w_cfg['min_stn'] <= a_stn <= w_cfg['max_stn']:
+                wagon_id = w_name
+                break
+        
+        # Dummy times for AI mode log (inference doesn't have physics integrated yet)
+        sequence_data.append([
+            1, wagon_id, t+1, cmd_name, a_stn, "0.00", "0.00"
+        ])
+        
+        curr_cmd_seq.append(a_cmd)
+        curr_stn_seq.append(a_stn)
+        state = next_state
+        if done or cmd_name == "<EOS>":
+            break
+            
+    print(tabulate(sequence_data[1:], headers=sequence_data[0], tablefmt="grid"))
+    return sequence_data
+
 # ==========================================
 # MAIN EXECUTION
 # ==========================================
 def main():
-    global wagon_config_csv
+    global wagon_config_csv, row_config_csv
     parser = argparse.ArgumentParser(description="Sequence Generation and AI Training Tool")
-    parser.add_argument("--mode", type=str, choices=["gen", "train"], default="gen", help="Execution mode")
+    parser.add_argument("--mode", type=str, choices=["gen", "train", "ai_gen"], default="gen", help="Execution mode")
     parser.add_argument("--input", type=str, help="Path to tanks CSV", default=tanks_csv_default)
     parser.add_argument("--speeds", type=str, help="Wagon Name (Optional, now uses config ranges)", default="Wagon 1")
     parser.add_argument("--config", type=str, help="Path to wagon config CSV", default=wagon_config_csv)
+    parser.add_argument("--row_config", type=str, help="Path to row config CSV", default=row_config_csv)
+    parser.add_argument("--model", type=str, help="Path to trained model (.pth)", default=os.path.join(parent_dir, "model_v9.pth"))
     
     args = parser.parse_args()
     wagon_config_csv = args.config
+    row_config_csv = args.row_config
 
     if args.mode == "gen":
         generate_sequence_from_tanks(csv_path=args.input, speeds_input=args.speeds, config=load_wagon_config(wagon_config_csv))
+    elif args.mode == "ai_gen":
+        generate_sequence_ai(csv_path=args.input, model_path=args.model, config=load_wagon_config(wagon_config_csv))
     else:
         # AI Training Mode
         train_data, adj_list, vocab_cmd = load_data()
@@ -480,8 +675,8 @@ def main():
         agent = PPOAgent(vocab_cmd, MAX_STATIONS, adj_list)
         env = WagonEnv(adj_list, MAX_STATIONS)
         
-        print("\nStarting RL Training Loop (100 Episodes)...")
-        for episode in range(1, 101): 
+        print("\nStarting RL Training Loop (1000 Episodes)...")
+        for episode in range(1, 1001): 
             state = env.reset()
             curr_cmd_seq = [vocab_cmd["<SOS>"]]
             curr_stn_seq = [0]
@@ -489,8 +684,12 @@ def main():
             collisions = 0
             
             for t in range(MAX_STEPS):
-                a_cmd, a_stn, _, _ = agent.select_action(curr_cmd_seq, curr_stn_seq, state)
+                a_cmd, a_stn = agent.select_action(curr_cmd_seq, curr_stn_seq, state)
                 next_state, reward, done = env.step(a_cmd, a_stn)
+                
+                # Buffer rewards and terminal flags
+                agent.buffer.rewards.append(reward)
+                agent.buffer.is_terminals.append(done)
                 
                 if reward < 0: collisions += 1
                 
@@ -500,7 +699,10 @@ def main():
                 ep_reward += reward
                 if done: break
             
-            if episode % 10 == 0:
+            # Update the agent after each episode
+            agent.update()
+            
+            if episode % 20 == 0:
                 print(f"Episode {episode}: Total Reward = {ep_reward} (Collisions/Invalid: {collisions})")
             
         print("Training Finished. Model saved as 'model_v7.pth'")

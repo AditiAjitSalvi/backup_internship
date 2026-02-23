@@ -59,6 +59,9 @@ class PlantManager:
         self.executor.submit(self.process_load, load.load_id)
 
     def process_load(self, load_id: str):
+        if load_id in self.pending_loads:
+            self.pending_loads.remove(load_id)
+        
         load = self.plant.loads.get(load_id)
         if not load: return
 

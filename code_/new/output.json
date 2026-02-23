@@ -1,9 +1,9 @@
 [
     {
-        "timestamp": 1771394787.2155912,
+        "timestamp": 1771745757.084934,
         "type": "MOVE_START",
         "details": {
-            "load_id": "6cb3f36b",
+            "load_id": "cb48e526",
             "transporter_id": "T1",
             "from_pos": 0.0,
             "to_stn": "2",
@@ -12,27 +12,27 @@
         }
     },
     {
-        "timestamp": 1771394787.6560261,
+        "timestamp": 1771745757.5253878,
         "type": "MOVE_COMPLETE",
         "details": {
-            "load_id": "6cb3f36b",
+            "load_id": "cb48e526",
             "station": "2"
         }
     },
     {
-        "timestamp": 1771394787.6563122,
+        "timestamp": 1771745757.5257962,
         "type": "PROCESS_START",
         "details": {
-            "load_id": "6cb3f36b",
+            "load_id": "cb48e526",
             "process": "Pretreatment",
             "duration": 180.0
         }
     },
     {
-        "timestamp": 1771394787.6564085,
+        "timestamp": 1771745757.525909,
         "type": "MOVE_START",
         "details": {
-            "load_id": "6fc84b7d",
+            "load_id": "df0e98be",
             "transporter_id": "T1",
             "from_pos": 2000.0,
             "to_stn": "7",
@@ -41,35 +41,35 @@
         }
     },
     {
-        "timestamp": 1771394787.8295543,
+        "timestamp": 1771745757.6983168,
         "type": "MOVE_COMPLETE",
         "details": {
-            "load_id": "6fc84b7d",
+            "load_id": "df0e98be",
             "station": "7"
         }
     },
     {
-        "timestamp": 1771394787.829947,
+        "timestamp": 1771745757.698637,
         "type": "PROCESS_START",
         "details": {
-            "load_id": "6fc84b7d",
+            "load_id": "df0e98be",
             "process": "Loading",
             "duration": 0
         }
     },
     {
-        "timestamp": 1771394787.8303776,
+        "timestamp": 1771745757.6989625,
         "type": "PROCESS_COMPLETE",
         "details": {
-            "load_id": "6fc84b7d",
+            "load_id": "df0e98be",
             "process": "Loading"
         }
     },
     {
-        "timestamp": 1771394787.8326335,
+        "timestamp": 1771745757.70048,
         "type": "MOVE_START",
         "details": {
-            "load_id": "6fc84b7d",
+            "load_id": "df0e98be",
             "transporter_id": "T1",
             "from_pos": 1220.0,
             "to_stn": "8",
@@ -78,35 +78,35 @@
         }
     },
     {
-        "timestamp": 1771394787.8947606,
+        "timestamp": 1771745757.7629795,
         "type": "MOVE_COMPLETE",
         "details": {
-            "load_id": "6fc84b7d",
+            "load_id": "df0e98be",
             "station": "8"
         }
     },
     {
-        "timestamp": 1771394787.8950868,
+        "timestamp": 1771745757.7632744,
         "type": "PROCESS_START",
         "details": {
-            "load_id": "6fc84b7d",
+            "load_id": "df0e98be",
             "process": "Clean 1",
             "duration": 120.0
         }
     },
     {
-        "timestamp": 1771394799.8960636,
+        "timestamp": 1771745769.7641091,
         "type": "PROCESS_COMPLETE",
         "details": {
-            "load_id": "6fc84b7d",
+            "load_id": "df0e98be",
             "process": "Clean 1"
         }
     },
     {
-        "timestamp": 1771394799.8978488,
+        "timestamp": 1771745769.7661743,
         "type": "MOVE_START",
         "details": {
-            "load_id": "6fc84b7d",
+            "load_id": "df0e98be",
             "transporter_id": "T1",
             "from_pos": 1500.0,
             "to_stn": "9",
@@ -115,35 +115,35 @@
         }
     },
     {
-        "timestamp": 1771394800.075041,
+        "timestamp": 1771745769.9429936,
         "type": "MOVE_COMPLETE",
         "details": {
-            "load_id": "6fc84b7d",
+            "load_id": "df0e98be",
             "station": "9"
         }
     },
     {
-        "timestamp": 1771394800.0754259,
+        "timestamp": 1771745769.943313,
         "type": "PROCESS_START",
         "details": {
-            "load_id": "6fc84b7d",
+            "load_id": "df0e98be",
             "process": "Rinse 1",
             "duration": 45.0
         }
     },
     {
-        "timestamp": 1771394804.575956,
+        "timestamp": 1771745774.4438598,
         "type": "PROCESS_COMPLETE",
         "details": {
-            "load_id": "6fc84b7d",
+            "load_id": "df0e98be",
             "process": "Rinse 1"
         }
     },
     {
-        "timestamp": 1771394804.5783975,
+        "timestamp": 1771745774.4459896,
         "type": "MOVE_START",
         "details": {
-            "load_id": "6fc84b7d",
+            "load_id": "df0e98be",
             "transporter_id": "T1",
             "from_pos": 2300.0,
             "to_stn": "10",
@@ -152,35 +152,35 @@
         }
     },
     {
-        "timestamp": 1771394804.7548509,
+        "timestamp": 1771745774.6226676,
         "type": "MOVE_COMPLETE",
         "details": {
-            "load_id": "6fc84b7d",
+            "load_id": "df0e98be",
             "station": "10"
         }
     },
     {
-        "timestamp": 1771394804.755167,
+        "timestamp": 1771745774.6229837,
         "type": "PROCESS_START",
         "details": {
-            "load_id": "6fc84b7d",
+            "load_id": "df0e98be",
             "process": "Clean 2",
             "duration": 90.0
         }
     },
     {
-        "timestamp": 1771394805.6581488,
+        "timestamp": 1771745775.526346,
         "type": "PROCESS_COMPLETE",
         "details": {
-            "load_id": "6cb3f36b",
+            "load_id": "cb48e526",
             "process": "Pretreatment"
         }
     },
     {
-        "timestamp": 1771394805.6601162,
+        "timestamp": 1771745775.5281973,
         "type": "MOVE_START",
         "details": {
-            "load_id": "6cb3f36b",
+            "load_id": "cb48e526",
             "transporter_id": "T1",
             "from_pos": 3100.0,
             "to_stn": "3",
@@ -189,35 +189,35 @@
         }
     },
     {
-        "timestamp": 1771394805.6827083,
+        "timestamp": 1771745775.5509422,
         "type": "MOVE_COMPLETE",
         "details": {
-            "load_id": "6cb3f36b",
+            "load_id": "cb48e526",
             "station": "3"
         }
     },
     {
-        "timestamp": 1771394805.683034,
+        "timestamp": 1771745775.5512817,
         "type": "PROCESS_START",
         "details": {
-            "load_id": "6cb3f36b",
+            "load_id": "cb48e526",
             "process": "CED Dip",
             "duration": 0
         }
     },
     {
-        "timestamp": 1771394805.6833165,
+        "timestamp": 1771745775.5515366,
         "type": "PROCESS_COMPLETE",
         "details": {
-            "load_id": "6cb3f36b",
+            "load_id": "cb48e526",
             "process": "CED Dip"
         }
     },
     {
-        "timestamp": 1771394805.6848383,
+        "timestamp": 1771745775.5532458,
         "type": "MOVE_START",
         "details": {
-            "load_id": "6cb3f36b",
+            "load_id": "cb48e526",
             "transporter_id": "T1",
             "from_pos": 3000.0,
             "to_stn": "4",
@@ -226,35 +226,35 @@
         }
     },
     {
-        "timestamp": 1771394805.9056437,
+        "timestamp": 1771745775.7739327,
         "type": "MOVE_COMPLETE",
         "details": {
-            "load_id": "6cb3f36b",
+            "load_id": "cb48e526",
             "station": "4"
         }
     },
     {
-        "timestamp": 1771394805.9060411,
+        "timestamp": 1771745775.7742481,
         "type": "PROCESS_START",
         "details": {
-            "load_id": "6cb3f36b",
+            "load_id": "cb48e526",
             "process": "UF Rinse",
             "duration": 120.0
         }
     },
     {
-        "timestamp": 1771394813.756469,
+        "timestamp": 1771745783.6239927,
         "type": "PROCESS_COMPLETE",
         "details": {
-            "load_id": "6fc84b7d",
+            "load_id": "df0e98be",
             "process": "Clean 2"
         }
     },
     {
-        "timestamp": 1771394813.7584925,
+        "timestamp": 1771745783.6260855,
         "type": "MOVE_START",
         "details": {
-            "load_id": "6fc84b7d",
+            "load_id": "df0e98be",
             "transporter_id": "T1",
             "from_pos": 4000.0,
             "to_stn": "11",
@@ -263,20 +263,161 @@
         }
     },
     {
-        "timestamp": 1771394813.781196,
+        "timestamp": 1771745783.650379,
         "type": "MOVE_COMPLETE",
         "details": {
-            "load_id": "6fc84b7d",
+            "load_id": "df0e98be",
             "station": "11"
         }
     },
     {
-        "timestamp": 1771394813.7814903,
+        "timestamp": 1771745783.6506972,
         "type": "PROCESS_START",
         "details": {
-            "load_id": "6fc84b7d",
+            "load_id": "df0e98be",
             "process": "Rinse 2",
             "duration": 45.0
+        }
+    },
+    {
+        "timestamp": 1771745787.7748544,
+        "type": "PROCESS_COMPLETE",
+        "details": {
+            "load_id": "cb48e526",
+            "process": "UF Rinse"
+        }
+    },
+    {
+        "timestamp": 1771745787.77727,
+        "type": "MOVE_START",
+        "details": {
+            "load_id": "cb48e526",
+            "transporter_id": "T1",
+            "from_pos": 3900.0,
+            "to_stn": "5",
+            "to_pos": 5000.0,
+            "est_duration": 2.4200000000000004
+        }
+    },
+    {
+        "timestamp": 1771745788.020342,
+        "type": "MOVE_COMPLETE",
+        "details": {
+            "load_id": "cb48e526",
+            "station": "5"
+        }
+    },
+    {
+        "timestamp": 1771745788.0207121,
+        "type": "PROCESS_START",
+        "details": {
+            "load_id": "cb48e526",
+            "process": "Post Rinse",
+            "duration": 60.0
+        }
+    },
+    {
+        "timestamp": 1771745788.151905,
+        "type": "PROCESS_COMPLETE",
+        "details": {
+            "load_id": "df0e98be",
+            "process": "Rinse 2"
+        }
+    },
+    {
+        "timestamp": 1771745788.153795,
+        "type": "MOVE_START",
+        "details": {
+            "load_id": "df0e98be",
+            "transporter_id": "T1",
+            "from_pos": 5000.0,
+            "to_stn": "12",
+            "to_pos": 4700.0,
+            "est_duration": 0.66
+        }
+    },
+    {
+        "timestamp": 1771745788.2205758,
+        "type": "MOVE_COMPLETE",
+        "details": {
+            "load_id": "df0e98be",
+            "station": "12"
+        }
+    },
+    {
+        "timestamp": 1771745788.2209194,
+        "type": "PROCESS_START",
+        "details": {
+            "load_id": "df0e98be",
+            "process": "Unloading",
+            "duration": 0
+        }
+    },
+    {
+        "timestamp": 1771745788.2211607,
+        "type": "PROCESS_COMPLETE",
+        "details": {
+            "load_id": "df0e98be",
+            "process": "Unloading"
+        }
+    },
+    {
+        "timestamp": 1771745788.2230477,
+        "type": "LOAD_COMPLETE",
+        "details": {
+            "load_id": "df0e98be"
+        }
+    },
+    {
+        "timestamp": 1771745794.021292,
+        "type": "PROCESS_COMPLETE",
+        "details": {
+            "load_id": "cb48e526",
+            "process": "Post Rinse"
+        }
+    },
+    {
+        "timestamp": 1771745794.0249507,
+        "type": "MOVE_START",
+        "details": {
+            "load_id": "cb48e526",
+            "transporter_id": "T1",
+            "from_pos": 4700.0,
+            "to_stn": "6",
+            "to_pos": 6000.0,
+            "est_duration": 2.8600000000000003
+        }
+    },
+    {
+        "timestamp": 1771745794.3133197,
+        "type": "MOVE_COMPLETE",
+        "details": {
+            "load_id": "cb48e526",
+            "station": "6"
+        }
+    },
+    {
+        "timestamp": 1771745794.3138049,
+        "type": "PROCESS_START",
+        "details": {
+            "load_id": "cb48e526",
+            "process": "Flash Off Hold",
+            "duration": 0
+        }
+    },
+    {
+        "timestamp": 1771745794.3141289,
+        "type": "PROCESS_COMPLETE",
+        "details": {
+            "load_id": "cb48e526",
+            "process": "Flash Off Hold"
+        }
+    },
+    {
+        "timestamp": 1771745794.3172016,
+        "type": "LOAD_COMPLETE",
+        "details": {
+            "load_id": "cb48e526"
         }
     }
 ]

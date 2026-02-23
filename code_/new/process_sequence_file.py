@@ -1,6 +1,6 @@
 import csv
 import json
-from diptime_calculation import Wagon, SequenceProcessor
+from diptime.diptime_calculation import Wagon, SequenceProcessor
 from tabulate import tabulate
 
 def process_sequence_csv(seq_path, tank_path):
@@ -94,4 +94,4 @@ def process_sequence_csv(seq_path, tank_path):
     return final_dict
 
 if __name__ == "__main__":
-    process_sequence_csv("sequnce.csv", "tanks_csv_expanded.csv")
+    process_sequence_csv("diptime/sequnce.csv", "tanks_csv_expanded.csv")

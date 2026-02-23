@@ -65,17 +65,27 @@ if __name__ == "__main__":
     api = ROC_API(manager)
     
     print("--- Loading Plant Configuration ---")
-    stn_map = load_plant_from_csv(api, "test.csv")
+    stn_map = load_plant_from_csv(api, "diptime/test.csv")
     
     print("\n--- Scheduling Loads from Sequence ---")
-    schedule_from_sequence_csv(api, "sequnce.csv", stn_map)
+    schedule_from_sequence_csv(api, "diptime/sequnce.csv", stn_map)
     
     print("\n--- Running Simulation ---")
-    # Simulation loop
-    for _ in range(30):
-        time.sleep(1)
+    # Simulation loop: Wait until all loads are completed
+    try:
+        while True:
+            active_count = len(manager.active_processes)
+            if active_count == 0 and not manager.pending_loads:
+                 # Check if we really have no more tasks (small buffer for async)
+                 time.sleep(2)
+                 if len(manager.active_processes) == 0:
+                     break
+            print(f"Simulation in progress... {active_count} active loads.")
+            time.sleep(2)
+    except KeyboardInterrupt:
+        print("\nSimulation interrupted by user.")
     
     print("\n--- Exporting Results ---")
     manager.export_logs("output.json")
     
-    print("\nSimulation complete.")
+    print(f"\nSimulation complete. Results exported to output.json.")

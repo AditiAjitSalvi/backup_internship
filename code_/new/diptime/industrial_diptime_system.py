@@ -172,9 +172,23 @@ def display_results(data):
     print(tabulate(rows, headers=headers, tablefmt="grid"))
 
 if __name__ == "__main__":
-    stations_path = "testing_files/test2.csv"
-    sequence_path = "testing_files/sequnce2.csv"
+    import os
     
+    # Try local path first, then check if in diptime subdirectory (if run from root)
+    stations_path = "test.csv"
+    sequence_path = "sequnce.csv"
+    
+    if not os.path.exists(stations_path):
+        # Maybe we are in the root?
+        stations_path = os.path.join("diptime", "test.csv")
+        sequence_path = os.path.join("diptime", "sequnce.csv")
+        
+    if not os.path.exists(stations_path):
+        # Fallback to current directory check for the moved file
+        base_dir = os.path.dirname(__file__)
+        stations_path = os.path.join(base_dir, "test.csv")
+        sequence_path = os.path.join(base_dir, "sequnce.csv")
+
     # We'll use 600 as the cycle time for overflow logic, 
     # as the sequence goes up to ~520 seconds.
     table_data = generate_dip_time_table(stations_path, sequence_path, max_cycle_time=600)

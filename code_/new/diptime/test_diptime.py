@@ -1,3 +1,9 @@
+import os
+import sys
+
+# Add current directory to path so it can find diptime_calculation when run from root
+sys.path.append(os.path.dirname(__file__))
+
 from diptime_calculation import calculate_wagon_dip_times
 import json
 

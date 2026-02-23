@@ -1,0 +1,13 @@
+project_id,station_no,process_name,critical_status,distance_mm,dip_time_sec,Row
+2,1,Loading with CT,High,0,0,1
+2,2,Pretreatment,Low,2000,180,1
+2,3,CED Dip,High,3000,0,1
+2,4,UF Rinse,Low,4000,120,1
+2,5,Post Rinse,Low,5000,60,1
+2,6,Flash Off Hold,High,6000,0,2
+2,7,Loading,High,1220,0,2
+2,8,Clean 1,Low,1500,120,2
+2,9,Rinse 1,Low,2300,45,2
+2,10,Clean 2,Low,3100,90,2
+2,11,Rinse 2,Low,3900,45,2
+2,12,Unloading,High,4700,0,2
