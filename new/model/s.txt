@@ -1,0 +1,180 @@
+Core Collision Logic Concept
+
+When:
+
+Wagon A and Wagon B both need Station 3
+
+Wagon A is already inside Station 3
+
+Wagon B must WAIT
+
+You implement:
+
+IF station is occupied:
+    wait_time = station_free_time - current_time
+    add WAIT_SEC(wait_time)
+ELSE:
+    enter station
+🔥 Step-by-Step Implementation Logic
+1️⃣ Maintain Station Occupancy Table
+
+Create a dictionary:
+
+station_status = {
+    station_no: {
+        "free_at": 0,       # time when station becomes free
+        "occupied_by": None
+    }
+}
+
+Initialize from your station list.
+
+2️⃣ While Generating Sequence
+
+For each wagon:
+
+for wagon in wagons:
+    current_time = 0
+    
+    for station in wagon_route:
+        
+        station_no = station["station_no"]
+        process_time = station["dip_time_sec"]
+        
+        # Check if station is free
+        if current_time < station_status[station_no]["free_at"]:
+            
+            wait_time = station_status[station_no]["free_at"] - current_time
+            
+            sequence.append({
+                "wagon": wagon.id,
+                "action": "WAIT_SEC",
+                "value": wait_time
+            })
+            
+            current_time += wait_time
+        
+        # Enter station
+        sequence.append({
+            "wagon": wagon.id,
+            "action": "ENTER",
+            "station": station_no
+        })
+        
+        # Update station occupancy
+        station_status[station_no]["free_at"] = current_time + process_time
+        station_status[station_no]["occupied_by"] = wagon.id
+        
+        current_time += process_time
+✅ WAIT_SEC vs WAIT_INT Pattern
+🔹 WAIT_SEC
+
+Used when:
+
+Exact time is known
+
+Prevent overlap
+
+Example:
+
+WAIT_SEC(45)
+🔹 WAIT_INT
+
+Used when:
+
+You are polling sensor / PLC input
+
+Waiting for station free signal
+
+Example PLC logic:
+
+WAIT_INT(STATION3_FREE == TRUE)
+🎯 Smart Pattern Recognition Rule
+
+If:
+
+station_free_time - current_time > threshold
+
+Use:
+
+WAIT_SEC
+
+Else use:
+
+WAIT_INT
+
+Example:
+
+if wait_time > 5:
+    action = "WAIT_SEC"
+else:
+    action = "WAIT_INT"
+🚀 Advanced Anti-Collision Logic (Better Approach)
+
+Instead of only station lock,
+add movement buffer distance check.
+
+If:
+
+Distance between wagons < safe_distance
+
+AND next station same
+
+Then insert wait.
+
+if abs(wagonA.position - wagonB.position) < safe_distance:
+    insert WAIT
+🧠 Pattern Recognition from Training Data
+
+From your sequnce for traing.csv:
+
+Detect pattern like:
+
+Wagon	Station	Entry Time	Exit Time
+
+Then derive:
+
+If next wagon entry_time < previous wagon exit_time:
+    collision detected
+
+So model learns:
+
+entry_time = max(current_time, station_free_time)
+
+This is the key pattern.
+
+⭐ Final Clean Formula (Most Important)
+
+For every station:
+
+actual_entry_time =
+    max(
+        wagon_arrival_time,
+        station_free_time
+    )
+
+Then:
+
+wait_time = actual_entry_time - wagon_arrival_time
+
+If wait_time > 0 → Insert WAIT
+
+🏆 Best Implementation Strategy For Your Project
+
+Since you are doing:
+
+RL sequence generation
+
+PLC scheduler
+
+Collision-free wagon movement
+
+You should:
+
+Generate raw sequence
+
+Run collision correction pass
+
+Insert WAIT automatically
+
+Recalculate timing

@@ -1,0 +1,8 @@
+project_id	station_no	process_name	critical_status	distance_mm	process_time	Row
+2	1	Loading 	High	0	0	1
+2	2	A acid	High	2000	5	1
+2	3	A acid	High	3000	5	1
+2	4	Rinse	Low	4000	2	1
+2	5	B acid	Low	5000	7	1
+2	6	B acid	Low	6000	7	1
+2	7	end	High	1220	0	1
