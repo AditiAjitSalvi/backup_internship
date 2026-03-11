@@ -1,0 +1,14 @@
+Wagon No,Instruction,Instruction Value,Time
+1,Get From,1,10
+1,Put On,2,25
+1,Wait For Sec,260,285
+1,Get From,2,295
+1,Put On,3,307
+1,Get From,3,317
+1,Put On,4,330
+1,Wait For Sec,123,453
+1,Get From,4,463
+1,Put On,5,475
+1,Get From,5,485
+1,Put On,6,497
+1,Wait For Sec,300,797

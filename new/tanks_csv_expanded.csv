@@ -1,0 +1,24 @@
+project_id,station_no,process_name,critical_status,distance_mm,dip_time_sec
+3,1,Raw Load,High,0,0
+3,2,Degreasing,Low,500,150
+3,19,Degreasing,Low,9000,150
+3,3,Water Rinse,High,1000,60
+3,20,Water Rinse,High,9500,60
+3,4,Acid Pickling,Low,1500,180
+3,5,Water Rinse 2,High,2000,60
+3,6,Phosphate,Low,2500,240
+3,21,Phosphate,Low,10000,240
+3,7,Dry Off,High,3000,0
+3,8,Primer Dip,Low,3500,300
+3,22,Primer Dip,Low,10500,300
+3,9,Primer Rinse,High,4000,90
+3,10,Top Coat,Low,4500,360
+3,23,Top Coat,Low,11000,360
+3,11,Final Rinse,High,5000,90
+3,12,Unload,Low,5500,0
+3,13,Pre Wash,Low,6000,90
+3,14,Hot Water Rinse,Low,6500,120
+3,15,Surface Activation,High,7000,180
+3,16,Seal Rinse,Low,7500,90
+3,17,Cooling Zone,Low,8000,0
+3,18,Quality Hold,High,8500,0

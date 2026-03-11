@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import sys; sys.settrace(lambda f, e, a: print(f.f_lineno, e) if e == 'line' else None); import test_loop
+                                                                                             ^^^^^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'test_loop'
