@@ -1600,557 +1600,255 @@ def gap_analysis_grouped_sequence(
         "Value",
         "TravelTime",
         "AccumulatedTime",
-        "CollisionFlag",
+        "LoadID",
         "WaitTime",
     ]
     sequence_data = [headers]
 
-    tanks_sorted = sorted(tanks, key=lambda x: int(x.get("station_no", 0)))
-
-    process_groups = []
-    current_group = []
-    current_process = None
-
-    for tank in tanks_sorted:
-        proc = (tank.get("process_name") or "").strip().lower()
-        if current_process is None:
-            current_process = proc
-            current_group = [tank]
-        elif proc == current_process and proc != "":
-            current_group.append(tank)
-        else:
-            if current_group:
-                process_groups.append(current_group)
-            current_process = proc
-            current_group = [tank]
-
-    if current_group:
-        process_groups.append(current_group)
-
     tank_dict = {int(t.get("station_no", 0)): t for t in tanks}
-
-    # Build pipeline stages - each stage is (from_stations, to_stations)
-    def build_pipeline_stages(process_groups):
-        stages = []
-        for i in range(len(process_groups)):
-            current_group = process_groups[i]
-            current_stations = [int(t.get("station_no", 0)) for t in current_group]
-
-            if i < len(process_groups) - 1:
-                next_group = process_groups[i + 1]
-                next_stations = [int(t.get("station_no", 0)) for t in next_group]
-
-                if len(current_stations) == 1 and len(next_stations) > 1:
-                    src = current_stations[0]
-                    stages.append(([src], next_stations))
-                elif len(current_stations) > 1 and len(next_stations) == 1:
-                    dst = next_stations[0]
-                    stages.append((current_stations, [dst]))
-                elif len(current_stations) > 1 and len(next_stations) > 1:
-                    dst = next_stations[0]
-                    stages.append((current_stations, [dst]))
-                else:
-                    stages.append((current_stations, next_stations))
-
-        return stages
-
-    pipeline_stages = build_pipeline_stages(process_groups)
-
     stn_dist = {
         int(t.get("station_no", 0)): float(t.get("distance_mm", 0)) for t in tanks
     }
+
+    # Initialize wagon states
     wagon_pos_mm = {
         w_id: stn_dist.get(config[w_id]["basic_pos"], 0.0) for w_id in config
     }
     wagon_stn = {w_id: config[w_id]["basic_pos"] for w_id in config}
+    wagon_times = {w_id: 0.0 for w_id in config}
     step_counters = {w_id: 0 for w_id in config}
+    station_free_at = {stn_no: 0.0 for stn_no in stn_dist.keys()}
 
-    # Initialize items with their complete path through the pipeline
-    # Step 1: First move all items from station 1 to their destinations (2,3,4)
-    # Step 2: Then process each item through the full pipeline
+    # Helper function to find an available wagon for a given row
+    def get_wagon_for_row(target_row, current_time):
+        best_wagon = None
+        earliest_available_time = float('inf')
+        for w_id, w_cfg in config.items():
+            if int(w_cfg.get("row", 1)) == target_row:
+                if wagon_times[w_id] < earliest_available_time:
+                    earliest_available_time = wagon_times[w_id]
+                    best_wagon = w_id
+        return best_wagon, max(current_time, earliest_available_time)
 
-    # Build complete paths for each item (only the pipeline part after stage 1)
-    all_paths = []
-    if len(pipeline_stages) > 0:
-        first_stage = pipeline_stages[0]
-        _, first_destinations = first_stage
-        for dest in first_destinations:
-            # Build complete path for this item (stages 1-4 only, excluding stage 0)
-            path = []
-            current_source = dest  # Start at destination of stage 0
+    # Helper function to execute a move
+    def execute_move(
+        load_id,
+        wagon_id,
+        current_acc,
+        from_stn,
+        to_stn,
+        w_cfg,
+        wagon_pos_mm,
+        wagon_stn,
+        wagon_times,
+        step_counters,
+        sequence_data,
+        tank_dict,
+        stn_dist,
+        station_free_at,
+    ):
+        from_tank = tank_dict.get(from_stn, {})
+        to_tank = tank_dict.get(to_stn, {})
+        from_dist = stn_dist.get(from_stn, 0)
+        to_dist = stn_dist.get(to_stn, 0)
+        from_row = int(from_tank.get("Row") or from_tank.get("row") or 1)
+        to_row = int(to_tank.get("Row") or to_tank.get("row") or 1)
 
-            # Stage 1->2: from destination (2,3,4) to station 5
-            path.append((current_source, 5))
+        # Move wagon to source station if not already there
+        travel_to_from = 0
+        if wagon_stn[wagon_id] != from_stn:
+            dist = abs(from_dist - wagon_pos_mm[wagon_id])
+            travel_to_from = calculate_time_value(
+                dist, max(0, dist - 500), 500, w_cfg["sf"], w_cfg["f"], w_cfg["s"]
+            )
+        current_acc += travel_to_from
 
-            # Stage 2->3: from station 5 to (6, 7, or 8)
-            to_stn = dest + 4
-            path.append((5, to_stn))
-            current_source = to_stn
+        # Wait for source station to be free
+        current_acc = max(current_acc, station_free_at.get(from_stn, 0.0))
 
-            # Stage 3->4: from (6,7,8) to station 9
-            path.append((current_source, 9))
+        # GET FROM
+        step_counters[wagon_id] += 1
+        sequence_data.append(
+            [
+                from_row,
+                wagon_id,
+                step_counters[wagon_id],
+                "GET FROM",
+                from_stn,
+                f"{w_cfg['lift_time']:.2f}",
+                f"{current_acc:.2f}",
+                f"L{load_id}",
+                "0.00",
+            ]
+        )
+        current_acc += w_cfg["lift_time"]
+        station_free_at[from_stn] = 0.0 # Source station is now free
 
-            # Stage 4->5: from station 9 to station 10
-            path.append((9, 10))
+        # Travel time to destination
+        travel_to_to = abs(to_dist - from_dist)
+        tt = calculate_time_value(
+            travel_to_to,
+            max(0, travel_to_to - 500),
+            500,
+            w_cfg["sf"],
+            w_cfg["f"],
+            w_cfg["s"],
+        )
 
-            all_paths.append(path)
+        # Wait for destination station to be free
+        current_acc = max(current_acc, station_free_at.get(to_stn, 0.0))
 
-    # Process each item ONE BY ONE through ALL stages before moving to next item
+        # PUT ON
+        step_counters[wagon_id] += 1
+        sequence_data.append(
+            [
+                to_row,
+                wagon_id,
+                step_counters[wagon_id],
+                "PUT ON",
+                to_stn,
+                f"{(tt + w_cfg['lower_time']):.2f}",
+                f"{current_acc:.2f}",
+                f"L{load_id}",
+                "0.00",
+            ]
+        )
+        current_acc += tt + w_cfg["lower_time"]
+
+        dip = float(to_tank.get("dip_time_sec", 0))
+        current_acc += dip
+        station_free_at[to_stn] = current_acc # Destination station busy until dip complete
+
+        wagon_pos_mm[wagon_id] = to_dist
+        wagon_stn[wagon_id] = to_stn
+        wagon_times[wagon_id] = current_acc
+        return current_acc
+
+    def _do_move(wagon_id, l_idx, from_stn, to_stn, current_acc):
+        """Emit GET FROM + PUT ON for one move. Returns updated current_acc."""
+        w_cfg = config[wagon_id]
+        from_tank = tank_dict.get(from_stn, {})
+        to_tank = tank_dict.get(to_stn, {})
+        from_dist = stn_dist.get(from_stn, 0)
+        to_dist = stn_dist.get(to_stn, 0)
+        from_row = int(from_tank.get("Row") or from_tank.get("row") or 1)
+        to_row = int(to_tank.get("Row") or to_tank.get("row") or 1)
+
+        # Travel to source if needed
+        if wagon_stn[wagon_id] != from_stn:
+            dist = abs(from_dist - wagon_pos_mm[wagon_id])
+            current_acc += calculate_time_value(
+                dist, max(0, dist - 500), 500, w_cfg["sf"], w_cfg["f"], w_cfg["s"]
+            )
+
+        # GET FROM
+        step_counters[wagon_id] += 1
+        sequence_data.append([
+            from_row, wagon_id, step_counters[wagon_id], "GET FROM",
+            from_stn, f"{w_cfg['lift_time']:.2f}", f"{current_acc:.2f}",
+            f"L{l_idx}", "0.00",
+        ])
+        current_acc += w_cfg["lift_time"]
+
+        # Travel to destination
+        travel = abs(to_dist - from_dist)
+        tt = calculate_time_value(
+            travel, max(0, travel - 500), 500, w_cfg["sf"], w_cfg["f"], w_cfg["s"]
+        )
+
+        # PUT ON
+        step_counters[wagon_id] += 1
+        sequence_data.append([
+            to_row, wagon_id, step_counters[wagon_id], "PUT ON",
+            to_stn, f"{(tt + w_cfg['lower_time']):.2f}", f"{current_acc:.2f}",
+            f"L{l_idx}", "0.00",
+        ])
+        current_acc += tt + w_cfg["lower_time"]
+        current_acc += float(to_tank.get("dip_time_sec", 0))
+
+        wagon_pos_mm[wagon_id] = to_dist
+        wagon_stn[wagon_id] = to_stn
+        return current_acc
+
+    def _pick_wagon(row_no):
+
+        """Return the wagon_id whose row matches row_no, else the first wagon."""
+        for w_name, w_cfg in config.items():
+            if int(w_cfg.get("row", 1)) == row_no:
+                return w_name
+        return list(config.keys())[0] if config else None
+
     for l_idx in range(num_loads):
-        start_time = l_idx * 60.0
-        current_acc = start_time
+        current_acc = l_idx * 60.0   # stagger loads by 60 s each
 
-        # Get the first destinations (2,3,4) - we need to process each separately
-        first_stage = pipeline_stages[0]
-        from_stations, to_stations = first_stage  # [1], [2,3,4]
+        # Determine source and destinations from tank data
+        tanks_sorted_local = sorted(tanks, key=lambda x: int(x.get("station_no", 0)))
+        # Build process groups to find src & dests
+        process_groups = []
+        cur_group = []
+        cur_proc = None
+        for tank in tanks_sorted_local:
+            proc = (tank.get("process_name") or "").strip().lower()
+            if cur_proc is None:
+                cur_proc = proc
+                cur_group = [tank]
+            elif proc == cur_proc and proc != "":
+                cur_group.append(tank)
+            else:
+                if cur_group:
+                    process_groups.append(cur_group)
+                cur_proc = proc
+                cur_group = [tank]
+        if cur_group:
+            process_groups.append(cur_group)
 
-        # For each destination from station 1, process the complete pipeline
-        for dest_idx, dest in enumerate(to_stations):
-            # Stage 0: 1 -> dest (2, 3, or 4)
-            from_stn = from_stations[0]  # 1
-            to_stn = dest
+        if not process_groups or len(process_groups) < 2:
+            continue
 
-            from_tank = tank_dict.get(from_stn, {})
-            to_tank = tank_dict.get(to_stn, {})
+        src_group = process_groups[0]   # e.g. [station 1]
+        dst_group = process_groups[1]   # e.g. [stations 2, 3, 4]
 
-            from_dist = stn_dist.get(from_stn, 0)
-            to_dist = stn_dist.get(to_stn, 0)
-            from_row = int(from_tank.get("Row") or from_tank.get("row") or 1)
-            to_row = int(to_tank.get("Row") or to_tank.get("row") or 1)
+        src_stns = [int(t.get("station_no", 0)) for t in src_group]
+        dst_stns = [int(t.get("station_no", 0)) for t in dst_group]
+        src = src_stns[0]   # station 1
+        dests = dst_stns    # [2, 3, 4]
 
-            wagon_id = None
-            for w_name, w_cfg in config.items():
-                if int(w_cfg.get("row", 1)) == to_row:
-                    wagon_id = w_name
-                    break
-            if not wagon_id:
-                wagon_id = list(config.keys())[0] if config else None
-            if not wagon_id:
-                continue
-            w_cfg = config[wagon_id]
+        # Collector and downstream stations
+        collector = 5       # Post-rinse (intermediate collector)
+        rinse = 9           # Rinse collector
+        unload = 10         # Unloading station
 
-            travel_to_from = 0
-            if wagon_stn[wagon_id] != from_stn:
-                dist = abs(from_dist - wagon_pos_mm[wagon_id])
-                travel_to_from = calculate_time_value(
-                    dist, max(0, dist - 500), 500, w_cfg["sf"], w_cfg["f"], w_cfg["s"]
-                )
+        wagon_id = _pick_wagon(
+            int(src_group[0].get("Row") or src_group[0].get("row") or 1)
+        )
+        if not wagon_id:
+            continue
 
-            current_acc += travel_to_from
+        # ------------------------------------------------------------------
+        # PHASE 1: get from 1 → put on 2, 3, 4  (in sequence)
+        # ------------------------------------------------------------------
+        for dest in dests:
+            current_acc = _do_move(wagon_id, l_idx, src, dest, current_acc)
 
-            step_counters[wagon_id] += 1
-            sequence_data.append(
-                [
-                    from_row,
-                    wagon_id,
-                    step_counters[wagon_id],
-                    "GET FROM",
-                    from_stn,
-                    f"{w_cfg['lift_time']:.2f}",
-                    f"{current_acc:.2f}",
-                    f"L{l_idx}",
-                    "0.00",
-                ]
-            )
-            current_acc += w_cfg["lift_time"]
+        # ------------------------------------------------------------------
+        # PHASE 2: For each dest in [2,3,4]:
+        #   get from dest → put on 5
+        #   get from 5   → put on dest+4  (6, 7, 8)
+        # ------------------------------------------------------------------
+        for dest in dests:
+            mid = dest + 4   # 2→6, 3→7, 4→8
+            current_acc = _do_move(wagon_id, l_idx, dest, collector, current_acc)
+            current_acc = _do_move(wagon_id, l_idx, collector, mid, current_acc)
 
-            travel_to_to = abs(to_dist - from_dist)
-            tt = calculate_time_value(
-                travel_to_to,
-                max(0, travel_to_to - 500),
-                500,
-                w_cfg["sf"],
-                w_cfg["f"],
-                w_cfg["s"],
-            )
-
-            step_counters[wagon_id] += 1
-            sequence_data.append(
-                [
-                    to_row,
-                    wagon_id,
-                    step_counters[wagon_id],
-                    "PUT ON",
-                    to_stn,
-                    f"{(tt + w_cfg['lower_time']):.2f}",
-                    f"{current_acc:.2f}",
-                    f"L{l_idx}",
-                    "0.00",
-                ]
-            )
-            current_acc += tt + w_cfg["lower_time"]
-
-            dip = float(to_tank.get("dip_time_sec", 0))
-            current_acc += dip
-
-            wagon_pos_mm[wagon_id] = to_dist
-            wagon_stn[wagon_id] = to_stn
-
-            # NOW continue with remaining stages for THIS item
-            # Stage 1: from dest (2/3/4) -> 5
-            from_stn = to_stn  # 2, 3, or 4
-            to_stn = 5
-
-            from_tank = tank_dict.get(from_stn, {})
-            to_tank = tank_dict.get(to_stn, {})
-
-            from_dist = stn_dist.get(from_stn, 0)
-            to_dist = stn_dist.get(to_stn, 0)
-            from_row = int(from_tank.get("Row") or from_tank.get("row") or 1)
-            to_row = int(to_tank.get("Row") or to_tank.get("row") or 1)
-
-            travel_to_from = 0
-            if wagon_stn[wagon_id] != from_stn:
-                dist = abs(from_dist - wagon_pos_mm[wagon_id])
-                travel_to_from = calculate_time_value(
-                    dist, max(0, dist - 500), 500, w_cfg["sf"], w_cfg["f"], w_cfg["s"]
-                )
-
-            current_acc += travel_to_from
-
-            step_counters[wagon_id] += 1
-            sequence_data.append(
-                [
-                    from_row,
-                    wagon_id,
-                    step_counters[wagon_id],
-                    "GET FROM",
-                    from_stn,
-                    f"{w_cfg['lift_time']:.2f}",
-                    f"{current_acc:.2f}",
-                    f"L{l_idx}",
-                    "0.00",
-                ]
-            )
-            current_acc += w_cfg["lift_time"]
-
-            travel_to_to = abs(to_dist - from_dist)
-            tt = calculate_time_value(
-                travel_to_to,
-                max(0, travel_to_to - 500),
-                500,
-                w_cfg["sf"],
-                w_cfg["f"],
-                w_cfg["s"],
-            )
-
-            step_counters[wagon_id] += 1
-            sequence_data.append(
-                [
-                    to_row,
-                    wagon_id,
-                    step_counters[wagon_id],
-                    "PUT ON",
-                    to_stn,
-                    f"{(tt + w_cfg['lower_time']):.2f}",
-                    f"{current_acc:.2f}",
-                    f"L{l_idx}",
-                    "0.00",
-                ]
-            )
-            current_acc += tt + w_cfg["lower_time"]
-
-            dip = float(to_tank.get("dip_time_sec", 0))
-            current_acc += dip
-
-            wagon_pos_mm[wagon_id] = to_dist
-            wagon_stn[wagon_id] = to_stn
-
-            # Stage 2: from 5 -> 6/7/8 (based on original dest)
-            from_stn = 5
-            to_stn = dest + 4  # 2+4=6, 3+4=7, 4+4=8
-
-            from_tank = tank_dict.get(from_stn, {})
-            to_tank = tank_dict.get(to_stn, {})
-
-            from_dist = stn_dist.get(from_stn, 0)
-            to_dist = stn_dist.get(to_stn, 0)
-            from_row = int(from_tank.get("Row") or from_tank.get("row") or 1)
-            to_row = int(to_tank.get("Row") or to_tank.get("row") or 1)
-
-            travel_to_from = 0
-            if wagon_stn[wagon_id] != from_stn:
-                dist = abs(from_dist - wagon_pos_mm[wagon_id])
-                travel_to_from = calculate_time_value(
-                    dist, max(0, dist - 500), 500, w_cfg["sf"], w_cfg["f"], w_cfg["s"]
-                )
-
-            current_acc += travel_to_from
-
-            step_counters[wagon_id] += 1
-            sequence_data.append(
-                [
-                    from_row,
-                    wagon_id,
-                    step_counters[wagon_id],
-                    "GET FROM",
-                    from_stn,
-                    f"{w_cfg['lift_time']:.2f}",
-                    f"{current_acc:.2f}",
-                    f"L{l_idx}",
-                    "0.00",
-                ]
-            )
-            current_acc += w_cfg["lift_time"]
-
-            travel_to_to = abs(to_dist - from_dist)
-            tt = calculate_time_value(
-                travel_to_to,
-                max(0, travel_to_to - 500),
-                500,
-                w_cfg["sf"],
-                w_cfg["f"],
-                w_cfg["s"],
-            )
-
-            step_counters[wagon_id] += 1
-            sequence_data.append(
-                [
-                    to_row,
-                    wagon_id,
-                    step_counters[wagon_id],
-                    "PUT ON",
-                    to_stn,
-                    f"{(tt + w_cfg['lower_time']):.2f}",
-                    f"{current_acc:.2f}",
-                    f"L{l_idx}",
-                    "0.00",
-                ]
-            )
-            current_acc += tt + w_cfg["lower_time"]
-
-            dip = float(to_tank.get("dip_time_sec", 0))
-            current_acc += dip
-
-            wagon_pos_mm[wagon_id] = to_dist
-            wagon_stn[wagon_id] = to_stn
-
-            # Stage 3: from 6/7/8 -> 9
-            from_stn = to_stn
-            to_stn = 9
-
-            from_tank = tank_dict.get(from_stn, {})
-            to_tank = tank_dict.get(to_stn, {})
-
-            from_dist = stn_dist.get(from_stn, 0)
-            to_dist = stn_dist.get(to_stn, 0)
-            from_row = int(from_tank.get("Row") or from_tank.get("row") or 1)
-            to_row = int(to_tank.get("Row") or to_tank.get("row") or 1)
-
-            travel_to_from = 0
-            if wagon_stn[wagon_id] != from_stn:
-                dist = abs(from_dist - wagon_pos_mm[wagon_id])
-                travel_to_from = calculate_time_value(
-                    dist, max(0, dist - 500), 500, w_cfg["sf"], w_cfg["f"], w_cfg["s"]
-                )
-
-            current_acc += travel_to_from
-
-            step_counters[wagon_id] += 1
-            sequence_data.append(
-                [
-                    from_row,
-                    wagon_id,
-                    step_counters[wagon_id],
-                    "GET FROM",
-                    from_stn,
-                    f"{w_cfg['lift_time']:.2f}",
-                    f"{current_acc:.2f}",
-                    f"L{l_idx}",
-                    "0.00",
-                ]
-            )
-            current_acc += w_cfg["lift_time"]
-
-            travel_to_to = abs(to_dist - from_dist)
-            tt = calculate_time_value(
-                travel_to_to,
-                max(0, travel_to_to - 500),
-                500,
-                w_cfg["sf"],
-                w_cfg["f"],
-                w_cfg["s"],
-            )
-
-            step_counters[wagon_id] += 1
-            sequence_data.append(
-                [
-                    to_row,
-                    wagon_id,
-                    step_counters[wagon_id],
-                    "PUT ON",
-                    to_stn,
-                    f"{(tt + w_cfg['lower_time']):.2f}",
-                    f"{current_acc:.2f}",
-                    f"L{l_idx}",
-                    "0.00",
-                ]
-            )
-            current_acc += tt + w_cfg["lower_time"]
-
-            dip = float(to_tank.get("dip_time_sec", 0))
-            current_acc += dip
-
-            wagon_pos_mm[wagon_id] = to_dist
-            wagon_stn[wagon_id] = to_stn
-
-            # Stage 4: from 9 -> 10
-            from_stn = 9
-            to_stn = 10
-
-            from_tank = tank_dict.get(from_stn, {})
-            to_tank = tank_dict.get(to_stn, {})
-
-            from_dist = stn_dist.get(from_stn, 0)
-            to_dist = stn_dist.get(to_stn, 0)
-            from_row = int(from_tank.get("Row") or from_tank.get("row") or 1)
-            to_row = int(to_tank.get("Row") or to_tank.get("row") or 1)
-
-            travel_to_from = 0
-            if wagon_stn[wagon_id] != from_stn:
-                dist = abs(from_dist - wagon_pos_mm[wagon_id])
-                travel_to_from = calculate_time_value(
-                    dist, max(0, dist - 500), 500, w_cfg["sf"], w_cfg["f"], w_cfg["s"]
-                )
-
-            current_acc += travel_to_from
-
-            step_counters[wagon_id] += 1
-            sequence_data.append(
-                [
-                    from_row,
-                    wagon_id,
-                    step_counters[wagon_id],
-                    "GET FROM",
-                    from_stn,
-                    f"{w_cfg['lift_time']:.2f}",
-                    f"{current_acc:.2f}",
-                    f"L{l_idx}",
-                    "0.00",
-                ]
-            )
-            current_acc += w_cfg["lift_time"]
-
-            travel_to_to = abs(to_dist - from_dist)
-            tt = calculate_time_value(
-                travel_to_to,
-                max(0, travel_to_to - 500),
-                500,
-                w_cfg["sf"],
-                w_cfg["f"],
-                w_cfg["s"],
-            )
-
-            step_counters[wagon_id] += 1
-            sequence_data.append(
-                [
-                    to_row,
-                    wagon_id,
-                    step_counters[wagon_id],
-                    "PUT ON",
-                    to_stn,
-                    f"{(tt + w_cfg['lower_time']):.2f}",
-                    f"{current_acc:.2f}",
-                    f"L{l_idx}",
-                    "0.00",
-                ]
-            )
-            current_acc += tt + w_cfg["lower_time"]
-
-            dip = float(to_tank.get("dip_time_sec", 0))
-            current_acc += dip
-
-            wagon_pos_mm[wagon_id] = to_dist
-            wagon_stn[wagon_id] = to_stn
-
-        # Step 2: Now process remaining stages - process each stage for ALL items before moving to next
-        # For each stage (1 to 4), process all items
-        for stage_offset in range(len(all_paths[0]) if all_paths else 0):
-            for path in all_paths:
-                if stage_offset >= len(path):
-                    continue
-                from_stn, to_stn = path[stage_offset]
-
-                from_tank = tank_dict.get(from_stn, {})
-                to_tank = tank_dict.get(to_stn, {})
-
-                from_dist = stn_dist.get(from_stn, 0)
-                to_dist = stn_dist.get(to_stn, 0)
-                from_row = int(from_tank.get("Row") or from_tank.get("row") or 1)
-                to_row = int(to_tank.get("Row") or to_tank.get("row") or 1)
-
-                wagon_id = None
-                for w_name, w_cfg in config.items():
-                    if int(w_cfg.get("row", 1)) == to_row:
-                        wagon_id = w_name
-                        break
-                if not wagon_id:
-                    wagon_id = list(config.keys())[0] if config else None
-                if not wagon_id:
-                    continue
-                w_cfg = config[wagon_id]
-
-                travel_to_from = 0
-                if wagon_stn[wagon_id] != from_stn:
-                    dist = abs(from_dist - wagon_pos_mm[wagon_id])
-                    travel_to_from = calculate_time_value(
-                        dist,
-                        max(0, dist - 500),
-                        500,
-                        w_cfg["sf"],
-                        w_cfg["f"],
-                        w_cfg["s"],
-                    )
-
-                current_acc += travel_to_from
-
-                step_counters[wagon_id] += 1
-                sequence_data.append(
-                    [
-                        from_row,
-                        wagon_id,
-                        step_counters[wagon_id],
-                        "GET FROM",
-                        from_stn,
-                        f"{w_cfg['lift_time']:.2f}",
-                        f"{current_acc:.2f}",
-                        f"L{l_idx}",
-                        "0.00",
-                    ]
-                )
-                current_acc += w_cfg["lift_time"]
-
-                travel_to_to = abs(to_dist - from_dist)
-                tt = calculate_time_value(
-                    travel_to_to,
-                    max(0, travel_to_to - 500),
-                    500,
-                    w_cfg["sf"],
-                    w_cfg["f"],
-                    w_cfg["s"],
-                )
-
-                step_counters[wagon_id] += 1
-                sequence_data.append(
-                    [
-                        to_row,
-                        wagon_id,
-                        step_counters[wagon_id],
-                        "PUT ON",
-                        to_stn,
-                        f"{(tt + w_cfg['lower_time']):.2f}",
-                        f"{current_acc:.2f}",
-                        f"L{l_idx}",
-                        "0.00",
-                    ]
-                )
-                current_acc += tt + w_cfg["lower_time"]
-
-                dip = float(to_tank.get("dip_time_sec", 0))
-                current_acc += dip
-
-                wagon_pos_mm[wagon_id] = to_dist
-                wagon_stn[wagon_id] = to_stn
+        # ------------------------------------------------------------------
+        # PHASE 3: For each mid in [6, 7, 8]:
+        #   get from mid → put on 9
+        #   get from 9   → put on 10
+        # ------------------------------------------------------------------
+        for dest in dests:
+            mid = dest + 4   # 6, 7, 8
+            current_acc = _do_move(wagon_id, l_idx, mid, rinse, current_acc)
+            current_acc = _do_move(wagon_id, l_idx, rinse, unload, current_acc)
 
     headers = sequence_data[0]
     rows = sequence_data[1:]
