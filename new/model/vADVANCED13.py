@@ -1580,14 +1580,24 @@ def gap_analysis_grouped_sequence(
     tanks, config, enable_collision_engine=True, safe_distance_mm=500.0, num_loads=1
 ):
     """
-    Grouped routing scheduler: Multiple source tanks feed into collector tanks.
+    Grouped routing scheduler: Data-driven pipeline generator.
 
-    Expected flow:
-    - 1 → 2, 1 → 3, 1 → 4 (Loading → A acid)
-    - 2 → 5, 3 → 5, 4 → 5 (A acid → Post Rinse)
-    - 5 → 6 (Post Rinse → B acid)
-    - 6 → 9, 7 → 9, 8 → 9 (B acid → Rinse)
-    - 9 → 10 (Rinse → Unloading)
+    Reads the pipeline structure entirely from the tank CSV (process_name groups).
+    No station numbers are hardcoded — all routing is derived automatically.
+
+    Pipeline pattern (alternating wide/narrow groups, e.g.):
+      Group 0: [1]          (single source/loading)
+      Group 1: [2, 3, 4]   (parallel process tanks)
+      Group 2: [5]          (single collector)
+      Group 3: [6, 7]       (parallel process tanks)
+      Group 4: [8]          (single collector)
+      Group 5: [9]          (unloading)
+
+    Sequence generated:
+      Phase 0→1  : fan-out from each source in G0 to every station in G1
+      Phase 1→2→3: for each item in G1: G1[i]→G2[0], G2[0]→G3[earliest_available]
+      Phase 3→4→5: for each item in G3: G3[i]→G4[0], G4[0]→G5[0]
+      (pattern continues for deeper pipelines)
     """
     if safe_distance_mm is None:
         safe_distance_mm = 500.0
@@ -1605,250 +1615,220 @@ def gap_analysis_grouped_sequence(
     ]
     sequence_data = [headers]
 
-    tank_dict = {int(t.get("station_no", 0)): t for t in tanks}
-    stn_dist = {
-        int(t.get("station_no", 0)): float(t.get("distance_mm", 0)) for t in tanks
-    }
+    if not tanks or not config:
+        return sequence_data
 
-    # Initialize wagon states
-    wagon_pos_mm = {
-        w_id: stn_dist.get(config[w_id]["basic_pos"], 0.0) for w_id in config
-    }
-    wagon_stn = {w_id: config[w_id]["basic_pos"] for w_id in config}
-    wagon_times = {w_id: 0.0 for w_id in config}
-    step_counters = {w_id: 0 for w_id in config}
+    # ── 1. Build lookup tables ──────────────────────────────────────────────
+    tank_dict = {int(t.get("station_no", 0)): t for t in tanks}
+    stn_dist  = {int(t.get("station_no", 0)): float(t.get("distance_mm", 0))
+                 for t in tanks}
+
+    wagon_pos_mm  = {w: stn_dist.get(config[w]["basic_pos"], 0.0) for w in config}
+    wagon_stn     = {w: config[w]["basic_pos"] for w in config}
+    step_counters = {w: 0 for w in config}
     station_free_at = {stn_no: 0.0 for stn_no in stn_dist.keys()}
 
-    # Helper function to find an available wagon for a given row
-    def get_wagon_for_row(target_row, current_time):
-        best_wagon = None
-        earliest_available_time = float('inf')
-        for w_id, w_cfg in config.items():
-            if int(w_cfg.get("row", 1)) == target_row:
-                if wagon_times[w_id] < earliest_available_time:
-                    earliest_available_time = wagon_times[w_id]
-                    best_wagon = w_id
-        return best_wagon, max(current_time, earliest_available_time)
+    # ── 2. Build process groups from CSV (order by station_no) ──────────────
+    tanks_sorted = sorted(tanks, key=lambda t: int(t.get("station_no", 0)))
+    process_groups = []   # list of lists of station numbers
+    cur_group, cur_proc = [], None
+    for t in tanks_sorted:
+        proc = (t.get("process_name") or "").strip().lower()
+        if cur_proc is None:
+            cur_proc, cur_group = proc, [int(t.get("station_no", 0))]
+        elif proc == cur_proc and proc != "":
+            cur_group.append(int(t.get("station_no", 0)))
+        else:
+            process_groups.append(cur_group)
+            cur_proc, cur_group = proc, [int(t.get("station_no", 0))]
+    if cur_group:
+        process_groups.append(cur_group)
 
-    # Helper function to execute a move
-    def execute_move(
-        load_id,
-        wagon_id,
-        current_acc,
-        from_stn,
-        to_stn,
-        w_cfg,
-        wagon_pos_mm,
-        wagon_stn,
-        wagon_times,
-        step_counters,
-        sequence_data,
-        tank_dict,
-        stn_dist,
-        station_free_at,
-    ):
-        from_tank = tank_dict.get(from_stn, {})
-        to_tank = tank_dict.get(to_stn, {})
-        from_dist = stn_dist.get(from_stn, 0)
-        to_dist = stn_dist.get(to_stn, 0)
-        from_row = int(from_tank.get("Row") or from_tank.get("row") or 1)
-        to_row = int(to_tank.get("Row") or to_tank.get("row") or 1)
+    if len(process_groups) < 2:
+        return sequence_data   # nothing to route
 
-        # Move wagon to source station if not already there
-        travel_to_from = 0
+    # ── 3. Pick wagon for a given station ───────────────────────────────────
+    def _pick_wagon(stn_no):
+        t = tank_dict.get(stn_no, {})
+        row = int(t.get("Row") or t.get("row") or 1)
+        for w_name, w_cfg in config.items():
+            if int(w_cfg.get("row", 1)) == row:
+                return w_name
+        return list(config.keys())[0]
+
+    # ── 4. Core move emitter ─────────────────────────────────────────────────
+    def _do_move(l_idx, from_stn, to_stn, current_acc):
+        """Emit GET FROM + PUT ON. Updates wagon state. Returns new acc."""
+        wagon_id = _pick_wagon(from_stn)
+        w_cfg    = config[wagon_id]
+        from_t   = tank_dict.get(from_stn, {})
+        to_t     = tank_dict.get(to_stn,   {})
+        from_d   = stn_dist.get(from_stn, 0)
+        to_d     = stn_dist.get(to_stn,   0)
+        from_row = int(from_t.get("Row") or from_t.get("row") or 1)
+        to_row   = int(to_t.get("Row")   or to_t.get("row")   or 1)
+
+        # Travel to source if wagon is elsewhere
         if wagon_stn[wagon_id] != from_stn:
-            dist = abs(from_dist - wagon_pos_mm[wagon_id])
-            travel_to_from = calculate_time_value(
-                dist, max(0, dist - 500), 500, w_cfg["sf"], w_cfg["f"], w_cfg["s"]
-            )
-        current_acc += travel_to_from
-
-        # Wait for source station to be free
-        current_acc = max(current_acc, station_free_at.get(from_stn, 0.0))
-
-        # GET FROM
-        step_counters[wagon_id] += 1
-        sequence_data.append(
-            [
-                from_row,
-                wagon_id,
-                step_counters[wagon_id],
-                "GET FROM",
-                from_stn,
-                f"{w_cfg['lift_time']:.2f}",
-                f"{current_acc:.2f}",
-                f"L{load_id}",
-                "0.00",
-            ]
-        )
-        current_acc += w_cfg["lift_time"]
-        station_free_at[from_stn] = 0.0 # Source station is now free
-
-        # Travel time to destination
-        travel_to_to = abs(to_dist - from_dist)
-        tt = calculate_time_value(
-            travel_to_to,
-            max(0, travel_to_to - 500),
-            500,
-            w_cfg["sf"],
-            w_cfg["f"],
-            w_cfg["s"],
-        )
-
-        # Wait for destination station to be free
-        current_acc = max(current_acc, station_free_at.get(to_stn, 0.0))
-
-        # PUT ON
-        step_counters[wagon_id] += 1
-        sequence_data.append(
-            [
-                to_row,
-                wagon_id,
-                step_counters[wagon_id],
-                "PUT ON",
-                to_stn,
-                f"{(tt + w_cfg['lower_time']):.2f}",
-                f"{current_acc:.2f}",
-                f"L{load_id}",
-                "0.00",
-            ]
-        )
-        current_acc += tt + w_cfg["lower_time"]
-
-        dip = float(to_tank.get("dip_time_sec", 0))
-        current_acc += dip
-        station_free_at[to_stn] = current_acc # Destination station busy until dip complete
-
-        wagon_pos_mm[wagon_id] = to_dist
-        wagon_stn[wagon_id] = to_stn
-        wagon_times[wagon_id] = current_acc
-        return current_acc
-
-    def _do_move(wagon_id, l_idx, from_stn, to_stn, current_acc):
-        """Emit GET FROM + PUT ON for one move. Returns updated current_acc."""
-        w_cfg = config[wagon_id]
-        from_tank = tank_dict.get(from_stn, {})
-        to_tank = tank_dict.get(to_stn, {})
-        from_dist = stn_dist.get(from_stn, 0)
-        to_dist = stn_dist.get(to_stn, 0)
-        from_row = int(from_tank.get("Row") or from_tank.get("row") or 1)
-        to_row = int(to_tank.get("Row") or to_tank.get("row") or 1)
-
-        # Travel to source if needed
-        if wagon_stn[wagon_id] != from_stn:
-            dist = abs(from_dist - wagon_pos_mm[wagon_id])
+            dist = abs(from_d - wagon_pos_mm[wagon_id])
             current_acc += calculate_time_value(
-                dist, max(0, dist - 500), 500, w_cfg["sf"], w_cfg["f"], w_cfg["s"]
+                dist, max(0, dist - 500), 500,
+                w_cfg["sf"], w_cfg["f"], w_cfg["s"]
             )
 
         # GET FROM
         step_counters[wagon_id] += 1
         sequence_data.append([
             from_row, wagon_id, step_counters[wagon_id], "GET FROM",
-            from_stn, f"{w_cfg['lift_time']:.2f}", f"{current_acc:.2f}",
-            f"L{l_idx}", "0.00",
+            from_stn,
+            f"{w_cfg['lift_time']:.2f}",
+            f"{current_acc:.2f}",
+            f"L{l_idx}",
+            "0.00",
         ])
         current_acc += w_cfg["lift_time"]
 
         # Travel to destination
-        travel = abs(to_dist - from_dist)
+        travel = abs(to_d - from_d)
         tt = calculate_time_value(
-            travel, max(0, travel - 500), 500, w_cfg["sf"], w_cfg["f"], w_cfg["s"]
+            travel, max(0, travel - 500), 500,
+            w_cfg["sf"], w_cfg["f"], w_cfg["s"]
         )
 
         # PUT ON
         step_counters[wagon_id] += 1
         sequence_data.append([
             to_row, wagon_id, step_counters[wagon_id], "PUT ON",
-            to_stn, f"{(tt + w_cfg['lower_time']):.2f}", f"{current_acc:.2f}",
-            f"L{l_idx}", "0.00",
+            to_stn,
+            f"{(tt + w_cfg['lower_time']):.2f}",
+            f"{current_acc:.2f}",
+            f"L{l_idx}",
+            "0.00",
         ])
         current_acc += tt + w_cfg["lower_time"]
-        current_acc += float(to_tank.get("dip_time_sec", 0))
-
-        wagon_pos_mm[wagon_id] = to_dist
-        wagon_stn[wagon_id] = to_stn
+        
+        wagon_pos_mm[wagon_id] = to_d
+        wagon_stn[wagon_id]    = to_stn
         return current_acc
 
-    def _pick_wagon(row_no):
+    # ── 5. Generic pipeline sequence generator ──────────────────────────────
+    #
+    #  Dynamic Discrete Event Scheduler (Strict Occupancy):
+    #  Items are physically tracked. A tank is occupied from PUT ON until
+    #  GET FROM. A blocked item waits indefinitely without deadlocking.
+    # ─────────────────────────────────────────────────────────────────────────
 
-        """Return the wagon_id whose row matches row_no, else the first wagon."""
-        for w_name, w_cfg in config.items():
-            if int(w_cfg.get("row", 1)) == row_no:
-                return w_name
-        return list(config.keys())[0] if config else None
-
+    wagon_ready_time = {w: 0.0 for w in config}
+    is_occupied = {int(t.get("station_no", 0)): False for t in tanks}
+    # Provide infinite capacity assumption for the loading station:
+    src0 = process_groups[0][0]
+    is_occupied[src0] = False
+    
+    active_items = []
     for l_idx in range(num_loads):
-        current_acc = l_idx * 60.0   # stagger loads by 60 s each
+        for dst in process_groups[1]:
+            active_items.append({
+                'l_idx': l_idx,
+                'curr_stn': src0,
+                'g_idx': 0, 
+                'ready_at': l_idx * 60.0,
+                'assigned_dst': dst
+            })
+            
+    while active_items:
+        # Step 1: Remove any items that reached their final human-unloaded destination.
+        # Once their dip time at the final station is done, they are cleared out.
+        # We need to simulate the passage of time to know WHEN they are cleared.
+        # So we only clear them when their ready_at is <= current minimum time of other items/wagons.
+        # To be safe and simple, human unloading means the station frees itself at ready_at.
+        
+        for item in list(active_items):
+            if item['g_idx'] >= len(process_groups) - 1:
+                # If it's already at the final group, treat it as "unloaded" at ready_at
+                # We simply mark the station empty and remove the item.
+                # However, we should only do this if time has advanced to ready_at.
+                # But we can just say the human is always perfectly ready.
+                pass # Handled below
 
-        # Determine source and destinations from tank data
-        tanks_sorted_local = sorted(tanks, key=lambda x: int(x.get("station_no", 0)))
-        # Build process groups to find src & dests
-        process_groups = []
-        cur_group = []
-        cur_proc = None
-        for tank in tanks_sorted_local:
-            proc = (tank.get("process_name") or "").strip().lower()
-            if cur_proc is None:
-                cur_proc = proc
-                cur_group = [tank]
-            elif proc == cur_proc and proc != "":
-                cur_group.append(tank)
+        # Step 2: Find all valid moves.
+        # A move is valid if the destination tank is currently NOT occupied.
+        valid_moves = []
+        for item in active_items:
+            curr_stn = item['curr_stn']
+            
+            # Is it at the end of the line?
+            if item['g_idx'] >= len(process_groups) - 1:
+                # Ghost move: the item is unloaded automatically by a human.
+                # It doesn't need the wagon. Target "stn" is None.
+                valid_moves.append({
+                    'item': item,
+                    'best_stn': None,
+                    'start_time': item['ready_at'] # happens exactly when ready
+                })
+                continue
+            
+            next_g_idx = item['g_idx'] + 1
+            if item['g_idx'] == 0:
+                target_stns = [item['assigned_dst']]
             else:
-                if cur_group:
-                    process_groups.append(cur_group)
-                cur_proc = proc
-                cur_group = [tank]
-        if cur_group:
-            process_groups.append(cur_group)
+                target_stns = process_groups[next_g_idx]
+                
+            wagon_id = _pick_wagon(curr_stn)
+            w_time = wagon_ready_time[wagon_id]
+            earliest_arrival = max(item['ready_at'], w_time)
+            
+            # Find an empty destination (if any)
+            best_stn = None
+            for stn in target_stns:
+                if not is_occupied[stn]:
+                    best_stn = stn
+                    break
+            
+            if best_stn is not None:
+                valid_moves.append({
+                    'item': item,
+                    'best_stn': best_stn,
+                    'start_time': earliest_arrival
+                })
 
-        if not process_groups or len(process_groups) < 2:
-            continue
+        if not valid_moves:
+            # All items are blocked by occupied tanks. Deadlock check!
+            # If we don't handle unloading based on time, and Unloading tank 8 
+            # is occupied, we must artificially advance time to free it.
+            # But wait, we DO have ghost moves for unloading defined above!
+            # Since ghost moves have no destination constraint, valid_moves is NEVER empty
+            # if there's an item at the final station.
+            break
 
-        src_group = process_groups[0]   # e.g. [station 1]
-        dst_group = process_groups[1]   # e.g. [stations 2, 3, 4]
-
-        src_stns = [int(t.get("station_no", 0)) for t in src_group]
-        dst_stns = [int(t.get("station_no", 0)) for t in dst_group]
-        src = src_stns[0]   # station 1
-        dests = dst_stns    # [2, 3, 4]
-
-        # Collector and downstream stations
-        collector = 5       # Post-rinse (intermediate collector)
-        rinse = 9           # Rinse collector
-        unload = 10         # Unloading station
-
-        wagon_id = _pick_wagon(
-            int(src_group[0].get("Row") or src_group[0].get("row") or 1)
-        )
-        if not wagon_id:
-            continue
-
-        # ------------------------------------------------------------------
-        # PHASE 1: get from 1 → put on 2, 3, 4  (in sequence)
-        # ------------------------------------------------------------------
-        for dest in dests:
-            current_acc = _do_move(wagon_id, l_idx, src, dest, current_acc)
-
-        # ------------------------------------------------------------------
-        # PHASE 2: For each dest in [2,3,4]:
-        #   get from dest → put on 5
-        #   get from 5   → put on dest+4  (6, 7, 8)
-        # ------------------------------------------------------------------
-        for dest in dests:
-            mid = dest + 4   # 2→6, 3→7, 4→8
-            current_acc = _do_move(wagon_id, l_idx, dest, collector, current_acc)
-            current_acc = _do_move(wagon_id, l_idx, collector, mid, current_acc)
-
-        # ------------------------------------------------------------------
-        # PHASE 3: For each mid in [6, 7, 8]:
-        #   get from mid → put on 9
-        #   get from 9   → put on 10
-        # ------------------------------------------------------------------
-        for dest in dests:
-            mid = dest + 4   # 6, 7, 8
-            current_acc = _do_move(wagon_id, l_idx, mid, rinse, current_acc)
-            current_acc = _do_move(wagon_id, l_idx, rinse, unload, current_acc)
+        # Step 3: Pick the Earliest valid move.
+        # Priority 1: Earliest start_time
+        # Priority 2: Downstream items first (higher g_idx) to pull the pipeline
+        valid_moves.sort(key=lambda x: (x['start_time'], -x['item']['g_idx']))
+        
+        best_move = valid_moves[0]
+        item = best_move['item']
+        best_stn = best_move['best_stn']
+        start_time = best_move['start_time']
+        
+        curr_stn = item['curr_stn']
+        
+        if best_stn is None:
+            # Ghost move: Human unloading
+            is_occupied[curr_stn] = False
+            active_items.remove(item)
+        else:
+            # Physical wagon move
+            wagon_id = _pick_wagon(curr_stn)
+            new_wagon_time = _do_move(item['l_idx'], curr_stn, best_stn, start_time)
+            wagon_ready_time[wagon_id] = new_wagon_time
+            
+            is_occupied[curr_stn] = False
+            is_occupied[best_stn] = True
+            
+            item['curr_stn'] = best_stn
+            item['g_idx'] += 1
+            dip = float(tank_dict.get(best_stn, {}).get("dip_time_sec", 0))
+            item['ready_at'] = new_wagon_time + dip
 
     headers = sequence_data[0]
     rows = sequence_data[1:]
