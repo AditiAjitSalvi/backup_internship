@@ -1,2 +1,2 @@
 Transporter Name,Superfast Speed,Fast Speed,Slow Speed,Lift Time,Lower Time,Row Number,Minimum Station No,Maximum Station No,Basic Position,Wagon Length (mm),Safety Buffer (mm),Size Factor,Station Occupy Factor,Row
-Wagon 1,12,25,5,12,12,1,1,8,1,3000,500,1.2,1.3,1
+Wagon 1,12,25,5,12,12,1,1,7,1,3000,500,1.2,1.3,1

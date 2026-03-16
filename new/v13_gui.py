@@ -253,10 +253,16 @@ with tab1:
             label_visibility="collapsed",
         )
         if wagon_file:
-            st.session_state.wagon_df = pd.read_csv(wagon_file)
-            st.rerun()
+            file_hash = hash(wagon_file.getvalue())
+            if st.session_state.get("last_wagon_hash") != file_hash:
+                st.session_state.last_wagon_hash = file_hash
+                df = pd.read_csv(wagon_file)
+                st.session_state.wagon_df = df
+                df.to_csv(model_path / "wagon_config.csv", index=False)
+                st.rerun()
     with ca2:
         if st.button("💾 SAVE WAGON CONFIG", use_container_width=True):
+            st.session_state.wagon_df = edited_wagon_df
             edited_wagon_df.to_csv(model_path / "wagon_config.csv", index=False)
             st.success("Wagons Saved!")
 
@@ -286,10 +292,16 @@ with tab1:
             label_visibility="collapsed",
         )
         if tanks_file:
-            st.session_state.tanks_df = pd.read_csv(tanks_file)
-            st.rerun()
+            file_hash = hash(tanks_file.getvalue())
+            if st.session_state.get("last_tanks_hash") != file_hash:
+                st.session_state.last_tanks_hash = file_hash
+                df = pd.read_csv(tanks_file)
+                st.session_state.tanks_df = df
+                df.to_csv(model_path / "tanks_csv.csv", index=False)
+                st.rerun()
     with cb2:
         if st.button("💾 SAVE STATION DATA", use_container_width=True):
+            st.session_state.tanks_df = edited_tanks_df
             edited_tanks_df.to_csv(model_path / "tanks_csv.csv", index=False)
             st.success("Stations Saved!")
 

@@ -10,6 +10,20 @@ import torch.optim as optim
 from torch.distributions import Categorical
 from tabulate import tabulate
 
+# Import dip time calculation module (C#-style)
+import sys
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "diptime"))
+from diptime_calculation import (
+    load_station_config,
+    calculate_time_csharp,
+    calculate_time_value,
+    DipTimeProcessor,
+    Wagon,
+    DistanceCalculator,
+    SequenceProcessor,
+)
+
 # ==========================================
 # CONFIGURATION & HYPERPARAMETERS
 # ==========================================
@@ -1112,7 +1126,82 @@ def run_collision_correction_pass(sequence_data, station_list=None, config=None)
 # ==========================================
 # SEQUENCE GENERATION (PHYSICS-BASED)
 # ==========================================
+
+# Global station positions for distance calculation
+_station_positions = {}
+_station_rows = {}
+_sensor_distances = {}
+
+
+def load_station_config(tanks):
+    """Load station positions and rows from tanks data for distance calculation."""
+    global _station_positions, _station_rows, _sensor_distances
+    _station_positions = {}
+    _station_rows = {}
+    _sensor_distances = {}
+
+    for tank in tanks:
+        stn = int(tank.get("station_no", 0))
+        _station_positions[stn] = float(tank.get("distance_mm", 0))
+        _station_rows[stn] = int(tank.get("Row") or tank.get("row") or 1)
+        _sensor_distances[stn] = int(tank.get("sensor_distance") or 50)
+
+
+def get_distance_csharp(current_pos, dest_pos, row_no):
+    """
+    C#-style distance calculation using 2-stage approach.
+    Mimics: getDistance(currentposition, destinationValue ± 1)
+
+    Returns: dict with distance1, distance2, censor_distance, flightbar
+    """
+    global _station_positions, _sensor_distances
+
+    if current_pos == dest_pos:
+        return {
+            "distance1": 0,
+            "distance2": 0,
+            "censor_distance": 50,
+            "flightbar": False,
+        }
+
+    # Determine direction (same as C#)
+    step = 1 if dest_pos > current_pos else -1
+
+    # Stage 1: getDistance(currentposition, destinationValue ± 1)
+    # Get positions at intermediate point
+    intermediate = dest_pos + step
+    pos_current = _station_positions.get(current_pos, current_pos * 1000)
+    pos_intermediate = _station_positions.get(intermediate, intermediate * 1000)
+
+    # Distance from current to intermediate
+    d1 = abs(pos_intermediate - pos_current)
+    d2 = 0  # At intermediate point
+    censor_dist = _sensor_distances.get(dest_pos, 50)
+
+    # Stage 2: getDistance(destinationValue ± 1, destinationValue)
+    pos_dest = _station_positions.get(dest_pos, dest_pos * 1000)
+
+    d3 = abs(pos_dest - pos_intermediate)  # Distance at destination approach
+    d4 = 0  # At exact destination
+
+    # Calculate final zones (matching C# logic)
+    distance1 = abs(d1 - d2)  # Superfast zone
+    distance2 = max(0, abs(d3 - d4) - censor_dist)  # Fast zone (minus sensor)
+    distance3 = censor_dist  # Slow/sensor zone
+
+    return {
+        "distance1": distance1,
+        "distance2": distance2,
+        "censor_distance": distance3,
+        "flightbar": False,
+    }
+
+
 def calculate_time_value(distance1, distance2, distance3, sfspeed, fspeed, sspeed):
+    """
+    Calculate travel time using zone-based formula (C# style).
+    Uses: time = d1/(sfspeed*16.66) + d2/(fspeed*16.66) + d3/(sspeed*16.66)
+    """
     try:
         sfs = sfspeed * 16.66 if sfspeed > 0 else 1.0
         fs = fspeed * 16.66 if fspeed > 0 else 1.0
@@ -1120,6 +1209,176 @@ def calculate_time_value(distance1, distance2, distance3, sfspeed, fspeed, sspee
         return (distance1 / sfs) + (distance2 / fs) + (distance3 / ss)
     except:
         return 0
+
+
+def calculate_time_csharp(current_pos, dest_pos, row_no, sfspeed, fspeed, sspeed):
+    """
+    C#-style travel time calculation using 2-stage distance approach.
+    Mimics DipTimeCalculation() from frmDipTime.cs
+    """
+    if current_pos == dest_pos:
+        return 0.0
+
+    # Get distance data using C# 2-stage approach
+    dist_data = get_distance_csharp(current_pos, dest_pos, row_no)
+
+    distance1 = dist_data["distance1"]  # Superfast
+    distance2 = dist_data["distance2"]  # Fast
+    distance3 = dist_data["censor_distance"]  # Slow/sensor
+
+    return calculate_time_value(
+        distance1, distance2, distance3, sfspeed, fspeed, sspeed
+    )
+
+
+class DipTimeProcessor:
+    """
+    C#-style Dip Time Processor.
+    Mimics the DipTimeCalculation() and CycleTimeCalculation() from frmDipTime.cs
+    """
+
+    def __init__(self, wagon_id, wagon_config, station_positions=None):
+        self.wagon_id = wagon_id
+        self.wagon_config = wagon_config
+        self.station_positions = station_positions or _station_positions
+
+        # Current state (matching C# variables)
+        self.currentposition = wagon_config.get("basic_pos", 0)
+        self.basicposition = wagon_config.get("basic_pos", 0)
+        self.rowno = wagon_config.get("row", 1)
+
+        # Speed parameters (matching C#)
+        self.sfspeed = wagon_config.get("sf", 0)
+        self.fspeed = wagon_config.get("f", 0)
+        self.sspeed = wagon_config.get("s", 0)
+        self.liftspeed = wagon_config.get("lift_time", 0)
+        self.lowerspeed = wagon_config.get("lower_time", 0)
+
+        # Tracking
+        self.timevalue = 0.0
+        self.previous_instruction = ""
+        self.dip_data = {}  # station → {DipInTime, DipOutTime, FlightBar}
+
+    def process_instruction(self, cmd, value):
+        """Process single instruction like C# DipTimeCalculation()"""
+        cmd_upper = cmd.upper().strip()
+
+        try:
+            dest_value = int(value)
+        except (ValueError, TypeError):
+            dest_value = 0
+
+        if cmd_upper in ["GET FROM", "PUT ON"]:
+            # Calculate travel time if position changed
+            if self.currentposition != dest_value:
+                travel_time = calculate_time_csharp(
+                    self.currentposition,
+                    dest_value,
+                    self.rowno,
+                    self.sfspeed,
+                    self.fspeed,
+                    self.sspeed,
+                )
+                self.timevalue += travel_time
+
+            # Add lift/lower only on instruction change (matching C#)
+            if self.previous_instruction != cmd_upper:
+                if cmd_upper.startswith("GET"):
+                    if self.liftspeed > 0:
+                        self.timevalue += self.liftspeed
+                elif cmd_upper.startswith("PUT"):
+                    if self.lowerspeed > 0:
+                        self.timevalue += self.lowerspeed
+
+            # Track dip in/out times
+            if cmd_upper == "PUT ON":
+                if dest_value not in self.dip_data:
+                    self.dip_data[dest_value] = {
+                        "DipInTime": 0,
+                        "DipOutTime": 0,
+                        "FlightBar": False,
+                    }
+                self.dip_data[dest_value]["DipInTime"] = self.timevalue
+
+            elif cmd_upper == "GET FROM":
+                if dest_value in self.dip_data:
+                    self.dip_data[dest_value]["DipOutTime"] = self.timevalue
+
+            # Update position
+            self.currentposition = dest_value
+
+        elif cmd_upper in ["WAIT FOR SEC", "WAIT FOR SECOND"]:
+            self.timevalue += float(dest_value)
+
+        elif cmd_upper in ["CLAMP", "DECLAMP", "TILT", "UNTILT"]:
+            self.timevalue += float(dest_value)
+
+        # Handle SET CT - Cross Trolley
+        elif cmd_upper == "SET CT":
+            # Default CT speed: assume 10 m/min = 600 mm/s = 36 m/min
+            ct_speed = 10  # m/min
+            ct_distance = 2230  # mm
+            ct_time = ct_distance / (ct_speed * 16.66)
+            self.timevalue += ct_time
+
+        self.previous_instruction = cmd_upper
+        return self.timevalue
+
+    def get_total_time(self):
+        """Get total accumulated time"""
+        return self.timevalue
+
+    def calculate_dip_times(self, max_cycle_time=600, actual_cycle_time=600):
+        """
+        Calculate final dip times with cycle scaling.
+        Mimics C# logic for DipTimeActual calculation.
+        """
+        results = {}
+
+        for stn, data in self.dip_data.items():
+            dip_in = data.get("DipInTime", 0)
+            dip_out = data.get("DipOutTime", 0)
+
+            # Handle cycle wrap (matching C# logic)
+            if dip_in > dip_out and dip_in > 0 and dip_out > 0:
+                dip_out += max_cycle_time
+
+            dip_time = dip_out - dip_in if dip_out > dip_in else 0
+
+            # Calculate actual dip time with cycle scaling
+            if max_cycle_time > 0:
+                dip_time_actual = (dip_time * actual_cycle_time) / max_cycle_time
+            else:
+                dip_time_actual = dip_time
+
+            results[stn] = {
+                "Station": str(stn),
+                "DipInTime": round(dip_in, 2),
+                "DipOutTime": round(dip_out, 2) if dip_out > 0 else 0,
+                "DipTime": round(dip_time, 2),
+                "DipTimeActual": round(dip_time_actual, 2),
+                "FlightBar": data.get("FlightBar", False),
+            }
+
+        return results
+
+
+def calculate_wagon_cycle_time(
+    wagon_id, wagon_config, sequence_rows, station_positions=None
+):
+    """
+    Calculate total cycle time for a wagon from sequence.
+    Mimics C# CycleTimeCalculation() function.
+    """
+    processor = DipTimeProcessor(wagon_id, wagon_config, station_positions)
+
+    for row in sequence_rows:
+        if len(row) >= 3:
+            cmd = str(row[3])  # Command column
+            value = str(row[4]) if len(row) > 4 else "0"  # Value column
+            processor.process_instruction(cmd, value)
+
+    return processor.get_total_time()
 
 
 def build_wagon_routes(tanks, config):
@@ -1264,8 +1523,9 @@ def gap_analysis_sequence(
         "Value",
         "TravelTime",
         "AccumulatedTime",
-        "CollisionFlag",
+        "LoadID",
         "WaitTime",
+        "CollisionFlag",
     ]
     sequence_data = [headers]
 
@@ -1473,6 +1733,7 @@ def gap_analysis_sequence(
         # Insert WAIT if collision was detected
         if best_task["wait_col"] > 0:
             step_counters[w_id] += 1
+            acc += best_task["wait_col"]
             sequence_data.append(
                 [
                     best_task["t_row"],
@@ -1484,12 +1745,13 @@ def gap_analysis_sequence(
                     f"{acc:.2f}",
                     f"L{l_idx}",
                     f"{best_task['wait_col']:.2f}",
+                    "PROXIMITY",
                 ]
             )
-            acc += best_task["wait_col"]
 
         # GET FROM
         step_counters[w_id] += 1
+        acc += w_cfg["lift_time"]
         sequence_data.append(
             [
                 best_task["t_row"],
@@ -1501,16 +1763,18 @@ def gap_analysis_sequence(
                 f"{acc:.2f}",
                 f"L{l_idx}",
                 "0.00",
+                "NORMAL",
             ]
         )
-        acc += w_cfg["lift_time"]
 
         # Release source
         station_free_at[s_f] = 0
 
         # PUT ON
         tt = best_task["travel_time"]
+        dip = float(best_task["next_tank"].get("dip_time_sec", 0))
         step_counters[w_id] += 1
+        acc += tt + w_cfg["lower_time"]
         sequence_data.append(
             [
                 best_task["t_row"],
@@ -1518,13 +1782,13 @@ def gap_analysis_sequence(
                 step_counters[w_id],
                 "PUT ON",
                 s_t,
-                f"{(tt + w_cfg['lower_time']):.2f}",
+                f"{(tt + w_cfg['lower_time'] + dip):.2f}",
                 f"{acc:.2f}",
                 f"L{l_idx}",
                 "0.00",
+                "NORMAL",
             ]
         )
-        acc += tt + w_cfg["lower_time"]
 
         # Update State
         dip = float(best_task["next_tank"].get("dip_time_sec", 0))
@@ -1551,6 +1815,7 @@ def gap_analysis_sequence(
 
         if load_states[l_idx]["next_hop"] >= len(load_paths[l_idx]) - 1:
             step_counters[w_id] += 1
+            acc += w_cfg["lift_time"]
             sequence_data.append(
                 [
                     best_task["t_row"],
@@ -1562,13 +1827,78 @@ def gap_analysis_sequence(
                     f"{acc:.2f}",
                     f"L{l_idx}",
                     "0.00",
+                    "NORMAL",
                 ]
             )
-            wagon_times[w_id] = acc + w_cfg["lift_time"]
+            wagon_times[w_id] = acc
             load_states[l_idx]["finished"] = True
             station_free_at[s_t] = 0
 
         hops_generated += 1
+
+    # === RETURN TO HOME STATION ===
+    # After all loads are delivered, each wagon returns to its basic_pos (home station)
+    # Using GET FROM -> PUT ON pattern like normal moves
+    for wagon_id in config:
+        w_cfg = config[wagon_id]
+        home_stn = w_cfg["basic_pos"]  # Home station from config (flexible)
+        home_dist = stn_dist.get(home_stn, 0.0)
+        current_stn = wagon_stn[wagon_id]
+        current_dist = wagon_pos_mm[wagon_id]
+
+        # Only return if wagon is not already at home station
+        if current_stn != home_stn:
+            return_dist = abs(home_dist - current_dist)
+            return_travel = calculate_time_value(
+                return_dist,
+                max(0, return_dist - 500),
+                500,
+                w_cfg["sf"],
+                w_cfg["f"],
+                w_cfg["s"],
+            )
+
+            home_row = int(w_cfg.get("row", 1))
+
+            # GET FROM current station
+            step_counters[wagon_id] += 1
+            wagon_times[wagon_id] += w_cfg["lift_time"]
+            sequence_data.append(
+                [
+                    home_row,
+                    wagon_id,
+                    step_counters[wagon_id],
+                    "GET FROM",
+                    current_stn,
+                    f"{w_cfg['lift_time']:.2f}",
+                    f"{wagon_times[wagon_id]:.2f}",
+                    "HOME",
+                    "0.00",
+                    "RETURN",
+                ]
+            )
+
+            # PUT ON home station
+            step_counters[wagon_id] += 1
+            wagon_times[wagon_id] += return_travel + w_cfg["lower_time"]
+            sequence_data.append(
+                [
+                    home_row,
+                    wagon_id,
+                    step_counters[wagon_id],
+                    "PUT ON",
+                    home_stn,
+                    f"{(return_travel + w_cfg['lower_time']):.2f}",
+                    f"{wagon_times[wagon_id]:.2f}",
+                    "HOME",
+                    "0.00",
+                    "RETURN",
+                ]
+            )
+
+            # Update wagon position state
+            wagon_pos_mm[wagon_id] = home_dist
+            wagon_stn[wagon_id] = home_stn
 
     headers = sequence_data[0]
     rows = sequence_data[1:]
@@ -1612,6 +1942,7 @@ def gap_analysis_grouped_sequence(
         "AccumulatedTime",
         "LoadID",
         "WaitTime",
+        "CollisionFlag",
     ]
     sequence_data = [headers]
 
@@ -1620,17 +1951,18 @@ def gap_analysis_grouped_sequence(
 
     # ── 1. Build lookup tables ──────────────────────────────────────────────
     tank_dict = {int(t.get("station_no", 0)): t for t in tanks}
-    stn_dist  = {int(t.get("station_no", 0)): float(t.get("distance_mm", 0))
-                 for t in tanks}
+    stn_dist = {
+        int(t.get("station_no", 0)): float(t.get("distance_mm", 0)) for t in tanks
+    }
 
-    wagon_pos_mm  = {w: stn_dist.get(config[w]["basic_pos"], 0.0) for w in config}
-    wagon_stn     = {w: config[w]["basic_pos"] for w in config}
+    wagon_pos_mm = {w: stn_dist.get(config[w]["basic_pos"], 0.0) for w in config}
+    wagon_stn = {w: config[w]["basic_pos"] for w in config}
     step_counters = {w: 0 for w in config}
     station_free_at = {stn_no: 0.0 for stn_no in stn_dist.keys()}
 
     # ── 2. Build process groups from CSV (order by station_no) ──────────────
     tanks_sorted = sorted(tanks, key=lambda t: int(t.get("station_no", 0)))
-    process_groups = []   # list of lists of station numbers
+    process_groups = []  # list of lists of station numbers
     cur_group, cur_proc = [], None
     for t in tanks_sorted:
         proc = (t.get("process_name") or "").strip().lower()
@@ -1645,7 +1977,7 @@ def gap_analysis_grouped_sequence(
         process_groups.append(cur_group)
 
     if len(process_groups) < 2:
-        return sequence_data   # nothing to route
+        return sequence_data  # nothing to route
 
     # ── 3. Pick wagon for a given station ───────────────────────────────────
     def _pick_wagon(stn_no):
@@ -1660,55 +1992,66 @@ def gap_analysis_grouped_sequence(
     def _do_move(l_idx, from_stn, to_stn, current_acc):
         """Emit GET FROM + PUT ON. Updates wagon state. Returns new acc."""
         wagon_id = _pick_wagon(from_stn)
-        w_cfg    = config[wagon_id]
-        from_t   = tank_dict.get(from_stn, {})
-        to_t     = tank_dict.get(to_stn,   {})
-        from_d   = stn_dist.get(from_stn, 0)
-        to_d     = stn_dist.get(to_stn,   0)
+        w_cfg = config[wagon_id]
+        from_t = tank_dict.get(from_stn, {})
+        to_t = tank_dict.get(to_stn, {})
+        from_d = stn_dist.get(from_stn, 0)
+        to_d = stn_dist.get(to_stn, 0)
         from_row = int(from_t.get("Row") or from_t.get("row") or 1)
-        to_row   = int(to_t.get("Row")   or to_t.get("row")   or 1)
+        to_row = int(to_t.get("Row") or to_t.get("row") or 1)
 
         # Travel to source if wagon is elsewhere
         if wagon_stn[wagon_id] != from_stn:
             dist = abs(from_d - wagon_pos_mm[wagon_id])
             current_acc += calculate_time_value(
-                dist, max(0, dist - 500), 500,
-                w_cfg["sf"], w_cfg["f"], w_cfg["s"]
+                dist, max(0, dist - 500), 500, w_cfg["sf"], w_cfg["f"], w_cfg["s"]
             )
 
         # GET FROM
         step_counters[wagon_id] += 1
-        sequence_data.append([
-            from_row, wagon_id, step_counters[wagon_id], "GET FROM",
-            from_stn,
-            f"{w_cfg['lift_time']:.2f}",
-            f"{current_acc:.2f}",
-            f"L{l_idx}",
-            "0.00",
-        ])
         current_acc += w_cfg["lift_time"]
+        sequence_data.append(
+            [
+                from_row,
+                wagon_id,
+                step_counters[wagon_id],
+                "GET FROM",
+                from_stn,
+                f"{w_cfg['lift_time']:.2f}",
+                f"{current_acc:.2f}",
+                f"L{l_idx}",
+                "0.00",
+                "NORMAL",
+            ]
+        )
 
         # Travel to destination
         travel = abs(to_d - from_d)
         tt = calculate_time_value(
-            travel, max(0, travel - 500), 500,
-            w_cfg["sf"], w_cfg["f"], w_cfg["s"]
+            travel, max(0, travel - 500), 500, w_cfg["sf"], w_cfg["f"], w_cfg["s"]
         )
 
         # PUT ON
         step_counters[wagon_id] += 1
-        sequence_data.append([
-            to_row, wagon_id, step_counters[wagon_id], "PUT ON",
-            to_stn,
-            f"{(tt + w_cfg['lower_time']):.2f}",
-            f"{current_acc:.2f}",
-            f"L{l_idx}",
-            "0.00",
-        ])
+        dip = float(to_t.get("dip_time_sec", 0))
         current_acc += tt + w_cfg["lower_time"]
-        
+        sequence_data.append(
+            [
+                to_row,
+                wagon_id,
+                step_counters[wagon_id],
+                "PUT ON",
+                to_stn,
+                f"{(tt + w_cfg['lower_time'] + dip):.2f}",
+                f"{current_acc:.2f}",
+                f"L{l_idx}",
+                "0.00",
+                "NORMAL",
+            ]
+        )
+
         wagon_pos_mm[wagon_id] = to_d
-        wagon_stn[wagon_id]    = to_stn
+        wagon_stn[wagon_id] = to_stn
         return current_acc
 
     # ── 5. Generic pipeline sequence generator ──────────────────────────────
@@ -1723,77 +2066,79 @@ def gap_analysis_grouped_sequence(
     # Provide infinite capacity assumption for the loading station:
     src0 = process_groups[0][0]
     is_occupied[src0] = False
-    
+
     active_items = []
     for l_idx in range(num_loads):
         for dst in process_groups[1]:
-            active_items.append({
-                'l_idx': l_idx,
-                'curr_stn': src0,
-                'g_idx': 0, 
-                'ready_at': l_idx * 60.0,
-                'assigned_dst': dst
-            })
-            
+            active_items.append(
+                {
+                    "l_idx": l_idx,
+                    "curr_stn": src0,
+                    "g_idx": 0,
+                    "ready_at": l_idx * 60.0,
+                    "assigned_dst": dst,
+                }
+            )
+
     while active_items:
         # Step 1: Remove any items that reached their final human-unloaded destination.
         # Once their dip time at the final station is done, they are cleared out.
         # We need to simulate the passage of time to know WHEN they are cleared.
         # So we only clear them when their ready_at is <= current minimum time of other items/wagons.
         # To be safe and simple, human unloading means the station frees itself at ready_at.
-        
+
         for item in list(active_items):
-            if item['g_idx'] >= len(process_groups) - 1:
+            if item["g_idx"] >= len(process_groups) - 1:
                 # If it's already at the final group, treat it as "unloaded" at ready_at
                 # We simply mark the station empty and remove the item.
                 # However, we should only do this if time has advanced to ready_at.
                 # But we can just say the human is always perfectly ready.
-                pass # Handled below
+                pass  # Handled below
 
         # Step 2: Find all valid moves.
         # A move is valid if the destination tank is currently NOT occupied.
         valid_moves = []
         for item in active_items:
-            curr_stn = item['curr_stn']
-            
+            curr_stn = item["curr_stn"]
+
             # Is it at the end of the line?
-            if item['g_idx'] >= len(process_groups) - 1:
+            if item["g_idx"] >= len(process_groups) - 1:
                 # Ghost move: the item is unloaded automatically by a human.
                 # It doesn't need the wagon. Target "stn" is None.
-                valid_moves.append({
-                    'item': item,
-                    'best_stn': None,
-                    'start_time': item['ready_at'] # happens exactly when ready
-                })
+                valid_moves.append(
+                    {
+                        "item": item,
+                        "best_stn": None,
+                        "start_time": item["ready_at"],  # happens exactly when ready
+                    }
+                )
                 continue
-            
-            next_g_idx = item['g_idx'] + 1
-            if item['g_idx'] == 0:
-                target_stns = [item['assigned_dst']]
+
+            next_g_idx = item["g_idx"] + 1
+            if item["g_idx"] == 0:
+                target_stns = [item["assigned_dst"]]
             else:
                 target_stns = process_groups[next_g_idx]
-                
+
             wagon_id = _pick_wagon(curr_stn)
             w_time = wagon_ready_time[wagon_id]
-            earliest_arrival = max(item['ready_at'], w_time)
-            
+            earliest_arrival = max(item["ready_at"], w_time)
+
             # Find an empty destination (if any)
             best_stn = None
             for stn in target_stns:
                 if not is_occupied[stn]:
                     best_stn = stn
                     break
-            
+
             if best_stn is not None:
-                valid_moves.append({
-                    'item': item,
-                    'best_stn': best_stn,
-                    'start_time': earliest_arrival
-                })
+                valid_moves.append(
+                    {"item": item, "best_stn": best_stn, "start_time": earliest_arrival}
+                )
 
         if not valid_moves:
             # All items are blocked by occupied tanks. Deadlock check!
-            # If we don't handle unloading based on time, and Unloading tank 8 
+            # If we don't handle unloading based on time, and Unloading tank 8
             # is occupied, we must artificially advance time to free it.
             # But wait, we DO have ghost moves for unloading defined above!
             # Since ghost moves have no destination constraint, valid_moves is NEVER empty
@@ -1803,15 +2148,15 @@ def gap_analysis_grouped_sequence(
         # Step 3: Pick the Earliest valid move.
         # Priority 1: Earliest start_time
         # Priority 2: Downstream items first (higher g_idx) to pull the pipeline
-        valid_moves.sort(key=lambda x: (x['start_time'], -x['item']['g_idx']))
-        
+        valid_moves.sort(key=lambda x: (x["start_time"], -x["item"]["g_idx"]))
+
         best_move = valid_moves[0]
-        item = best_move['item']
-        best_stn = best_move['best_stn']
-        start_time = best_move['start_time']
-        
-        curr_stn = item['curr_stn']
-        
+        item = best_move["item"]
+        best_stn = best_move["best_stn"]
+        start_time = best_move["start_time"]
+
+        curr_stn = item["curr_stn"]
+
         if best_stn is None:
             # Ghost move: Human unloading
             is_occupied[curr_stn] = False
@@ -1819,21 +2164,109 @@ def gap_analysis_grouped_sequence(
         else:
             # Physical wagon move
             wagon_id = _pick_wagon(curr_stn)
-            new_wagon_time = _do_move(item['l_idx'], curr_stn, best_stn, start_time)
+            new_wagon_time = _do_move(item["l_idx"], curr_stn, best_stn, start_time)
             wagon_ready_time[wagon_id] = new_wagon_time
-            
+
             is_occupied[curr_stn] = False
             is_occupied[best_stn] = True
-            
-            item['curr_stn'] = best_stn
-            item['g_idx'] += 1
+
+            item["curr_stn"] = best_stn
+            item["g_idx"] += 1
             dip = float(tank_dict.get(best_stn, {}).get("dip_time_sec", 0))
-            item['ready_at'] = new_wagon_time + dip
+            item["ready_at"] = new_wagon_time + dip
+
+    # === RETURN TO HOME STATION ===
+    # After all items are moved, each wagon returns to its basic_pos (home station)
+    # Using GET FROM -> PUT ON pattern like normal moves
+    for wagon_id in config:
+        w_cfg = config[wagon_id]
+        home_stn = w_cfg["basic_pos"]  # Home station from config (flexible)
+        home_dist = stn_dist.get(home_stn, 0.0)
+        current_stn = wagon_stn.get(wagon_id, home_stn)
+        current_dist = wagon_pos_mm.get(wagon_id, home_dist)
+
+        # Only return if wagon is not already at home station
+        if current_stn != home_stn:
+            return_dist = abs(home_dist - current_dist)
+            return_travel = calculate_time_value(
+                return_dist,
+                max(0, return_dist - 500),
+                500,
+                w_cfg["sf"],
+                w_cfg["f"],
+                w_cfg["s"],
+            )
+
+            home_row = int(w_cfg.get("row", 1))
+
+            # Get the wagon's last accumulated time
+            last_wagon_time = wagon_ready_time.get(wagon_id, 0.0)
+
+            # GET FROM current station
+            step_counters[wagon_id] += 1
+            get_time = last_wagon_time + w_cfg["lift_time"]
+            sequence_data.append(
+                [
+                    home_row,
+                    wagon_id,
+                    step_counters[wagon_id],
+                    "GET FROM",
+                    current_stn,
+                    f"{w_cfg['lift_time']:.2f}",
+                    f"{get_time:.2f}",
+                    "HOME",
+                    "0.00",
+                    "RETURN",
+                ]
+            )
+
+            # PUT ON home station
+            step_counters[wagon_id] += 1
+            new_wagon_time = get_time + return_travel + w_cfg["lower_time"]
+            sequence_data.append(
+                [
+                    home_row,
+                    wagon_id,
+                    step_counters[wagon_id],
+                    "PUT ON",
+                    home_stn,
+                    f"{(return_travel + w_cfg['lower_time']):.2f}",
+                    f"{new_wagon_time:.2f}",
+                    "HOME",
+                    "0.00",
+                    "RETURN",
+                ]
+            )
 
     headers = sequence_data[0]
     rows = sequence_data[1:]
     rows.sort(key=lambda x: float(x[headers.index("AccumulatedTime")]))
     return [headers] + rows
+
+
+def save_sequence_to_csv(sequence_data, filename="generated_sequence.csv"):
+    """
+    Saves the generated sequence data to a CSV file in the 'new/output' folder.
+    """
+    if not sequence_data or len(sequence_data) < 2:
+        return None
+
+    # Determine output directory (new/output)
+    output_dir = os.path.join(parent_dir, "output")
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    output_path = os.path.join(output_dir, filename)
+
+    try:
+        with open(output_path, "w", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            writer.writerows(sequence_data)
+        print(f"Success: Sequence saved to {output_path}")
+        return output_path
+    except Exception as e:
+        print(f"Error saving sequence to CSV: {e}")
+        return None
 
 
 def generate_sequence_from_data(
@@ -1915,6 +2348,11 @@ def generate_sequence_from_data(
                 print(
                     "\nNo moves could be assigned to any wagon based on their station ranges."
                 )
+
+        # Save to CSV in new/output
+        save_sequence_to_csv(
+            unified_seq, f"sequence_{processing_mode}_{num_loads}loads.csv"
+        )
 
         return unified_seq
 
@@ -2051,10 +2489,22 @@ def generate_sequence_ai(csv_path, model_path, config=None):
     # AI doesn't directly map to the physics-based log easily without simulation
     # but we can output what the AI picks.
     sequence_data = [
-        ["Row", "Wagon", "Step No", "Command", "Value", "TravelTime", "AccumulatedTime"]
+        [
+            "Row",
+            "Wagon",
+            "Step No",
+            "Command",
+            "Value",
+            "TravelTime",
+            "AccumulatedTime",
+            "LoadID",
+            "WaitTime",
+            "CollisionFlag",
+        ]
     ]
 
     # Simplified AI Step logic
+    acc = 0.0
     for t in range(len(tanks) * 2):  # Heuristic: 2 steps per tank (GET/PUT)
         a_cmd, a_stn = agent.select_action(curr_cmd_seq, curr_stn_seq, state)
         next_state, reward, done = env.step(a_cmd, a_stn)
@@ -2069,7 +2519,21 @@ def generate_sequence_ai(csv_path, model_path, config=None):
                 break
 
         # Dummy times for AI mode log (inference doesn't have physics integrated yet)
-        sequence_data.append([1, wagon_id, t + 1, cmd_name, a_stn, "0.00", "0.00"])
+        acc += 10.0  # Dummy operation duration
+        sequence_data.append(
+            [
+                1,
+                wagon_id,
+                t + 1,
+                cmd_name,
+                a_stn,
+                "10.00",
+                f"{acc:.2f}",
+                "L0",
+                "0.00",
+                "NORMAL",
+            ]
+        )
 
         curr_cmd_seq.append(a_cmd)
         curr_stn_seq.append(a_stn)
@@ -2084,16 +2548,33 @@ def generate_sequence_ai(csv_path, model_path, config=None):
 # ==========================================
 # MAIN EXECUTION
 # ==========================================
-def calculate_actual_dip_times(tanks, sequence_data):
+def calculate_actual_dip_times(
+    tanks, sequence_data, max_cycle_time=600, actual_cycle_time=600
+):
     """
     Analytics Engine: Calculates actual dip times from a generated sequence.
-    Derived from industrial_diptime_system.py logic.
+    Uses C#-style calculation from frmDipTime.cs
+
+    Args:
+        tanks: List of tank configuration dicts
+        sequence_data: Generated sequence [headers, rows...]
+        max_cycle_time: Maximum cycle time for scaling (default 600)
+        actual_cycle_time: Actual operational cycle time (default 600)
+
+    Returns:
+        List of dip time results with DipInTime, DipOutTime, DipTime, DipTimeActual
     """
     if not sequence_data or len(sequence_data) < 2:
         return []
 
+    # Load station configuration for C#-style distance calculation
+    load_station_config(tanks)
+
     headers = sequence_data[0]
     rows = sequence_data[1:]
+
+    # Load wagon config
+    config = load_wagon_config()
 
     stations_meta = {}
     for t in tanks:
@@ -2103,15 +2584,17 @@ def calculate_actual_dip_times(tanks, sequence_data):
                 "Process Name": t.get("process_name", "Unknown"),
                 "Distance": t.get("distance_mm", 0),
                 "Target Dip": float(t.get("dip_time_sec", 0)),
+                "Row": int(t.get("Row") or t.get("row") or 1),
             }
 
     stn_col = headers.index("Value")
     cmd_col = headers.index("Command")
     acc_col = headers.index("AccumulatedTime")
     wagon_col = headers.index("Wagon")
-    load_col = headers.index("CollisionFlag") if "CollisionFlag" in headers else None
+    load_col = headers.index("LoadID") if "LoadID" in headers else None
 
-    stn_events = defaultdict(list)
+    # Group events by wagon
+    wagon_sequences = defaultdict(list)
     for row in rows:
         cmd = str(row[cmd_col]).upper()
         stn = str(row[stn_col])
@@ -2119,81 +2602,60 @@ def calculate_actual_dip_times(tanks, sequence_data):
         wagon = str(row[wagon_col])
         load_id = str(row[load_col]) if load_col is not None else "L0"
 
-        if "PUT ON" in cmd:
-            stn_events[stn].append(
-                {"type": "IN", "load": load_id, "time": time_val, "wagon": wagon}
-            )
-        elif "GET FROM" in cmd:
-            stn_events[stn].append(
-                {"type": "OUT", "load": load_id, "time": time_val, "wagon": wagon}
-            )
-
-    dip_results = []
-    for stn_id, events in stn_events.items():
-        events.sort(key=lambda x: x["time"])
-        ins = [e for e in events if e["type"] == "IN"]
-        outs = [e for e in events if e["type"] == "OUT"]
-        used_outs = set()
-
-        for in_act in ins:
-            matched = False
-            for j, out_act in enumerate(outs):
-                if (
-                    j not in used_outs
-                    and out_act["load"] == in_act["load"]
-                    and out_act["time"] >= in_act["time"]
-                ):
-                    used_outs.add(j)
-                    dip_results.append(
-                        {
-                            "Station": stn_id,
-                            "Load": in_act["load"],
-                            "In Time": in_act["time"],
-                            "Out Time": out_act["time"],
-                            "Duration": out_act["time"] - in_act["time"],
-                            "Wagon In": in_act["wagon"],
-                            "Wagon Out": out_act["wagon"],
-                        }
-                    )
-                    matched = True
-                    break
-
-            if not matched:
-                for j, out_act in enumerate(outs):
-                    if j not in used_outs and out_act["time"] >= in_act["time"]:
-                        used_outs.add(j)
-                        dip_results.append(
-                            {
-                                "Station": stn_id,
-                                "Load": in_act["load"],
-                                "In Time": in_act["time"],
-                                "Out Time": out_act["time"],
-                                "Duration": out_act["time"] - in_act["time"],
-                                "Wagon In": in_act["wagon"],
-                                "Wagon Out": out_act["wagon"],
-                            }
-                        )
-                        matched = True
-                        break
-
-    final_output = []
-    for res in dip_results:
-        meta = stations_meta.get(res["Station"], {})
-        final_output.append(
-            {
-                "Station": res["Station"],
-                "Process": meta.get("Process Name", "N/A"),
-                "Load": res["Load"],
-                "Arrival": f"{res['In Time']:.2f}",
-                "Departure": f"{res['Out Time']:.2f}",
-                "Actual Dip": f"{res['Duration']:.2f}s",
-                "Target Dip": f"{meta.get('Target Dip', 0):.2f}s",
-                "Variance": f"{(res['Duration'] - meta.get('Target Dip', 0)):.2f}s",
-                "Wagons": f"{res['Wagon In']} -> {res['Wagon Out']}",
-            }
+        wagon_sequences[wagon].append(
+            {"cmd": cmd, "stn": stn, "time": time_val, "load": load_id}
         )
-    final_output.sort(key=lambda x: float(x["Arrival"]))
-    return final_output
+
+    # Process each wagon using C#-style DipTimeProcessor
+    all_dip_results = []
+
+    for wagon_id, seq in wagon_sequences.items():
+        wagon_config = config.get(wagon_id, {})
+
+        # Create DipTimeProcessor for this wagon
+        processor = DipTimeProcessor(
+            wagon_id,
+            {
+                "basic_pos": wagon_config.get("basic_pos", 0),
+                "row": wagon_config.get("row", 1),
+                "sf": wagon_config.get("sf", 30),
+                "f": wagon_config.get("f", 20),
+                "s": wagon_config.get("s", 10),
+                "lift_time": wagon_config.get("lift_time", 0),
+                "lower_time": wagon_config.get("lower_time", 0),
+            },
+        )
+
+        # Sort sequence by time and process
+        seq_sorted = sorted(seq, key=lambda x: x["time"])
+        for item in seq_sorted:
+            processor.process_instruction(item["cmd"], item["stn"])
+
+        # Get dip times with cycle scaling
+        dip_times = processor.calculate_dip_times(max_cycle_time, actual_cycle_time)
+
+        for stn, data in dip_times.items():
+            meta = stations_meta.get(str(stn), {})
+            target_dip = meta.get("Target Dip", 0)
+            actual_dip = data.get("DipTimeActual", 0)
+            variance = actual_dip - target_dip
+
+            all_dip_results.append(
+                {
+                    "Station": str(stn),
+                    "Process": meta.get("Process Name", "Unknown"),
+                    "Load": data.get("Load", "L0"),
+                    "In Time": data.get("DipInTime", 0),
+                    "Out Time": data.get("DipOutTime", 0),
+                    "Actual Dip": f"{data.get('DipTime', 0):.2f}s",
+                    "DipTimeActual": f"{actual_dip:.2f}s",
+                    "Target Dip": f"{target_dip:.2f}s",
+                    "Variance": f"{variance:.2f}s",
+                    "Wagon": wagon_id,
+                }
+            )
+
+    return all_dip_results
 
 
 def main():

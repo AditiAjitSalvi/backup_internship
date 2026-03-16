@@ -1,0 +1,92 @@
+
+1. Title of the Project
+
+TankFlow AI: Intelligent Multi-Tank Scheduling and Collision Prevention System
+
+2. Introduction
+
+In modern industrial plants, the efficient movement of wagons carrying loads between processing tanks constitutes a critical operational challenge. Plants that handle materials such as chemicals, textiles, or beverages typically employ multiple processing stations—including loading, acid treatment, rinsing, and drying tanks—where wagons must be transported to complete various treatment processes. The coordination of these wagon movements, traditionally performed manually or through rudimentary control systems, presents significant bottlenecks in plant productivity. Furthermore, the absence of intelligent scheduling mechanisms often leads to suboptimal tank utilization, increased idle time, and potential safety hazards arising from uncontrolled wagon movements within the plant premises.
+
+The increasing complexity of industrial operations, coupled with the demand for higher throughput and operational safety, necessitates the development of automated systems capable of managing wagon traffic, optimizing tank allocation, and enforcing collision prevention protocols. Traditional programmable logic controller (PLC) systems handle low-level machine operations effectively; however, they lack the intelligence required for dynamic scheduling decisions that account for multiple operational constraints simultaneously.
+
+This project, titled **TankFlow AI**, presents an intelligent multi-tank scheduling and collision prevention system designed to automate wagon movement planning in an industrial plant environment. The system integrates a greedy-based scheduling algorithm with safety enforcement mechanisms to generate optimal movement commands for execution by PLC hardware. By combining real-time tank status monitoring, travel time computation, and collision avoidance logic, TankFlow AI aims to enhance operational efficiency while ensuring safe and reliable plant operations.
+
+3. Problem Statement
+Industrial plants utilizing multi-tank processing systems face several interconnected operational challenges that this project seeks to address:
+
+1. **Suboptimal Scheduling**: Manual or rule-based scheduling approaches fail to account for dynamic plant conditions, leading to inefficient tank utilization and extended processing cycle times. Without intelligent scheduling, wagons often wait idly despite available tanks being present.
+
+2. **Lack of Processing Mode Adaptability**: Conventional systems typically support only a single processing mode. Plants requiring different operational strategies—such as pipeline routing for grouped processing, load balancing for rotation-based workflows, or sequential processing for ordered operations—lack flexible scheduling support.
+
+3. **Collision Safety Risks**: In facilities with multiple wagons operating simultaneously, the absence of proximity monitoring and collision prevention mechanisms creates unsafe working conditions. Station overcrowding and wagon-to-wagon proximity violations can lead to equipment damage and operational downtime.
+
+4. **Integration Gap**: Existing PLC systems execute low-level control commands effectively but do not possess the capability to generate high-level scheduling decisions. The lack of an intelligent middleware layer between the scheduling logic and PLC hardware results in fragmented plant automation.
+
+
+ 4. Objectives of the Project
+The primary objectives of this project are as follows:
+
+1. To develop an automated scheduling system that computes optimal wagon movements between multiple processing tanks based on real-time plant status.
+
+2. To implement multiple processing modes—namely grouped processing (pipeline routing), load balancing/rotation mode, and sequential processing—to support diverse plant operational requirements.
+
+3. To incorporate safety mechanisms including station occupancy protection and proximity distance protection to prevent collisions between wagons.
+
+4. To generate formatted command instructions that can be transmitted to a PLC controller for executing wagon movements and tank operations.
+
+5. To provide a graphical user interface (GUI) enabling plant operators to configure system parameters, monitor tank and wagon status, and visualize the scheduling process.
+
+6. To validate the system's functionality through simulation using synthetic plant data and verify collision prevention mechanisms under various operational scenarios.
+
+5. Scope of the Project
+The scope of this project encompasses the design and implementation of a software-based scheduling and safety system. Specifically, the project covers the development of a scheduling engine that manages wagon movements among a configurable set of processing tanks, implementation of three distinct processing modes, integration of collision prevention logic based on proximity and occupancy rules, and generation of PLC-compatible command outputs. The system will be designed to support a plant configuration containing multiple tanks and wagons, with the exact numbers determined by the configuration files used during development.
+
+The project does not extend to the hardware-level implementation of PLC control systems, physical sensor deployment, or actual wagon control. The focus remains on the software layer—specifically the scheduling algorithm, safety logic, and user interface. Additionally, the project does not address network communication protocols for real-time PLC interfacing, as the generated commands will be output in a format suitable for subsequent transmission.
+
+
+6. Proposed System / Methodology
+The proposed system employs a modular architecture centered around a greedy scheduling algorithm. The greedy approach evaluates all possible wagon-to-tank movements at each scheduling step and selects the movement that yields the highest immediate benefit based on a defined objective function. This function considers factors such as travel time, tank availability, process completion status, and compliance with safety constraints.
+
+The system processes plant configuration data—including tank properties, wagon assignments, and processing requirements—to generate a schedule. At each scheduling cycle, the algorithm identifies the next best movement by ranking candidate wagon-tank pairs according to a scoring metric. If a proposed movement violates safety rules—specifically station occupancy limits or proximity distance thresholds—the algorithm rejects that movement and evaluates alternatives.
+
+The safety enforcement layer operates in two stages: (a) **Station Occupancy Protection**, which prevents more than one wagon from occupying the same tank station simultaneously, and (b) **Proximity Distance Protection**, which ensures that the physical distance between any two wagons remains above a predefined safety threshold. Movements that fail these checks are filtered out before the greedy selection process.
+
+The final output consists of command instructions formatted for transmission to a PLC controller. These commands encode the selected wagon movement, target tank identifier, and associated operational parameters.
+
+7. System Architecture
+
+The system is organized into the following functional modules:
+**Configuration Module**: Loads and parses plant configuration files (in JSON format) containing tank definitions, wagon properties, processing sequences, and safety parameters. This module initializes the scheduling environment with plant-specific data.
+
+**Scheduling Engine Module**: Implements the greedy scheduling algorithm that computes optimal wagon movements. It maintains the current state of all tanks and wagons, evaluates candidate movements, applies safety constraints, and selects the highest-scoring valid movement at each step. The engine supports switching between the three processing modes.
+
+**Safety Enforcement Module**: Performs real-time validation of all proposed movements against safety rules. It maintains a state map of tank occupancy and wagon positions, checks proximity distances between wagons, and blocks movements that would result in unsafe conditions.
+
+**Command Generation Module**: Translates selected movements into PLC-compatible command instructions. The module formats commands with wagon identifiers, target tank addresses, and operational flags, producing output suitable for downstream PLC transmission.
+
+**Graphical User Interface (GUI) Module**: Provides a web-based interface built using Streamlit that allows operators to upload configuration files, view tank and wagon status in real time, select processing modes, and visualize scheduling results. The interface also supports exporting generated command sequences.
+
+**Model Inference Module**: Incorporates a pre-trained neural network (vADVANCED13) that assists in predicting processing parameters or validating scheduling decisions, adding an intelligent layer to the scheduling process.
+
+8. Tools and Technologies Used
+The project utilizes the following tools and technologies:
+- **Python**: Primary programming language for system implementation
+- **Streamlit**: Framework for building the web-based graphical user interface
+- **PyTorch**: Deep learning framework for loading and running the vADVANCED13 predictive model
+- **Pandas**: Data manipulation and CSV/JSON processing
+- **NumPy**: Numerical computations for distance calculations and scheduling metrics
+- **JSON**: Configuration file format and command output serialization
+9. Expected Outcomes
+
+Upon successful completion, the project is expected to deliver a fully functional scheduling system capable of automatically generating wagon movement commands for a multi-tank industrial plant. The system should demonstrate effective scheduling under all three processing modes, generate valid and collision-free movement sequences, and produce PLC-compatible command outputs. The GUI should enable users to configure plant parameters, visualize scheduling operations, and verify safety rule enforcement. The project also aims to establish that the greedy scheduling approach, combined with the implemented safety mechanisms, provides a practical and efficient solution for industrial multi-tank scheduling problems.
+
+10. Future Enhancements
+
+Several directions for future enhancement have been identified. The system could be extended to incorporate machine learning models that predict optimal scheduling decisions based on historical plant data, moving beyond rule-based greedy selection. Integration with actual PLC hardware through industrial communication protocols such as OPC-UA or Modbus would enable real-time plant-floor deployment. The addition of a discrete-event simulation module would allow operators to test scheduling strategies under simulated load conditions before applying them in production. Furthermore, the system could be adapted to support dynamic reconfiguration of processing modes during runtime and extended to handle a larger number of wagons and tanks through optimization of the scheduling algorithm.
+
+11. Conclusion
+
+TankFlow AI represents a significant step toward intelligent automation in industrial plant operations. By integrating greedy-based scheduling, multi-mode processing support, and comprehensive collision prevention mechanisms within a modular software framework, the system addresses key challenges faced by modern multi-tank processing facilities. The proposed solution demonstrates how algorithmic scheduling combined with safety enforcement can improve operational efficiency while maintaining rigorous safety standards. Through its GUI and command generation capabilities, TankFlow AI bridges the gap between high-level scheduling decisions and low-level PLC control, providing a practical foundation for smarter industrial automation.
+
+
+

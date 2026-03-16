@@ -2,8 +2,7 @@ project_id,station_no,process_name,critical_status,distance_mm,dip_time_sec,Row
 2,1,Loading with CT,High,0,0,1
 2,2,A acid,Low,2000,180,1
 2,3,A acid,Low,3000,180,1
-2,4,A acid,Low,4000,180,1
-2,5,Post Rinse,Low,5000,60,1
-2,6,B acid,High,6000,20,2
-2,7,Rinse 1,Low,2300,45,2
-2,8,Unloading,Low,3100,90,2
+2,4,Post Rinse,Low,5000,60,1
+2,5,B acid,High,6000,20,1
+2,6,Rinse 1,Low,2300,45,1
+2,7,Unloading,Low,3100,90,1
